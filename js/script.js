@@ -1,4 +1,149 @@
-// SMOOTH SCROLLING & ACTIVE NAV LINK
+const GITHUB_USERNAME = 'dapp-eng';
+
+const PINNED_REPOS = [
+    'diabetes-risk-prediction',
+    'mbg-sentiment-analysis',
+    'music-genre-classifier',
+    'intalenta',
+    'calmy',
+    'msme-revenue-prediction'
+];
+
+const LANG_COLORS = {
+    'Python': '#3b82f6',
+    'Jupyter Notebook': '#f59e0b',
+    'R': '#10b981',
+    'JavaScript': '#eab308',
+    'HTML': '#ef4444',
+    'CSS': '#8b5cf6',
+    'Shell': '#94a3b8',
+};
+
+const LANG_ICONS = {
+    'Python': 'fab fa-python',
+    'Jupyter Notebook': 'fas fa-book-open',
+    'R': 'fas fa-chart-bar',
+    'JavaScript': 'fab fa-js',
+    'HTML': 'fab fa-html5',
+    'CSS': 'fab fa-css3-alt',
+    'Shell': 'fas fa-terminal',
+};
+
+function getLangColor(lang) { return LANG_COLORS[lang] || '#6366f1'; }
+function getLangIcon(lang) { return LANG_ICONS[lang] || 'fas fa-code'; }
+
+function formatName(name) {
+    return name.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function timeAgo(dateStr) {
+    const days = Math.floor((Date.now() - new Date(dateStr)) / 86400000);
+    if (days === 0) return 'Today';
+    if (days === 1) return '1 day ago';
+    if (days < 30) return `${days} days ago`;
+    const months = Math.floor(days / 30);
+    if (months === 1) return '1 month ago';
+    if (months < 12) return `${months} months ago`;
+    return `${Math.floor(months / 12)}y ago`;
+}
+
+function skeletons(n) {
+    return Array(n).fill(`
+        <div class="other-repo-card skeleton">
+            <div class="other-repo-top"><div class="skeleton-icon"></div></div>
+            <div class="skeleton-line w60"></div>
+            <div class="skeleton-line w90"></div>
+            <div class="skeleton-line w40"></div>
+        </div>`).join('');
+}
+
+function repoCard(repo) {
+    const color = getLangColor(repo.language);
+    const icon = getLangIcon(repo.language);
+    return `
+        <a class="other-repo-card" href="${repo.html_url}" target="_blank" rel="noopener noreferrer">
+            <div class="other-repo-top">
+                <div class="other-repo-icon" style="color:${color}"><i class="${icon}"></i></div>
+                <i class="fab fa-github other-repo-gh"></i>
+            </div>
+            <h4 class="other-repo-name">${formatName(repo.name)}</h4>
+            <p class="other-repo-desc">${repo.description || 'No description yet.'}</p>
+            <div class="other-repo-meta">
+                ${repo.language ? `<span class="other-repo-lang" style="--lang-color:${color}"><span class="lang-dot"></span>${repo.language}</span>` : ''}
+                ${repo.stargazers_count > 0 ? `<span class="other-repo-stat"><i class="fas fa-star"></i> ${repo.stargazers_count}</span>` : ''}
+                ${repo.forks_count > 0 ? `<span class="other-repo-stat"><i class="fas fa-code-branch"></i> ${repo.forks_count}</span>` : ''}
+                <span class="other-repo-updated">${timeAgo(repo.pushed_at)}</span>
+            </div>
+        </a>`;
+}
+
+async function fetchOtherProjects() {
+    const grid = document.getElementById('otherProjectsGrid');
+    const countEl = document.getElementById('otherProjectsCount');
+    const errorEl = document.getElementById('otherProjectsError');
+    const errorMsg = document.getElementById('otherProjectsErrorMsg');
+    if (!grid) return;
+
+    grid.innerHTML = skeletons(6);
+
+    try {
+        const res = await fetch(
+            `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=100&type=public`
+        );
+
+        if (res.status === 404) throw new Error('Username GitHub tidak ditemukan.');
+        if (res.status === 403) throw new Error('GitHub API rate limit. Coba lagi nanti.');
+        if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+
+        const repos = await res.json();
+
+        const filtered = repos.filter(r =>
+            !r.fork &&
+            !r.archived &&
+            r.name !== GITHUB_USERNAME &&
+            !PINNED_REPOS.some(p => r.name.toLowerCase().includes(p.replace(/-/g, '').toLowerCase()) ||
+                p.toLowerCase().includes(r.name.toLowerCase()))
+        ).slice(0, 12);
+
+        if (filtered.length === 0) {
+            grid.innerHTML = '';
+            errorMsg.textContent = 'Belum ada repositori lain yang tersedia.';
+            errorEl.style.display = 'flex';
+            return;
+        }
+
+        grid.innerHTML = filtered.map(repoCard).join('');
+        if (countEl) countEl.textContent = `${filtered.length} repo ditemukan`;
+
+        grid.querySelectorAll('.other-repo-card').forEach((el, i) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(16px)';
+            el.style.transition = `opacity 0.4s ease ${i * 0.06}s, transform 0.4s ease ${i * 0.06}s`;
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, 50);
+        });
+
+    } catch (err) {
+        grid.innerHTML = '';
+        errorMsg.textContent = err.message;
+        errorEl.style.display = 'flex';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const section = document.getElementById('other-projects');
+    if (!section) return;
+    const sectionObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            fetchOtherProjects();
+            sectionObserver.disconnect();
+        }
+    }, { threshold: 0.1 });
+    sectionObserver.observe(section);
+});
+
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         e.preventDefault();
