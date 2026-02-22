@@ -7,7 +7,7 @@ const PINNED_REPOS = [
     'intalenta',
     'calmy',
     'msme-revenue-prediction',
-    'dapp-eng.github.io'
+    'portfolio'
 ];
 
 const LANG_COLORS = {
@@ -58,7 +58,7 @@ function skeletons(n) {
         </div>`).join('');
 }
 
-function repoCard(repo) {
+function repoCardWithDesc(repo) {
     const color = getLangColor(repo.language);
     const icon = getLangIcon(repo.language);
     return `
@@ -68,7 +68,7 @@ function repoCard(repo) {
                 <i class="fab fa-github other-repo-gh"></i>
             </div>
             <h4 class="other-repo-name">${formatName(repo.name)}</h4>
-            <p class="other-repo-desc">${repo.description || 'Tidak ada deskripsi.'}</p>
+            <p class="other-repo-desc">${repo.description}</p>
             <div class="other-repo-meta">
                 ${repo.language ? `<span class="other-repo-lang" style="--lang-color:${color}"><span class="lang-dot"></span>${repo.language}</span>` : ''}
                 ${repo.stargazers_count > 0 ? `<span class="other-repo-stat"><i class="fas fa-star"></i> ${repo.stargazers_count}</span>` : ''}
@@ -130,8 +130,38 @@ async function fetchOtherProjects() {
             return;
         }
 
-        grid.innerHTML = filtered.map(repoCard).join('');
-        if (countEl) countEl.textContent = `${filtered.length} project ditemukan`;
+        const reposWithDesc = await Promise.all(
+            filtered.map(async (repo) => {
+                let description = repo.description;
+                
+                if (!description) {
+                    try {
+                        const readmeRes = await fetch(
+                            `https://api.github.com/repos/${GITHUB_USERNAME}/${repo.name}/readme`,
+                            { headers: { 'Accept': 'application/vnd.github.v3.raw' } }
+                        );
+                        if (readmeRes.ok) {
+                            const readmeText = await readmeRes.text();
+                            const lines = readmeText.split('\n').filter(l => l.trim());
+                            for (let line of lines) {
+                                const cleaned = line.replace(/^#+\s*/, '').trim();
+                                if (cleaned && !cleaned.startsWith('```')) {
+                                    description = cleaned;
+                                    break;
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        description = 'Tidak ada deskripsi.';
+                    }
+                }
+                
+                return { ...repo, description: description || 'Tidak ada deskripsi.' };
+            })
+        );
+
+        grid.innerHTML = reposWithDesc.map(repoCardWithDesc).join('');
+        if (countEl) countEl.textContent = `${reposWithDesc.length} project ditemukan`;
 
         grid.querySelectorAll('.other-repo-card').forEach((el, i) => {
             el.style.opacity = '0';
@@ -174,26 +204,6 @@ function animateNumber(element, targetValue, duration = 1500) {
     }
     
     requestAnimationFrame(update);
-}
-
-function typeWriter(element, speed = 50) {
-    const originalText = element.textContent;
-    element.textContent = '';
-    element.style.borderRight = '2px solid var(--indigo)';
-    let index = 0;
-
-    function type() {
-        if (index < originalText.length) {
-            element.textContent += originalText[index];
-            index++;
-            setTimeout(type, speed);
-        } else {
-            setTimeout(() => {
-                element.style.borderRight = 'none';
-            }, 500);
-        }
-    }
-    type();
 }
 
 function initThemeToggle() {
@@ -410,10 +420,15 @@ function initContactForm() {
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const name = this.querySelector('input[type="text"]').value.trim();
-        const email = this.querySelector('input[type="email"]').value.trim();
-        const subject = this.querySelectorAll('input[type="text"]')[1]?.value.trim() || 'No Subject';
-        const message = this.querySelector('textarea').value.trim();
+        const nameInput = this.querySelector('input[type="text"]');
+        const emailInput = this.querySelector('input[type="email"]');
+        const subjectInput = this.querySelectorAll('input[type="text"]')[1];
+        const messageInput = this.querySelector('textarea');
+
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const subject = (subjectInput?.value.trim() || 'Pesan dari Portfolio');
+        const message = messageInput.value.trim();
 
         if (!name || !email || !message) {
             showNotification('Mohon isi semua field yang diperlukan', 'error');
@@ -426,11 +441,25 @@ function initContactForm() {
             return;
         }
 
-        const mailtoLink = `mailto:daffaaa175@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
-        window.location.href = mailtoLink;
+        const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=daffaaa175@gmail.com&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Dari: ${name}\nEmail: ${email}\n\n${message}`)}`;
         
-        showNotification('Email client akan terbuka. Kirim email dari aplikasi email Anda.', 'success');
-        this.reset();
+        fetch('https://formspree.io/f/mzdajwaw', {
+            method: 'POST',
+            body: JSON.stringify({ name, email, subject, message }),
+            headers: { 'Content-Type': 'application/json' }
+        }).then(response => {
+            if (response.ok) {
+                showNotification('Pesan berhasil dikirim! Terima kasih', 'success');
+                nameInput.value = '';
+                emailInput.value = '';
+                subjectInput.value = '';
+                messageInput.value = '';
+            } else {
+                showNotification('Terjadi kesalahan saat mengirim pesan', 'error');
+            }
+        }).catch(err => {
+            showNotification('Gagal mengirim pesan. Coba ulangi', 'error');
+        });
     });
 }
 
@@ -440,7 +469,7 @@ function showNotification(message, type = 'info') {
     toast.textContent = message;
     toast.style.cssText = `
         position: fixed;
-        bottom: 24px;
+        bottom: 100px;
         right: 24px;
         background: ${type === 'success' ? '#34d399' : type === 'error' ? '#f87171' : '#38bdf8'};
         color: white;
@@ -448,7 +477,7 @@ function showNotification(message, type = 'info') {
         border-radius: 10px;
         font-size: 14px;
         font-weight: 500;
-        z-index: 9999;
+        z-index: 9998;
         animation: slideIn 0.3s ease-out;
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     `;
@@ -479,11 +508,9 @@ const aboutObserver = new IntersectionObserver((entries) => {
             entry.target.classList.add('animated');
             const stat3_92 = document.querySelector('.about-stats .stat:first-child h3');
             const stat10 = document.querySelector('.about-stats .stat:nth-child(2) h3');
-            const stat6 = document.querySelector('.about-stats .stat:nth-child(3) h3');
             
             if (stat3_92) animateNumber(stat3_92, '3.92', 1500);
             if (stat10) animateNumber(stat10, 10, 1500);
-            if (stat6) animateNumber(stat6, 6, 1500);
             
             aboutObserver.unobserve(entry.target);
         }
