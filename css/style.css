@@ -1627,10 +1627,7 @@ body.light-mode {
     }
 
     .float-stat-2 {
-        left: 10px;
-        top: 68px;
-        bottom: auto;
-        padding: 8px 12px;
+        display: none;
     }
 
     .float-stat-num {
