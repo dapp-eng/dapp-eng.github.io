@@ -67,7 +67,7 @@ function repoCard(repo) {
                 <i class="fab fa-github other-repo-gh"></i>
             </div>
             <h4 class="other-repo-name">${formatName(repo.name)}</h4>
-            <p class="other-repo-desc">${repo.description || 'No description yet.'}</p>
+            <p class="other-repo-desc">${repo.description || 'Tidak ada deskripsi.'}</p>
             <div class="other-repo-meta">
                 ${repo.language ? `<span class="other-repo-lang" style="--lang-color:${color}"><span class="lang-dot"></span>${repo.language}</span>` : ''}
                 ${repo.stargazers_count > 0 ? `<span class="other-repo-stat"><i class="fas fa-star"></i> ${repo.stargazers_count}</span>` : ''}
@@ -82,18 +82,27 @@ async function fetchOtherProjects() {
     const countEl = document.getElementById('otherProjectsCount');
     const errorEl = document.getElementById('otherProjectsError');
     const errorMsg = document.getElementById('otherProjectsErrorMsg');
+    
     if (!grid) return;
 
     grid.innerHTML = skeletons(6);
+    errorEl.style.display = 'none';
 
     try {
         const res = await fetch(
-            `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=100&type=public`
+            `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&per_page=100&type=public`,
+            { headers: { 'Accept': 'application/vnd.github.v3+json' } }
         );
 
-        if (res.status === 404) throw new Error('Username GitHub tidak ditemukan.');
-        if (res.status === 403) throw new Error('GitHub API rate limit. Coba lagi beberapa menit.');
-        if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+        if (res.status === 404) {
+            throw new Error(`Username GitHub "${GITHUB_USERNAME}" tidak ditemukan.`);
+        }
+        if (res.status === 403) {
+            throw new Error('GitHub API rate limit tercapai. Coba lagi beberapa menit.');
+        }
+        if (!res.ok) {
+            throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
+        }
 
         const repos = await res.json();
 
@@ -111,16 +120,17 @@ async function fetchOtherProjects() {
             grid.innerHTML = `
                 <div class="other-repo-empty">
                     <i class="fab fa-github"></i>
-                    <p>Belum ada repositori publik lain di akun ini.</p>
+                    <p>Belum ada project publik lain di akun ini.</p>
                     <a href="https://github.com/${GITHUB_USERNAME}" target="_blank" class="btn btn-outline" style="margin-top:12px">
                         Kunjungi GitHub
                     </a>
                 </div>`;
+            if (countEl) countEl.textContent = 'Tidak ada project tambahan';
             return;
         }
 
         grid.innerHTML = filtered.map(repoCard).join('');
-        if (countEl) countEl.textContent = `${filtered.length} repositori`;
+        if (countEl) countEl.textContent = `${filtered.length} project ditemukan`;
 
         grid.querySelectorAll('.other-repo-card').forEach((el, i) => {
             el.style.opacity = '0';
@@ -136,10 +146,79 @@ async function fetchOtherProjects() {
 
     } catch (err) {
         grid.innerHTML = '';
-        if (errorEl) {
-            errorMsg.textContent = err.message;
-            errorEl.style.display = 'flex';
+        errorMsg.textContent = err.message;
+        errorEl.style.display = 'flex';
+    }
+}
+
+function animateNumber(element, targetValue, duration = 1500) {
+    let startValue = 0;
+    const startTime = performance.now();
+    
+    function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        if (typeof targetValue === 'string') {
+            element.textContent = (parseFloat(targetValue) * progress).toFixed(2);
+        } else {
+            element.textContent = Math.floor(targetValue * progress);
         }
+        
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        } else {
+            element.textContent = targetValue;
+        }
+    }
+    
+    requestAnimationFrame(update);
+}
+
+function typeWriter(element, speed = 50) {
+    const originalText = element.textContent;
+    element.textContent = '';
+    element.style.borderRight = '2px solid var(--indigo)';
+    let index = 0;
+
+    function type() {
+        if (index < originalText.length) {
+            element.textContent += originalText[index];
+            index++;
+            setTimeout(type, speed);
+        } else {
+            setTimeout(() => {
+                element.style.borderRight = 'none';
+            }, 500);
+        }
+    }
+    type();
+}
+
+function initThemeToggle() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        updateThemeIcon('sun');
+    }
+
+    const themeBtn = document.querySelector('.theme-toggle-btn');
+    if (!themeBtn) return;
+
+    themeBtn.addEventListener('click', () => {
+        const isLight = document.body.classList.toggle('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        updateThemeIcon(isLight ? 'sun' : 'moon');
+    });
+}
+
+function updateThemeIcon(icon) {
+    const themeBtn = document.querySelector('.theme-toggle-btn');
+    if (themeBtn) {
+        themeBtn.innerHTML = icon === 'sun' 
+            ? '<i class="fas fa-sun"></i>' 
+            : '<i class="fas fa-moon"></i>';
     }
 }
 
@@ -152,29 +231,44 @@ document.addEventListener('DOMContentLoaded', () => {
     initProgressBars();
     initGitHubSection();
     initContactForm();
+    initThemeToggle();
+    
+    setTimeout(() => {
+        fetchOtherProjects();
+    }, 500);
 });
 
 function initNavbar() {
     window.addEventListener('scroll', () => {
         const navbar = document.querySelector('.navbar');
         if (!navbar) return;
-        navbar.style.background = window.pageYOffset > 50
+        const scrolled = window.pageYOffset > 50;
+        navbar.style.background = scrolled
             ? 'rgba(15, 23, 42, 0.98)'
             : 'rgba(15, 23, 42, 0.92)';
+        navbar.style.boxShadow = scrolled
+            ? '0 4px 16px rgba(0, 0, 0, 0.3)'
+            : 'none';
     });
 }
 
 function initScrollSpy() {
     window.addEventListener('scroll', () => {
         let current = '';
+        const scrollY = window.pageYOffset;
+        const navHeight = 100;
+
         document.querySelectorAll('section').forEach(section => {
-            if (window.pageYOffset >= section.offsetTop - 200) {
+            const sectionTop = section.offsetTop - navHeight;
+            if (scrollY >= sectionTop) {
                 current = section.getAttribute('id');
             }
         });
+
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href') === '#' + current) {
+            const href = link.getAttribute('href');
+            if (href === '#' + current) {
                 link.classList.add('active');
             }
         });
@@ -200,12 +294,15 @@ function initHamburger() {
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                navLinks.classList.remove('active');
-                hamburger.classList.remove('active');
+            const href = this.getAttribute('href');
+            if (href !== '#' && href.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    navLinks.classList.remove('active');
+                    hamburger.classList.remove('active');
+                }
             }
         });
     });
@@ -225,12 +322,14 @@ function initProjectFilter() {
             const filterValue = button.getAttribute('data-filter');
 
             projectCards.forEach(card => {
-                const match = filterValue === 'all' || card.getAttribute('data-category') === filterValue;
+                const category = card.getAttribute('data-category');
+                const match = filterValue === 'all' || category === filterValue;
 
                 if (match) {
                     card.style.display = 'block';
                     card.style.opacity = '0';
                     card.style.transform = 'translateY(12px)';
+                    
                     requestAnimationFrame(() => {
                         card.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
                         card.style.opacity = '1';
@@ -309,16 +408,54 @@ function initContactForm() {
 
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        const name = this.querySelector('input[type="text"]').value;
-        const email = this.querySelector('input[type="email"]').value;
-        const message = this.querySelector('textarea').value;
+
+        const name = this.querySelector('input[type="text"]').value.trim();
+        const email = this.querySelector('input[type="email"]').value.trim();
+        const subject = this.querySelectorAll('input[type="text"]')[1]?.value.trim() || 'No Subject';
+        const message = this.querySelector('textarea').value.trim();
+
         if (!name || !email || !message) {
-            alert('Mohon isi semua field yang diperlukan');
+            showNotification('Mohon isi semua field yang diperlukan', 'error');
             return;
         }
-        alert('Terima kasih! Pesan Anda telah dikirim.');
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showNotification('Email tidak valid', 'error');
+            return;
+        }
+
+        const mailtoLink = `mailto:daffaaa175@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+        window.location.href = mailtoLink;
+        
+        showNotification('Email client akan terbuka. Kirim email dari aplikasi email Anda.', 'success');
         this.reset();
     });
+}
+
+function showNotification(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `notification notification-${type}`;
+    toast.textContent = message;
+    toast.style.cssText = `
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: ${type === 'success' ? '#34d399' : type === 'error' ? '#f87171' : '#38bdf8'};
+        color: white;
+        padding: 14px 20px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        z-index: 9999;
+        animation: slideIn 0.3s ease-out;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }
 
 if ('IntersectionObserver' in window) {
@@ -333,4 +470,26 @@ if ('IntersectionObserver' in window) {
         });
     });
     document.querySelectorAll('img[data-src]').forEach(img => imageObserver.observe(img));
+}
+
+const aboutObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+            entry.target.classList.add('animated');
+            const stat3_92 = document.querySelector('.about-stats .stat:first-child h3');
+            const stat10 = document.querySelector('.about-stats .stat:nth-child(2) h3');
+            const stat6 = document.querySelector('.about-stats .stat:nth-child(3) h3');
+            
+            if (stat3_92) animateNumber(stat3_92, '3.92', 1500);
+            if (stat10) animateNumber(stat10, 10, 1500);
+            if (stat6) animateNumber(stat6, 6, 1500);
+            
+            aboutObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.3 });
+
+const aboutSection = document.querySelector('.about');
+if (aboutSection) {
+    aboutObserver.observe(aboutSection);
 }
