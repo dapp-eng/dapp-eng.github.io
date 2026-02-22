@@ -1599,25 +1599,46 @@ body.light-mode {
         margin: 0 auto;
     }
 
+    .float-badge {
+        padding: 7px 11px;
+        font-size: 11px;
+        gap: 6px;
+    }
+
+    .float-badge i {
+        font-size: 13px;
+    }
+
     .badge-top-right {
-        right: -12px;
-        top: -12px;
+        right: 10px;
+        top: 10px;
     }
 
     .badge-bottom-left {
-        left: -12px;
+        left: 10px;
+        bottom: 10px;
     }
 
     .float-stat {
-        right: -8px;
-        bottom: 16px;
+        right: 10px;
+        bottom: 68px;
         top: auto;
+        padding: 8px 12px;
     }
 
     .float-stat-2 {
-        left: -8px;
-        bottom: 16px;
-        top: auto;
+        left: 10px;
+        top: 68px;
+        bottom: auto;
+        padding: 8px 12px;
+    }
+
+    .float-stat-num {
+        font-size: 14px;
+    }
+
+    .float-stat-label {
+        font-size: 9px;
     }
 
     .scroll-down {
