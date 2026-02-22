@@ -7,7 +7,8 @@ const PINNED_REPOS = [
     'intalenta',
     'calmy',
     'msme-revenue-prediction',
-    'dapp-eng.github.io'
+    'dapp-eng.github.io',
+    'dapp-eng'
 ];
 
 const LANG_COLORS = {
