@@ -440,11 +440,8 @@ function initNavbar() {
         const navbar = document.querySelector('.navbar');
         if (!navbar) return;
         const scrolled = window.pageYOffset > 50;
-        navbar.style.background = scrolled
-            ? 'rgba(15, 23, 42, 0.98)'
-            : 'rgba(15, 23, 42, 0.92)';
         navbar.style.boxShadow = scrolled
-            ? '0 4px 16px rgba(0, 0, 0, 0.3)'
+            ? '0 4px 16px rgba(0, 0, 0, 0.15)'
             : 'none';
     });
 }
