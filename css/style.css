@@ -13,6 +13,10 @@
     --border: rgba(99, 102, 241, 0.15);
     --transition: all 0.3s ease;
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --glass-bg: rgba(15, 23, 42, 0.92);
+    --glass-float: rgba(15, 23, 42, 0.88);
+    --gradient-mid: rgba(15, 23, 42, 0.5);
+    --gradient-bottom: rgba(15, 23, 42, 0.95);
 }
 
 * {
@@ -46,6 +50,10 @@ body.light-mode {
     --text-muted: #6b7280;
     --border: rgba(79, 70, 229, 0.1);
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --glass-bg: rgba(255, 255, 255, 0.92);
+    --glass-float: rgba(255, 255, 255, 0.88);
+    --gradient-mid: rgba(255, 255, 255, 0.5);
+    --gradient-bottom: rgba(255, 255, 255, 0.95);
 }
 
 .mono {
@@ -106,7 +114,7 @@ body.light-mode {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(15, 23, 42, 0.92);
+    background: var(--glass-bg);
     backdrop-filter: blur(16px);
     z-index: 1000;
     border-bottom: 1px solid var(--border);
@@ -415,8 +423,8 @@ body.light-mode {
     background: linear-gradient(
         to bottom,
         transparent 45%,
-        rgba(15, 23, 42, 0.5) 75%,
-        rgba(15, 23, 42, 0.95) 100%
+        var(--gradient-mid) 75%,
+        var(--gradient-bottom) 100%
     );
     pointer-events: none;
 }
@@ -426,7 +434,7 @@ body.light-mode {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: rgba(15, 23, 42, 0.88);
+    background: var(--glass-float);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(99, 102, 241, 0.3);
     padding: 10px 16px;
@@ -465,7 +473,7 @@ body.light-mode {
     position: absolute;
     bottom: 20px;
     right: -20px;
-    background: rgba(15, 23, 42, 0.9);
+    background: var(--glass-float);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(99, 102, 241, 0.25);
     border-radius: 14px;
@@ -507,6 +515,7 @@ body.light-mode {
     border-radius: 50%;
     background: var(--indigo);
     opacity: 0.6;
+    animation-name: float-enhanced;
 }
 
 .orbit-dot-1 {
@@ -1536,10 +1545,6 @@ body.light-mode {
     }
 }
 
-.orbit-dot {
-    animation-name: float-enhanced;
-}
-
 @media (max-width: 1024px) {
     .hero-layout {
         grid-template-columns: 1fr 400px;
@@ -1562,7 +1567,7 @@ body.light-mode {
         left: -100%;
         top: 70px;
         flex-direction: column;
-        background: rgba(15, 23, 42, 0.98);
+        background: var(--glass-bg);
         width: 100%;
         text-align: center;
         transition: 0.3s;
@@ -1739,6 +1744,7 @@ body.light-mode {
         height: 300px;
     }
 }
+
 .nav-controls {
     display: flex;
     align-items: center;
