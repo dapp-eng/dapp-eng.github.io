@@ -30,6 +30,191 @@ const LANG_ICONS = {
     'Shell': 'fas fa-terminal',
 };
 
+const TRANSLATIONS = {
+    en: {
+        'nav-home': 'Home',
+        'nav-about': 'About',
+        'nav-skills': 'Skills',
+        'nav-projects': 'Projects',
+        'nav-experience': 'Experience',
+        'nav-contact': 'Contact',
+        'hero-badge': 'Open to Opportunities',
+        'hero-desc': 'S1 Data Science student at UNESA with GPA 3.92. Experienced in Data Science, specializing in machine learning, statistical modeling, NLP, and data mining developed through competitions and academic projects.',
+        'hero-btn-projects': 'View Projects',
+        'hero-btn-cv': 'Download CV',
+        'about-label': '01 - About',
+        'about-title': 'About Me',
+        'about-p1': 'A S1 Data Science student at <strong>Universitas Negeri Surabaya (UNESA)</strong> with a GPA of <strong>3.92/4.00</strong>. Strong interest in data processing, machine learning, and artificial intelligence. Experienced in handling data through various academic projects and competitions to produce impactful solutions.',
+        'about-p2': 'Known as a <em>detail-oriented</em>, analytical, and communicative individual, always striving to produce high-quality data-driven insights. Involved in several activities at Himasada UNESA as part of a commitment to developing the data science ecosystem in Indonesia.',
+        'stat-gpa': 'GPA / 4.00',
+        'stat-projects': 'Completed Projects',
+        'stat-competition': 'National Competition',
+        'skills-label': '02 - Skills',
+        'projects-label': '03 - Projects',
+        'projects-title': 'Latest Projects',
+        'filter-all': 'All',
+        'filter-app': 'App',
+        'view-project': 'View Project',
+        'proj-desc-diabetes': 'Diabetes risk prediction model using machine learning algorithms with high accuracy to assist in early diagnosis.',
+        'proj-desc-mbg': 'Public sentiment analysis of the Free Nutritious Meal program using Natural Language Processing techniques.',
+        'proj-desc-music': 'Music genre classification system based on Digital Signal Processing using MFCC features and machine learning.',
+        'proj-desc-intalenta': 'Course recommendation system based on Data Structures & Algorithms to help users find suitable courses.',
+        'proj-desc-calmy': 'Python-based daily calorie tracker application that helps users effectively monitor their nutritional intake.',
+        'proj-desc-msme': 'MSME revenue prediction model with XGBRegressor achieving R² = 0.91, developed in the national DISCO competition.',
+        'other-sub': 'See more projects on my <strong>GitHub Repository</strong>. (Loaded automatically from GitHub API)',
+        'other-btn': 'View All Projects',
+        'exp-label': '04 - Experience',
+        'exp-title': 'Experience',
+        'exp-desc-1': 'Mentored 72 undergraduate students in 2 classes through weekly Python lab sessions. Evaluated programming assignments and collaborated with lecturers to align practicum syllabus with Data Science curriculum standards.',
+        'exp-desc-2': 'National data mining competition. Developed a data analysis solution to map market opportunities for 5,000+ MSMEs and built an XGBRegressor revenue prediction model with R² = 0.91.',
+        'exp-desc-3': 'Planned and executed the event flow for a national infographic competition with 150+ participants. Served as the main moderator and managed the final competition data.',
+        'exp-desc-4': 'Managed logistics needs for an inauguration event with 300+ participants. Coordinated with 5+ divisions and external vendors, maintaining budget efficiency.',
+        'contact-label': '05 - Contact',
+        'contact-title': "Let's Collaborate",
+        'contact-subtitle': 'Open to discussions about data science projects, research, and collaboration opportunities.',
+        'contact-loc-label': 'Location',
+        'contact-location': 'Driyorejo, Gresik - East Java',
+        'form-name': 'Your Name',
+        'form-email': 'Your Email',
+        'form-subject': 'Subject',
+        'form-message': 'Your Message',
+        'form-submit': 'Send Message',
+        'notify-empty': 'Please fill in all required fields',
+        'notify-invalid-email': 'Invalid email address',
+        'notify-success': 'Message sent successfully! Thank you',
+        'notify-error': 'An error occurred while sending the message',
+        'notify-fail': 'Failed to send message. Please try again',
+        'gh-error-404': `GitHub username "${GITHUB_USERNAME}" not found.`,
+        'gh-error-403': 'GitHub API rate limit reached. Please try again in a few minutes.',
+        'gh-no-desc': 'No description available.',
+        'gh-empty': 'No other public projects found on this account.',
+        'gh-visit': 'Visit GitHub',
+        'gh-none': 'No additional projects',
+        'gh-count': (n) => `${n} projects found`,
+        'timeago-today': 'Today',
+        'timeago-day': '1 day ago',
+        'timeago-days': (d) => `${d} days ago`,
+        'timeago-month': '1 month ago',
+        'timeago-months': (m) => `${m} months ago`,
+        'timeago-years': (y) => `${y} year${y > 1 ? 's' : ''} ago`,
+    },
+    id: {
+        'nav-home': 'Home',
+        'nav-about': 'Tentang',
+        'nav-skills': 'Keahlian',
+        'nav-projects': 'Project',
+        'nav-experience': 'Pengalaman',
+        'nav-contact': 'Kontak',
+        'hero-badge': 'Open to Opportunities',
+        'hero-desc': 'Mahasiswa S1 Data Science UNESA dengan IPK 3.92. Berpengalaman di bidang Data Science, khususnya machine learning, statistical modeling, NLP, dan data mining yang dikembangkan melalui kompetisi dan proyek akademik.',
+        'hero-btn-projects': 'Lihat Project',
+        'hero-btn-cv': 'Download CV',
+        'about-label': '01 - Tentang',
+        'about-title': 'Tentang Saya',
+        'about-p1': 'Seorang mahasiswa S1 Data Science di <strong>Universitas Negeri Surabaya (UNESA)</strong> dengan IPK <strong>3.92/4.00</strong>. Memiliki ketertarikan kuat di bidang pengolahan data, machine learning, dan artificial intelligence. Berpengalaman mengolah data melalui berbagai proyek akademik dan kompetisi untuk menghasilkan solusi yang berdampak.',
+        'about-p2': 'Dikenal sebagai pribadi yang <em>detail-oriented</em>, analitis, dan komunikatif, selalu berupaya menghasilkan insight berbasis data berkualitas tinggi. Terlibat dalam menyukseskan beberapa kegiatan di Himasada UNESA sebagai bagian dari komitmen terhadap pengembangan ekosistem data science di Indonesia.',
+        'stat-gpa': 'IPK / 4.00',
+        'stat-projects': 'Project Selesai',
+        'stat-competition': 'Kompetisi Nasional',
+        'skills-label': '02 - Keahlian',
+        'projects-label': '03 - Project',
+        'projects-title': 'Project Terbaru',
+        'filter-all': 'Semua',
+        'filter-app': 'Aplikasi',
+        'view-project': 'Lihat Project',
+        'proj-desc-diabetes': 'Model prediksi risiko diabetes menggunakan algoritma machine learning dengan akurasi tinggi untuk membantu diagnosis dini.',
+        'proj-desc-mbg': 'Analisis sentimen publik terhadap program Makan Bergizi Gratis menggunakan teknik Natural Language Processing.',
+        'proj-desc-music': 'Sistem klasifikasi genre musik berbasis Digital Signal Processing menggunakan fitur MFCC dan machine learning.',
+        'proj-desc-intalenta': 'Sistem rekomendasi kursus berbasis Data Structures & Algorithms untuk membantu pengguna menemukan kursus yang sesuai.',
+        'proj-desc-calmy': 'Aplikasi pelacak kalori harian berbasis Python yang membantu pengguna memantau asupan nutrisi secara efektif.',
+        'proj-desc-msme': 'Model prediksi pendapatan UMKM dengan XGBRegressor yang mencapai R² = 0.91, dikembangkan dalam kompetisi DISCO nasional.',
+        'other-sub': 'Lihat project lainnya di <strong>GitHub Repository</strong> saya. (Dimuat otomatis dari GitHub API)',
+        'other-btn': 'Lihat Semua Project',
+        'exp-label': '04 - Pengalaman',
+        'exp-title': 'Pengalaman',
+        'exp-desc-1': 'Membimbing 72 mahasiswa S1 di 2 kelas melalui sesi laboratorium mingguan Python. Mengevaluasi tugas programming dan berkolaborasi dengan dosen untuk menyelaraskan silabus praktikum dengan standar kurikulum Data Science.',
+        'exp-desc-2': 'Kompetisi data mining tingkat nasional. Mengembangkan solusi analisis data untuk memetakan peluang pasar 5.000+ UMKM dan membangun model prediksi pendapatan XGBRegressor dengan R² = 0.91.',
+        'exp-desc-3': 'Merencanakan dan mengeksekusi alur acara kompetisi infografis nasional dengan 150+ peserta. Bertugas sebagai moderator utama dan mengelola data kompetisi akhir.',
+        'exp-desc-4': 'Mengelola kebutuhan logistik untuk acara inaugurasi 300+ peserta. Berkoordinasi dengan 5+ divisi dan vendor eksternal, menjaga efisiensi biaya anggaran.',
+        'contact-label': '05 - Kontak',
+        'contact-title': 'Mari Berkolaborasi',
+        'contact-subtitle': 'Terbuka untuk diskusi project data science, penelitian, maupun peluang kolaborasi.',
+        'contact-loc-label': 'Lokasi',
+        'contact-location': 'Driyorejo, Gresik - Jawa Timur',
+        'form-name': 'Nama Anda',
+        'form-email': 'Email Anda',
+        'form-subject': 'Subjek',
+        'form-message': 'Pesan Anda',
+        'form-submit': 'Kirim Pesan',
+        'notify-empty': 'Mohon isi semua field yang diperlukan',
+        'notify-invalid-email': 'Email tidak valid',
+        'notify-success': 'Pesan berhasil dikirim! Terima kasih',
+        'notify-error': 'Terjadi kesalahan saat mengirim pesan',
+        'notify-fail': 'Gagal mengirim pesan. Coba ulangi',
+        'gh-error-404': `Username GitHub "${GITHUB_USERNAME}" tidak ditemukan.`,
+        'gh-error-403': 'GitHub API rate limit tercapai. Coba lagi beberapa menit.',
+        'gh-no-desc': 'Tidak ada deskripsi.',
+        'gh-empty': 'Belum ada project publik lain di akun ini.',
+        'gh-visit': 'Kunjungi GitHub',
+        'gh-none': 'Tidak ada project tambahan',
+        'gh-count': (n) => `${n} project ditemukan`,
+        'timeago-today': 'Hari ini',
+        'timeago-day': '1 hari lalu',
+        'timeago-days': (d) => `${d} hari lalu`,
+        'timeago-month': '1 bulan lalu',
+        'timeago-months': (m) => `${m} bulan lalu`,
+        'timeago-years': (y) => `${y} tahun lalu`,
+    }
+};
+
+let currentLang = localStorage.getItem('lang') || 'en';
+
+function t(key, ...args) {
+    const val = TRANSLATIONS[currentLang][key];
+    if (typeof val === 'function') return val(...args);
+    return val || key;
+}
+
+function applyLanguage() {
+    document.documentElement.lang = currentLang;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const value = t(key);
+        if (value !== undefined) el.textContent = value;
+    });
+
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        const value = t(key);
+        if (value !== undefined) el.innerHTML = value;
+    });
+
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        const key = el.getAttribute('data-i18n-ph');
+        const value = t(key);
+        if (value !== undefined) el.placeholder = value;
+    });
+
+    const langLabel = document.getElementById('langLabel');
+    if (langLabel) {
+        langLabel.textContent = currentLang === 'en' ? 'ID' : 'EN';
+    }
+}
+
+function initLanguage() {
+    applyLanguage();
+
+    const langToggle = document.getElementById('langToggle');
+    if (!langToggle) return;
+
+    langToggle.addEventListener('click', () => {
+        currentLang = currentLang === 'en' ? 'id' : 'en';
+        localStorage.setItem('lang', currentLang);
+        applyLanguage();
+    });
+}
+
 function getLangColor(lang) { return LANG_COLORS[lang] || '#6366f1'; }
 function getLangIcon(lang) { return LANG_ICONS[lang] || 'fas fa-code'; }
 
@@ -39,13 +224,13 @@ function formatName(name) {
 
 function timeAgo(dateStr) {
     const days = Math.floor((Date.now() - new Date(dateStr)) / 86400000);
-    if (days === 0) return 'Hari ini';
-    if (days === 1) return '1 hari lalu';
-    if (days < 30) return `${days} hari lalu`;
+    if (days === 0) return t('timeago-today');
+    if (days === 1) return t('timeago-day');
+    if (days < 30) return t('timeago-days', days);
     const months = Math.floor(days / 30);
-    if (months === 1) return '1 bulan lalu';
-    if (months < 12) return `${months} bulan lalu`;
-    return `${Math.floor(months / 12)} tahun lalu`;
+    if (months === 1) return t('timeago-month');
+    if (months < 12) return t('timeago-months', months);
+    return t('timeago-years', Math.floor(months / 12));
 }
 
 function skeletons(n) {
@@ -96,10 +281,10 @@ async function fetchOtherProjects() {
         );
 
         if (res.status === 404) {
-            throw new Error(`Username GitHub "${GITHUB_USERNAME}" tidak ditemukan.`);
+            throw new Error(t('gh-error-404'));
         }
         if (res.status === 403) {
-            throw new Error('GitHub API rate limit tercapai. Coba lagi beberapa menit.');
+            throw new Error(t('gh-error-403'));
         }
         if (!res.ok) {
             throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
@@ -121,12 +306,12 @@ async function fetchOtherProjects() {
             grid.innerHTML = `
                 <div class="other-repo-empty">
                     <i class="fab fa-github"></i>
-                    <p>Belum ada project publik lain di akun ini.</p>
+                    <p>${t('gh-empty')}</p>
                     <a href="https://github.com/${GITHUB_USERNAME}" target="_blank" class="btn btn-outline" style="margin-top:12px">
-                        Kunjungi GitHub
+                        ${t('gh-visit')}
                     </a>
                 </div>`;
-            if (countEl) countEl.textContent = 'Tidak ada project tambahan';
+            if (countEl) countEl.textContent = t('gh-none');
             return;
         }
 
@@ -152,16 +337,16 @@ async function fetchOtherProjects() {
                             }
                         }
                     } catch (e) {
-                        description = 'Tidak ada deskripsi.';
+                        description = t('gh-no-desc');
                     }
                 }
                 
-                return { ...repo, description: description || 'Tidak ada deskripsi.' };
+                return { ...repo, description: description || t('gh-no-desc') };
             })
         );
 
         grid.innerHTML = reposWithDesc.map(repoCardWithDesc).join('');
-        if (countEl) countEl.textContent = `${reposWithDesc.length} project ditemukan`;
+        if (countEl) countEl.textContent = t('gh-count', reposWithDesc.length);
 
         grid.querySelectorAll('.other-repo-card').forEach((el, i) => {
             el.style.opacity = '0';
@@ -183,7 +368,6 @@ async function fetchOtherProjects() {
 }
 
 function animateNumber(element, targetValue, duration = 1500) {
-    let startValue = 0;
     const startTime = performance.now();
     
     function update(currentTime) {
@@ -234,6 +418,7 @@ function updateThemeIcon(icon) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    initLanguage();
     initNavbar();
     initScrollSpy();
     initHamburger();
@@ -431,34 +616,32 @@ function initContactForm() {
         const message = messageInput.value.trim();
 
         if (!name || !email || !message) {
-            showNotification('Mohon isi semua field yang diperlukan', 'error');
+            showNotification(t('notify-empty'), 'error');
             return;
         }
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            showNotification('Email tidak valid', 'error');
+            showNotification(t('notify-invalid-email'), 'error');
             return;
         }
 
-        const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=daffaaa175@gmail.com&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Dari: ${name}\nEmail: ${email}\n\n${message}`)}`;
-        
         fetch('https://formspree.io/f/mzdajwaw', {
             method: 'POST',
             body: JSON.stringify({ name, email, subject, message }),
             headers: { 'Content-Type': 'application/json' }
         }).then(response => {
             if (response.ok) {
-                showNotification('Pesan berhasil dikirim! Terima kasih', 'success');
+                showNotification(t('notify-success'), 'success');
                 nameInput.value = '';
                 emailInput.value = '';
                 subjectInput.value = '';
                 messageInput.value = '';
             } else {
-                showNotification('Terjadi kesalahan saat mengirim pesan', 'error');
+                showNotification(t('notify-error'), 'error');
             }
-        }).catch(err => {
-            showNotification('Gagal mengirim pesan. Coba ulangi', 'error');
+        }).catch(() => {
+            showNotification(t('notify-fail'), 'error');
         });
     });
 }

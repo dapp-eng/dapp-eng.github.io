@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,17 +18,23 @@
                 <span class="logo-bracket">/&gt;</span>
             </div>
             <ul class="nav-links">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#about" class="nav-link">Tentang</a></li>
-                <li><a href="#skills" class="nav-link">Keahlian</a></li>
-                <li><a href="#projects" class="nav-link">Project</a></li>
-                <li><a href="#experience" class="nav-link">Pengalaman</a></li>
-                <li><a href="#contact" class="nav-link">Kontak</a></li>
+                <li><a href="#home" class="nav-link active" data-i18n="nav-home">Home</a></li>
+                <li><a href="#about" class="nav-link" data-i18n="nav-about">About</a></li>
+                <li><a href="#skills" class="nav-link" data-i18n="nav-skills">Skills</a></li>
+                <li><a href="#projects" class="nav-link" data-i18n="nav-projects">Projects</a></li>
+                <li><a href="#experience" class="nav-link" data-i18n="nav-experience">Experience</a></li>
+                <li><a href="#contact" class="nav-link" data-i18n="nav-contact">Contact</a></li>
             </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="nav-controls">
+                <button class="lang-toggle-btn" id="langToggle">
+                    <span class="lang-icon">🌐</span>
+                    <span class="lang-label" id="langLabel">ID</span>
+                </button>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
     </nav>
@@ -40,7 +46,7 @@
                 <div class="hero-content">
                     <div class="hero-badge">
                         <span class="badge-dot"></span>
-                        <span>Open to Opportunities</span>
+                        <span data-i18n="hero-badge">Open to Opportunities</span>
                     </div>
                     <h1 class="hero-title">
                         Hi, I'm<br>
@@ -52,18 +58,15 @@
                         <span class="separator">·</span> ML Enthusiast
                         <span class="separator">·</span> AI Explorer
                     </p>
-                    <p class="hero-description">
-                        Mahasiswa S1 Data Science UNESA dengan IPK 3.92.
-                        Berpengalaman di bidang Data Science, khususnya machine learning,
-                        statistical modeling, NLP, dan data mining yang dikembangkan
-                        melalui kompetisi dan proyek akademik.
+                    <p class="hero-description" data-i18n="hero-desc">
+                        S1 Data Science student at UNESA with GPA 3.92. Experienced in Data Science, specializing in machine learning, statistical modeling, NLP, and data mining developed through competitions and academic projects.
                     </p>
                     <div class="hero-buttons">
                         <a href="#projects" class="btn btn-primary">
-                            <i class="fas fa-folder-open"></i> Lihat Project
+                            <i class="fas fa-folder-open"></i> <span data-i18n="hero-btn-projects">View Projects</span>
                         </a>
                         <a href="assets/resume.pdf" class="btn btn-outline" download>
-                            <i class="fas fa-download"></i> Download CV
+                            <i class="fas fa-download"></i> <span data-i18n="hero-btn-cv">Download CV</span>
                         </a>
                     </div>
                     <div class="social-links">
@@ -73,7 +76,7 @@
                         <a href="https://linkedin.com/in/daffaahmadpangreksa" target="_blank" aria-label="LinkedIn">
                             <i class="fab fa-linkedin"></i>
                         </a>
-                        <a href="mailto:daffaaa175@gmail.com" aria-label="Email">
+                        <a href="/cdn-cgi/l/email-protection#88ece9eeeee9e9e9b9bfbdc8efe5e9e1e4a6ebe7e5" aria-label="Email">
                             <i class="fas fa-envelope"></i>
                         </a>
                         <a href="https://wa.me/6289687008503" target="_blank" aria-label="WhatsApp">
@@ -121,35 +124,35 @@
     <section id="about" class="about">
         <div class="container">
             <div class="section-header">
-                <span class="section-label">01 - Tentang</span>
-                <h2 class="section-title">Tentang Saya</h2>
+                <span class="section-label" data-i18n="about-label">01 - About</span>
+                <h2 class="section-title" data-i18n="about-title">About Me</h2>
             </div>
             <div class="about-content">
                 <div class="about-text">
-                    <p>
-                        Seorang mahasiswa S1 Data Science di <strong>Universitas Negeri Surabaya (UNESA)</strong>
-                        dengan IPK <strong>3.92/4.00</strong>. Memiliki ketertarikan kuat di bidang pengolahan data,
-                        machine learning, dan artificial intelligence. Berpengalaman mengolah data melalui
-                        berbagai proyek akademik dan kompetisi untuk menghasilkan solusi yang berdampak.
+                    <p data-i18n-html="about-p1">
+                        A S1 Data Science student at <strong>Universitas Negeri Surabaya (UNESA)</strong>
+                        with a GPA of <strong>3.92/4.00</strong>. Strong interest in data processing,
+                        machine learning, and artificial intelligence. Experienced in handling data through
+                        various academic projects and competitions to produce impactful solutions.
                     </p>
-                    <p>
-                        Dikenal sebagai pribadi yang <em>detail-oriented</em>, analitis, dan komunikatif,
-                        selalu berupaya menghasilkan insight berbasis data berkualitas tinggi.
-                        Terlibat dalam menyukseskan beberapa kegiatan di Himasada UNESA sebagai bagian
-                        dari komitmen terhadap pengembangan ekosistem data science di Indonesia.
+                    <p data-i18n-html="about-p2">
+                        Known as a <em>detail-oriented</em>, analytical, and communicative individual,
+                        always striving to produce high-quality data-driven insights.
+                        Involved in several activities at Himasada UNESA as part of a commitment
+                        to developing the data science ecosystem in Indonesia.
                     </p>
                     <div class="about-stats">
                         <div class="stat">
                             <h3>3.92</h3>
-                            <p>IPK / 4.00</p>
+                            <p data-i18n="stat-gpa">GPA / 4.00</p>
                         </div>
                         <div class="stat">
                             <h3>10</h3>
-                            <p>Project Selesai</p>
+                            <p data-i18n="stat-projects">Completed Projects</p>
                         </div>
                         <div class="stat">
                             <h3 class="stat-no-animate">Top 6</h3>
-                            <p>Kompetisi Nasional</p>
+                            <p data-i18n="stat-competition">National Competition</p>
                         </div>
                     </div>
                 </div>
@@ -180,7 +183,7 @@
     <section id="skills" class="skills">
         <div class="container">
             <div class="section-header">
-                <span class="section-label">02 - Keahlian</span>
+                <span class="section-label" data-i18n="skills-label">02 - Skills</span>
                 <h2 class="section-title">Tech Stack</h2>
             </div>
             <div class="skills-grid">
@@ -245,26 +248,26 @@
     <section id="projects" class="projects">
         <div class="container">
             <div class="section-header">
-                <span class="section-label">03 - Project</span>
-                <h2 class="section-title">Project Terbaru</h2>
+                <span class="section-label" data-i18n="projects-label">03 - Projects</span>
+                <h2 class="section-title" data-i18n="projects-title">Latest Projects</h2>
             </div>
             <div class="project-filter">
-                <button class="filter-btn active" data-filter="all">Semua</button>
+                <button class="filter-btn active" data-filter="all" data-i18n="filter-all">All</button>
                 <button class="filter-btn" data-filter="ml">Machine Learning</button>
                 <button class="filter-btn" data-filter="nlp">NLP</button>
                 <button class="filter-btn" data-filter="dsp">Signal Processing</button>
-                <button class="filter-btn" data-filter="app">Aplikasi</button>
+                <button class="filter-btn" data-filter="app" data-i18n="filter-app">App</button>
             </div>
             <div class="projects-grid">
                 <div class="project-card" data-category="ml">
                     <div class="project-image">
                         <div class="project-icon-bg"><i class="fas fa-heartbeat"></i></div>
-                        <div class="project-overlay"><a href="#" class="btn btn-small">Lihat Project</a></div>
+                        <div class="project-overlay"><a href="#" class="btn btn-small" data-i18n="view-project">View Project</a></div>
                     </div>
                     <div class="project-content">
                         <span class="project-type">Machine Learning</span>
                         <h3>Diabetes Risk Prediction</h3>
-                        <p>Model prediksi risiko diabetes menggunakan algoritma machine learning dengan akurasi tinggi untuk membantu diagnosis dini.</p>
+                        <p data-i18n="proj-desc-diabetes">Diabetes risk prediction model using machine learning algorithms with high accuracy to assist in early diagnosis.</p>
                         <div class="project-tags">
                             <span class="tag">Python</span>
                             <span class="tag">Scikit-learn</span>
@@ -279,12 +282,12 @@
                 <div class="project-card" data-category="nlp">
                     <div class="project-image">
                         <div class="project-icon-bg"><i class="fas fa-utensils"></i></div>
-                        <div class="project-overlay"><a href="#" class="btn btn-small">Lihat Project</a></div>
+                        <div class="project-overlay"><a href="#" class="btn btn-small" data-i18n="view-project">View Project</a></div>
                     </div>
                     <div class="project-content">
                         <span class="project-type">NLP</span>
                         <h3>MBG Sentiment Analysis</h3>
-                        <p>Analisis sentimen publik terhadap program Makan Bergizi Gratis menggunakan teknik Natural Language Processing.</p>
+                        <p data-i18n="proj-desc-mbg">Public sentiment analysis of the Free Nutritious Meal program using Natural Language Processing techniques.</p>
                         <div class="project-tags">
                             <span class="tag">Python</span>
                             <span class="tag">NLP</span>
@@ -299,12 +302,12 @@
                 <div class="project-card" data-category="dsp">
                     <div class="project-image">
                         <div class="project-icon-bg"><i class="fas fa-music"></i></div>
-                        <div class="project-overlay"><a href="#" class="btn btn-small">Lihat Project</a></div>
+                        <div class="project-overlay"><a href="#" class="btn btn-small" data-i18n="view-project">View Project</a></div>
                     </div>
                     <div class="project-content">
                         <span class="project-type">Signal Processing</span>
                         <h3>Music Genre Classifier</h3>
-                        <p>Sistem klasifikasi genre musik berbasis Digital Signal Processing menggunakan fitur MFCC dan machine learning.</p>
+                        <p data-i18n="proj-desc-music">Music genre classification system based on Digital Signal Processing using MFCC features and machine learning.</p>
                         <div class="project-tags">
                             <span class="tag">Python</span>
                             <span class="tag">Librosa</span>
@@ -319,12 +322,12 @@
                 <div class="project-card" data-category="app">
                     <div class="project-image">
                         <div class="project-icon-bg"><i class="fas fa-graduation-cap"></i></div>
-                        <div class="project-overlay"><a href="#" class="btn btn-small">Lihat Project</a></div>
+                        <div class="project-overlay"><a href="#" class="btn btn-small" data-i18n="view-project">View Project</a></div>
                     </div>
                     <div class="project-content">
                         <span class="project-type">DSA</span>
                         <h3>Intalenta - Course Recommendation</h3>
-                        <p>Sistem rekomendasi kursus berbasis Data Structures & Algorithms untuk membantu pengguna menemukan kursus yang sesuai.</p>
+                        <p data-i18n="proj-desc-intalenta">Course recommendation system based on Data Structures & Algorithms to help users find suitable courses.</p>
                         <div class="project-tags">
                             <span class="tag">Python</span>
                             <span class="tag">DSA</span>
@@ -339,12 +342,12 @@
                 <div class="project-card" data-category="app">
                     <div class="project-image">
                         <div class="project-icon-bg"><i class="fas fa-apple-alt"></i></div>
-                        <div class="project-overlay"><a href="#" class="btn btn-small">Lihat Project</a></div>
+                        <div class="project-overlay"><a href="#" class="btn btn-small" data-i18n="view-project">View Project</a></div>
                     </div>
                     <div class="project-content">
                         <span class="project-type">App</span>
                         <h3>Calmy - Daily Calorie Tracker</h3>
-                        <p>Aplikasi pelacak kalori harian berbasis Python yang membantu pengguna memantau asupan nutrisi secara efektif.</p>
+                        <p data-i18n="proj-desc-calmy">Python-based daily calorie tracker application that helps users effectively monitor their nutritional intake.</p>
                         <div class="project-tags">
                             <span class="tag">Python</span>
                             <span class="tag">OOP</span>
@@ -359,12 +362,12 @@
                 <div class="project-card" data-category="ml">
                     <div class="project-image">
                         <div class="project-icon-bg"><i class="fas fa-store"></i></div>
-                        <div class="project-overlay"><a href="#" class="btn btn-small">Lihat Project</a></div>
+                        <div class="project-overlay"><a href="#" class="btn btn-small" data-i18n="view-project">View Project</a></div>
                     </div>
                     <div class="project-content">
                         <span class="project-type">Data Mining</span>
                         <h3>MSME Revenue Prediction</h3>
-                        <p>Model prediksi pendapatan UMKM dengan XGBRegressor yang mencapai R² = 0.91, dikembangkan dalam kompetisi DISCO nasional.</p>
+                        <p data-i18n="proj-desc-msme">MSME revenue prediction model with XGBRegressor achieving R² = 0.91, developed in the national DISCO competition.</p>
                         <div class="project-tags">
                             <span class="tag">XGBoost</span>
                             <span class="tag">Pandas</span>
@@ -385,10 +388,10 @@
                 <div>
                     <span class="section-label">03.5 — GitHub</span>
                     <h2 class="section-title">Other Projects</h2>
-                    <p class="other-projects-sub">Lihat project lainnya di <strong>GitHub Repository</strong> saya. (Dimuat otomatis dari GitHub API)</p>
+                    <p class="other-projects-sub" data-i18n-html="other-sub">See more projects on my <strong>GitHub Repository</strong>. (Loaded automatically from GitHub API)</p>
                 </div>
                 <a href="https://github.com/dapp-eng" target="_blank" class="btn btn-outline gh-profile-btn">
-                    <i class="fab fa-github"></i> Lihat Semua Project
+                    <i class="fab fa-github"></i> <span data-i18n="other-btn">View All Projects</span>
                 </a>
             </div>
             <div class="other-projects-meta">
@@ -398,7 +401,7 @@
             <div id="otherProjectsGrid" class="other-projects-grid"></div>
             <div id="otherProjectsError" class="other-projects-error" style="display:none;">
                 <i class="fas fa-exclamation-triangle"></i>
-                <span id="otherProjectsErrorMsg">Gagal memuat project dari GitHub.</span>
+                <span id="otherProjectsErrorMsg"></span>
             </div>
         </div>
     </section>
@@ -406,15 +409,15 @@
     <section id="experience" class="experience">
         <div class="container">
             <div class="section-header">
-                <span class="section-label">04 - Pengalaman</span>
-                <h2 class="section-title">Pengalaman</h2>
+                <span class="section-label" data-i18n="exp-label">04 - Experience</span>
+                <h2 class="section-title" data-i18n="exp-title">Experience</h2>
             </div>
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <h3>Basic Programming Teaching Assistant</h3>
                         <p class="company">Universitas Negeri Surabaya (UNESA) <span class="timeline-date">Sep - Des 2025</span></p>
-                        <p class="description">Membimbing 72 mahasiswa S1 di 2 kelas melalui sesi laboratorium mingguan Python. Mengevaluasi tugas programming dan berkolaborasi dengan dosen untuk menyelaraskan silabus praktikum dengan standar kurikulum Data Science.</p>
+                        <p class="description" data-i18n="exp-desc-1">Mentored 72 undergraduate students in 2 classes through weekly Python lab sessions. Evaluated programming assignments and collaborated with lecturers to align practicum syllabus with Data Science curriculum standards.</p>
                         <div class="timeline-tags">
                             <span>Python</span><span>Mentoring</span><span>Teaching</span>
                         </div>
@@ -424,7 +427,7 @@
                     <div class="timeline-content">
                         <h3>6th Place Finalist - Data Mining Competition (DISCO)</h3>
                         <p class="company">Universitas Trunojoyo Madura <span class="timeline-date">Mei - Jun 2025</span></p>
-                        <p class="description">Kompetisi data mining tingkat nasional. Mengembangkan solusi analisis data untuk memetakan peluang pasar 5.000+ UMKM dan membangun model prediksi pendapatan XGBRegressor dengan R² = 0.91.</p>
+                        <p class="description" data-i18n="exp-desc-2">National data mining competition. Developed a data analysis solution to map market opportunities for 5,000+ MSMEs and built an XGBRegressor revenue prediction model with R² = 0.91.</p>
                         <div class="timeline-tags">
                             <span>XGBoost</span><span>Data Mining</span><span>Segmentasi</span>
                         </div>
@@ -434,7 +437,7 @@
                     <div class="timeline-content">
                         <h3>Event Division Staff - ACTION 2025</h3>
                         <p class="company">HMP Sains Data (Himasada) UNESA <span class="timeline-date">Jun - Des 2025</span></p>
-                        <p class="description">Merencanakan dan mengeksekusi alur acara kompetisi infografis nasional dengan 150+ peserta. Bertugas sebagai moderator utama dan mengelola data kompetisi akhir.</p>
+                        <p class="description" data-i18n="exp-desc-3">Planned and executed the event flow for a national infographic competition with 150+ participants. Served as the main moderator and managed the final competition data.</p>
                         <div class="timeline-tags">
                             <span>Event Management</span><span>Moderator</span>
                         </div>
@@ -444,7 +447,7 @@
                     <div class="timeline-content">
                         <h3>Logistics & Equipment Staff - RELOUD 2024</h3>
                         <p class="company">HMP Sains Data (Himasada) UNESA <span class="timeline-date">Sep - Nov 2024</span></p>
-                        <p class="description">Mengelola kebutuhan logistik untuk acara inaugurasi 300+ peserta. Berkoordinasi dengan 5+ divisi dan vendor eksternal, menjaga efisiensi biaya anggaran.</p>
+                        <p class="description" data-i18n="exp-desc-4">Managed logistics needs for an inauguration event with 300+ participants. Coordinated with 5+ divisions and external vendors, maintaining budget efficiency.</p>
                         <div class="timeline-tags">
                             <span>Logistik</span><span>Koordinasi</span>
                         </div>
@@ -457,17 +460,17 @@
     <section id="contact" class="contact">
         <div class="container">
             <div class="section-header">
-                <span class="section-label">05 - Kontak</span>
-                <h2 class="section-title">Mari Berkolaborasi</h2>
+                <span class="section-label" data-i18n="contact-label">05 - Contact</span>
+                <h2 class="section-title" data-i18n="contact-title">Let's Collaborate</h2>
             </div>
-            <p class="section-subtitle">Terbuka untuk diskusi project data science, penelitian, maupun peluang kolaborasi.</p>
+            <p class="section-subtitle" data-i18n="contact-subtitle">Open to discussions about data science projects, research, and collaboration opportunities.</p>
             <div class="contact-content">
                 <div class="contact-info">
                     <div class="contact-item">
                         <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                         <div class="contact-details">
                             <h4>Email</h4>
-                            <a href="mailto:daffaaa175@gmail.com">daffaaa175@gmail.com</a>
+                            <a href="/cdn-cgi/l/email-protection#bcd8dddadadddddd8d8b89fcdbd1ddd5d092dfd3d1"><span class="__cf_email__" data-cfemail="e783868181868686d6d0d2a7808a868e8bc984888a">[email&#160;protected]</span></a>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -480,8 +483,8 @@
                     <div class="contact-item">
                         <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <div class="contact-details">
-                            <h4>Lokasi</h4>
-                            <p>Driyorejo, Gresik - Jawa Timur</p>
+                            <h4 data-i18n="contact-loc-label">Location</h4>
+                            <p data-i18n="contact-location">Driyorejo, Gresik - East Java</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -493,11 +496,11 @@
                     </div>
                 </div>
                 <form class="contact-form" id="contactForm">
-                    <div class="form-group"><input type="text" placeholder="Nama Anda" required></div>
-                    <div class="form-group"><input type="email" placeholder="Email Anda" required></div>
-                    <div class="form-group"><input type="text" placeholder="Subjek"></div>
-                    <div class="form-group"><textarea placeholder="Pesan Anda" rows="5" required></textarea></div>
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Kirim Pesan</button>
+                    <div class="form-group"><input type="text" data-i18n-ph="form-name" placeholder="Your Name" required></div>
+                    <div class="form-group"><input type="email" data-i18n-ph="form-email" placeholder="Your Email" required></div>
+                    <div class="form-group"><input type="text" data-i18n-ph="form-subject" placeholder="Subject"></div>
+                    <div class="form-group"><textarea data-i18n-ph="form-message" placeholder="Your Message" rows="5" required></textarea></div>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> <span data-i18n="form-submit">Send Message</span></button>
                 </form>
             </div>
         </div>
@@ -508,18 +511,14 @@
             <div class="footer-content">
                 <p class="mono">&copy; 2026 Daffa Ahmad Pangreksa. Built with <span style="color:var(--indigo)">♥</span></p>
                 <div class="footer-links">
-                    <a href="#home">Home</a>
-                    <a href="#about">Tentang</a>
-                    <a href="#projects">Project</a>
-                    <a href="#contact">Kontak</a>
+                    <a href="#home" data-i18n="nav-home">Home</a>
+                    <a href="#about" data-i18n="nav-about">About</a>
+                    <a href="#projects" data-i18n="nav-projects">Projects</a>
+                    <a href="#contact" data-i18n="nav-contact">Contact</a>
                 </div>
             </div>
         </div>
     </footer>
-
-    <button class="theme-toggle-btn" title="Toggle Dark/Light Mode">
-        <i class="fas fa-moon"></i>
-    </button>
 
     <script src="js/script.js"></script>
 </body>
