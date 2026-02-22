@@ -6,7 +6,8 @@ const PINNED_REPOS = [
     'music-genre-classifier',
     'intalenta',
     'calmy',
-    'msme-revenue-prediction'
+    'msme-revenue-prediction',
+    'dapp-eng.github.io'
 ];
 
 const LANG_COLORS = {
