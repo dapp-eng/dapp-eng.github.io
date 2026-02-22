@@ -1610,13 +1610,14 @@ body.light-mode {
 
     .float-stat {
         right: -8px;
-        bottom: 100px;
+        bottom: 16px;
+        top: auto;
     }
 
     .float-stat-2 {
         left: -8px;
-        bottom: auto;
-        top: 60px;
+        bottom: 16px;
+        top: auto;
     }
 
     .scroll-down {
