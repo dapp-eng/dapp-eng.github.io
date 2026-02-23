@@ -269,13 +269,7 @@ function repoCardWithDesc(repo) {
 function updateProjectStat(otherCount) {
     totalProjectCount = PINNED_COUNT + otherCount;
     const statEl = document.querySelector('.about-stats .stat:nth-child(2) h3');
-    if (!statEl) return;
-    const aboutSection = document.querySelector('.about');
-    if (aboutSection && aboutSection.classList.contains('animated')) {
-        animateNumber(statEl, totalProjectCount, 1000);
-    } else {
-        statEl.textContent = totalProjectCount + '+';
-    }
+    if (statEl) animateNumber(statEl, totalProjectCount, 1000);
 }
 
 async function fetchOtherProjects() {
@@ -702,10 +696,8 @@ const aboutObserver = new IntersectionObserver((entries) => {
         if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
             entry.target.classList.add('animated');
             const stat3_92 = document.querySelector('.about-stats .stat:first-child h3');
-            const stat10 = document.querySelector('.about-stats .stat:nth-child(2) h3');
 
             if (stat3_92) animateNumber(stat3_92, '3.92', 1500);
-            if (stat10) animateNumber(stat10, totalProjectCount, 1500);
 
             aboutObserver.unobserve(entry.target);
         }
