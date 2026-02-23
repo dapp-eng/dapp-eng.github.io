@@ -269,7 +269,13 @@ function repoCardWithDesc(repo) {
 function updateProjectStat(otherCount) {
     totalProjectCount = PINNED_COUNT + otherCount;
     const statEl = document.querySelector('.about-stats .stat:nth-child(2) h3');
-    if (statEl) statEl.textContent = totalProjectCount + '+';
+    if (!statEl) return;
+    const aboutSection = document.querySelector('.about');
+    if (aboutSection && aboutSection.classList.contains('animated')) {
+        animateNumber(statEl, totalProjectCount, 1000);
+    } else {
+        statEl.textContent = totalProjectCount + '+';
+    }
 }
 
 async function fetchOtherProjects() {
@@ -438,10 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGitHubSection();
     initContactForm();
     initThemeToggle();
-
-    setTimeout(() => {
-        fetchOtherProjects();
-    }, 500);
+    fetchOtherProjects();
 });
 
 function initNavbar() {
@@ -595,8 +598,10 @@ function initGitHubSection() {
     const section = document.getElementById('other-projects');
     if (!section) return;
 
+    let fetched = false;
     const sectionObserver = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
+        if (entries[0].isIntersecting && !fetched) {
+            fetched = true;
             fetchOtherProjects();
             sectionObserver.disconnect();
         }
