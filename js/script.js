@@ -169,7 +169,7 @@ const TRANSLATIONS = {
 };
 
 const PINNED_COUNT = 6;
-
+let totalProjectCount = PINNED_COUNT;
 let currentLang = localStorage.getItem('lang') || 'en';
 
 function t(key, ...args) {
@@ -267,9 +267,9 @@ function repoCardWithDesc(repo) {
 }
 
 function updateProjectStat(otherCount) {
-    const total = PINNED_COUNT + otherCount;
+    totalProjectCount = PINNED_COUNT + otherCount;
     const statEl = document.querySelector('.about-stats .stat:nth-child(2) h3');
-    if (statEl) statEl.textContent = total + '+';
+    if (statEl) statEl.textContent = totalProjectCount + '+';
 }
 
 async function fetchOtherProjects() {
@@ -277,7 +277,7 @@ async function fetchOtherProjects() {
     const countEl = document.getElementById('otherProjectsCount');
     const errorEl = document.getElementById('otherProjectsError');
     const errorMsg = document.getElementById('otherProjectsErrorMsg');
-    
+
     if (!grid) return;
 
     grid.innerHTML = skeletons(6);
@@ -322,7 +322,7 @@ async function fetchOtherProjects() {
         const reposWithDesc = await Promise.all(
             filtered.map(async (repo) => {
                 let description = repo.description;
-                
+
                 if (!description) {
                     try {
                         const readmeRes = await fetch(
@@ -344,7 +344,7 @@ async function fetchOtherProjects() {
                         description = t('gh-no-desc');
                     }
                 }
-                
+
                 return { ...repo, description: description || t('gh-no-desc') };
             })
         );
@@ -375,30 +375,34 @@ async function fetchOtherProjects() {
 
 function animateNumber(element, targetValue, duration = 1500) {
     const startTime = performance.now();
-    
+
     function update(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
+
         if (typeof targetValue === 'string') {
             element.textContent = (parseFloat(targetValue) * progress).toFixed(2);
         } else {
             element.textContent = Math.floor(targetValue * progress);
         }
-        
+
         if (progress < 1) {
             requestAnimationFrame(update);
         } else {
-            element.textContent = targetValue;
+            if (typeof targetValue === 'string') {
+                element.textContent = targetValue;
+            } else {
+                element.textContent = targetValue + '+';
+            }
         }
     }
-    
+
     requestAnimationFrame(update);
 }
 
 function initThemeToggle() {
     const savedTheme = localStorage.getItem('theme') || 'dark';
-    
+
     if (savedTheme === 'light') {
         document.body.classList.add('light-mode');
         updateThemeIcon('sun');
@@ -417,8 +421,8 @@ function initThemeToggle() {
 function updateThemeIcon(icon) {
     const themeBtn = document.querySelector('.theme-toggle-btn');
     if (themeBtn) {
-        themeBtn.innerHTML = icon === 'sun' 
-            ? '<i class="fas fa-sun"></i>' 
+        themeBtn.innerHTML = icon === 'sun'
+            ? '<i class="fas fa-sun"></i>'
             : '<i class="fas fa-moon"></i>';
     }
 }
@@ -434,7 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGitHubSection();
     initContactForm();
     initThemeToggle();
-    
+
     setTimeout(() => {
         fetchOtherProjects();
     }, 500);
@@ -528,7 +532,7 @@ function initProjectFilter() {
                     card.style.display = 'block';
                     card.style.opacity = '0';
                     card.style.transform = 'translateY(12px)';
-                    
+
                     requestAnimationFrame(() => {
                         card.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
                         card.style.opacity = '1';
@@ -694,10 +698,10 @@ const aboutObserver = new IntersectionObserver((entries) => {
             entry.target.classList.add('animated');
             const stat3_92 = document.querySelector('.about-stats .stat:first-child h3');
             const stat10 = document.querySelector('.about-stats .stat:nth-child(2) h3');
-            
+
             if (stat3_92) animateNumber(stat3_92, '3.92', 1500);
-            if (stat10) animateNumber(stat10, 10, 1500);
-            
+            if (stat10) animateNumber(stat10, totalProjectCount, 1500);
+
             aboutObserver.unobserve(entry.target);
         }
     });
