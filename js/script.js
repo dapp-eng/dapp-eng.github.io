@@ -168,6 +168,8 @@ const TRANSLATIONS = {
     }
 };
 
+const PINNED_COUNT = 6;
+
 let currentLang = localStorage.getItem('lang') || 'en';
 
 function t(key, ...args) {
@@ -264,6 +266,12 @@ function repoCardWithDesc(repo) {
         </a>`;
 }
 
+function updateProjectStat(otherCount) {
+    const total = PINNED_COUNT + otherCount;
+    const statEl = document.querySelector('.about-stats .stat:nth-child(2) h3');
+    if (statEl) statEl.textContent = total + '+';
+}
+
 async function fetchOtherProjects() {
     const grid = document.getElementById('otherProjectsGrid');
     const countEl = document.getElementById('otherProjectsCount');
@@ -281,15 +289,9 @@ async function fetchOtherProjects() {
             { headers: { 'Accept': 'application/vnd.github.v3+json' } }
         );
 
-        if (res.status === 404) {
-            throw new Error(t('gh-error-404'));
-        }
-        if (res.status === 403) {
-            throw new Error(t('gh-error-403'));
-        }
-        if (!res.ok) {
-            throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
-        }
+        if (res.status === 404) throw new Error(t('gh-error-404'));
+        if (res.status === 403) throw new Error(t('gh-error-403'));
+        if (!res.ok) throw new Error(`GitHub API error: ${res.status} ${res.statusText}`);
 
         const repos = await res.json();
 
@@ -313,6 +315,7 @@ async function fetchOtherProjects() {
                     </a>
                 </div>`;
             if (countEl) countEl.textContent = t('gh-none');
+            updateProjectStat(0);
             return;
         }
 
@@ -348,6 +351,8 @@ async function fetchOtherProjects() {
 
         grid.innerHTML = reposWithDesc.map(repoCardWithDesc).join('');
         if (countEl) countEl.textContent = t('gh-count', reposWithDesc.length);
+
+        updateProjectStat(reposWithDesc.length);
 
         grid.querySelectorAll('.other-repo-card').forEach((el, i) => {
             el.style.opacity = '0';
