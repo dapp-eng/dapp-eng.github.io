@@ -218,11 +218,11 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
 .about-text p{font-size:15px;margin-bottom:18px;line-height:1.8;color:var(--muted);}
 .about-text strong{color:var(--txt);font-weight:600;}
 .about-text em{color:var(--indigo);font-style:normal;font-weight:500;}
-.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px;}
-.stat{text-align:center;padding:20px 14px;background:var(--bg3);border-radius:14px;border:1px solid var(--border);transition:var(--transition);}
+.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px;text-align:center;}
+.stat{text-align:center;padding:24px 16px;background:var(--bg3);border-radius:14px;border:1px solid var(--border);transition:var(--transition);display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .stat:hover{border-color:var(--indigo);transform:translateY(-4px);box-shadow:0 12px 30px rgba(99,102,241,.12);}
-.stat h3{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;color:var(--indigo);margin-bottom:6px;}
-.stat p{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.stat h3{font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:var(--indigo);margin-bottom:8px;line-height:1.1;}
+.stat p{font-size:12px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;}
 /* GitHub Stats Card */
 .gh-stats-card{background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:20px;margin-top:20px;}
 .gh-stats-title{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--indigo);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
@@ -440,6 +440,7 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
    ============================================================ */
 .footer{background:var(--bg2);border-top:1px solid var(--border);padding:40px 0;}
 .footer-content{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-content>.mono{font-size:11px;color:var(--muted);}
 .footer-links{display:flex;gap:24px;}
 .footer-links a{color:var(--muted);font-size:13px;transition:var(--transition);}
 .footer-links a:hover{color:var(--indigo);}
@@ -817,6 +818,8 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
 <!-- Portfolio Data Store (edit to update default content) -->
 <script id="portfolio-data" type="application/json">
 {
+  "gpa": "3.92",
+  "semester": "4",
   "bio_en": "S1 Data Science student at UNESA with GPA 3.92/4.00. Experienced in machine learning, NLP, and Graph Neural Networks through competitions, research, and academic projects. Currently an AI Researcher at the Big Data Analysis Lab, FMIPA UNESA.",
   "bio_id": "Mahasiswa S1 Data Science UNESA dengan IPK 3.92/4.00. Berpengalaman di bidang machine learning, NLP, dan Graph Neural Networks melalui kompetisi, penelitian, dan proyek akademik. Saat ini berperan sebagai AI Researcher di Laboratorium Big Data Analysis FMIPA UNESA.",
   "testimonials": [],
@@ -892,6 +895,19 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
           <textarea class="admin-input admin-textarea" id="adminBioId"></textarea>
         </div>
         <button class="btn btn-primary btn-small" onclick="saveBio()">Save Bio</button>
+      </div>
+      <!-- Stats -->
+      <div class="admin-section">
+        <h3><i class="fas fa-chart-line" style="margin-right:6px;"></i> About Stats</h3>
+        <div class="admin-field">
+          <label>GPA (e.g. 3.92)</label>
+          <input class="admin-input" id="adminGpa" type="text" placeholder="3.92" style="max-width:120px;">
+        </div>
+        <div class="admin-field">
+          <label>Current Semester (e.g. 4)</label>
+          <input class="admin-input" id="adminSemester" type="text" placeholder="4" style="max-width:120px;">
+        </div>
+        <button class="btn btn-primary btn-small" onclick="saveStats()">Save Stats</button>
       </div>
       <!-- Project Media -->
       <div class="admin-section">
@@ -1016,14 +1032,14 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
           <a href="#projects" class="btn btn-primary">
             <i class="fas fa-folder-open"></i> <span data-i18n="hero-btn-projects">View Projects</span>
           </a>
-          <a href="https://dapp-eng.github.io/assets/CV_-_Daffa_Ahmad_Pangreksa.pdf" class="btn btn-outline" target="_blank">
+          <a href="https://dapp-eng.github.io/assets/CV_-_Daffa_Ahmad_Pangreksa.pdf" class="btn btn-outline" target="_blank" download="resume.pdf">
             <i class="fas fa-download"></i> <span data-i18n="hero-btn-cv">Download CV</span>
           </a>
         </div>
         <div class="social-links">
           <a href="https://github.com/dapp-eng" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
           <a href="https://linkedin.com/in/daffaahmadpangreksa" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-          <a href="mailto:daffaahmadpangreksa@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+          <a href="https://mail.google.com/mail/?view=cm&to=daffaahmadpangreksa@gmail.com&su=Hello%20Daffa" target="_blank" aria-label="Email"><i class="fas fa-envelope"></i></a>
           <a href="https://wa.me/6289687008503" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
         <button class="ai-bio-btn" onclick="generateAIBio()" id="aiBtn">
@@ -1065,7 +1081,7 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
           A S1 Data Science student at <strong>Universitas Negeri Surabaya (UNESA)</strong> with a GPA of <strong>3.92/4.00</strong>. Currently an <em>AI Researcher</em> at the Big Data Analysis Laboratory, conducting research on <strong>Graph Neural Networks (GNN)</strong> using Neo4j and NetworkX.
         </p>
         <p data-i18n-html="about-p2">
-          Known as a <em>detail-oriented</em>, analytical, and communicative individual, always striving to produce high-quality data-driven insights. Teaching Assistant for both Python Programming and Data Structures & Algorithms, mentoring <strong>70+ students</strong>.
+          Known as a <em>detail-oriented</em>, analytical, and communicative individual, always striving to produce high-quality data-driven insights. Teaching Assistant for Python Programming and Data Structures &amp; Algorithms, currently in <strong>Semester <span class="dyn-semester">4</span></strong> of the Data Science program.
         </p>
         <div class="about-stats">
           <div class="stat">
@@ -1077,8 +1093,8 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
             <p data-i18n="stat-projects">Projects</p>
           </div>
           <div class="stat">
-            <h3 id="statStudents">70+</h3>
-            <p data-i18n="stat-students">Students Mentored</p>
+            <h3 id="statSemester">4</h3>
+            <p data-i18n="stat-semester">Semester</p>
           </div>
         </div>
         <!-- GitHub Stats Card -->
@@ -1601,8 +1617,8 @@ const TRANSLATIONS = {
     'hero-btn-projects':'View Projects','hero-btn-cv':'Download CV','ai-bio-btn':'Regenerate bio with AI',
     'about-label':'01 · About','about-title':'About Me',
     'about-p1':'A S1 Data Science student at <strong>Universitas Negeri Surabaya (UNESA)</strong> with GPA <strong>3.92/4.00</strong>. Currently an <em>AI Researcher</em> at the Big Data Analysis Laboratory, conducting GNN research using Neo4j and NetworkX.',
-    'about-p2':'Mentoring <strong>70+ students</strong> as Teaching Assistant for Python & Data Structures. Known as detail-oriented and analytical, always producing high-quality data-driven insights.',
-    'stat-gpa':'GPA / 4.00','stat-projects':'Projects','stat-students':'Students Mentored',
+    'about-p2':'Known as a <em>detail-oriented</em>, analytical, and communicative individual, producing high-quality data-driven insights. Teaching Assistant for Python &amp; Data Structures, currently in <strong>Semester <span class="dyn-semester">'+( pData.semester||'4')+'</span></strong> of the Data Science program.',
+    'stat-gpa':'GPA / 4.00','stat-projects':'Projects','stat-semester':'Semester',
     'skills-label':'02 · Skills','projects-label':'03 · Projects','projects-title':'Latest Projects',
     'filter-all':'All','filter-app':'App','view-project':'View Project',
     'proj-desc-diabetes':'Predicts diabetes risk using Random Forest & XGBoost on NHANES data with AUC=0.895.',
@@ -1654,8 +1670,8 @@ const TRANSLATIONS = {
     'hero-btn-projects':'Lihat Project','hero-btn-cv':'Download CV','ai-bio-btn':'Generate ulang bio dengan AI',
     'about-label':'01 · Tentang','about-title':'Tentang Saya',
     'about-p1':'Mahasiswa S1 Data Science di <strong>Universitas Negeri Surabaya (UNESA)</strong> dengan IPK <strong>3.92/4.00</strong>. Saat ini menjadi <em>AI Researcher</em> di Laboratorium Big Data Analysis, meneliti <strong>Graph Neural Networks (GNN)</strong>.',
-    'about-p2':'Membimbing <strong>70+ mahasiswa</strong> sebagai Asisten Dosen Python & Struktur Data. Dikenal sebagai pribadi detail-oriented dan analitis.',
-    'stat-gpa':'IPK / 4.00','stat-projects':'Project','stat-students':'Mahasiswa Dibimbing',
+    'about-p2':'Dikenal sebagai pribadi <em>detail-oriented</em>, analitis, dan komunikatif, selalu menghasilkan wawasan berbasis data berkualitas tinggi. Asisten Dosen Python &amp; Struktur Data, saat ini menempuh <strong>Semester <span class="dyn-semester">'+(pData.semester||'4')+'</span></strong> program Data Science.',
+    'stat-gpa':'IPK / 4.00','stat-projects':'Project','stat-semester':'Semester',
     'skills-label':'02 · Keahlian','projects-label':'03 · Project','projects-title':'Project Terbaru',
     'filter-all':'Semua','filter-app':'Aplikasi','view-project':'Lihat Project',
     'proj-desc-diabetes':'Prediksi risiko diabetes dengan Random Forest & XGBoost pada data NHANES, AUC=0.895.',
@@ -1713,6 +1729,8 @@ function applyLanguage(){
   document.querySelectorAll('[data-i18n-html]').forEach(el=>{const v=t(el.getAttribute('data-i18n-html'));if(v)el.innerHTML=v;});
   document.querySelectorAll('[data-i18n-ph]').forEach(el=>{const v=t(el.getAttribute('data-i18n-ph'));if(v)el.placeholder=v;});
   document.getElementById('langLabel').textContent=currentLang==='en'?'ID':'EN';
+  // Update dynamic semester mentions injected by translations
+  document.querySelectorAll('.dyn-semester').forEach(el=>el.textContent=pData.semester||'4');
   // Update hero bio
   const saved=localStorage.getItem('portfolio_override');
   if(saved){const d=JSON.parse(saved);const bioEl=document.getElementById('heroBioText');if(bioEl&&d[currentLang==='en'?'bio_en':'bio_id'])bioEl.textContent=d[currentLang==='en'?'bio_en':'bio_id'];}
@@ -1924,6 +1942,9 @@ function populateAdminPanel(){
   // Bio
   document.getElementById('adminBioEn').value=pData.bio_en||'';
   document.getElementById('adminBioId').value=pData.bio_id||'';
+  // Stats
+  document.getElementById('adminGpa').value=pData.gpa||'3.92';
+  document.getElementById('adminSemester').value=pData.semester||'4';
   // Project Media
   const projects=[
     {pid:'diabetes',name:'Diabetes Risk Prediction'},
@@ -2093,6 +2114,24 @@ function saveBio(){
   saveOverride();
   applyLanguage();
   showNotification('Bio saved','success');
+}
+
+function saveStats(){
+  const gpa=document.getElementById('adminGpa').value.trim()||'3.92';
+  const sem=document.getElementById('adminSemester').value.trim()||'4';
+  pData.gpa=gpa;
+  pData.semester=sem;
+  saveOverride();
+  // Apply immediately
+  const gpaFloat=document.getElementById('gpaFloat');
+  const statGpa=document.getElementById('statGpa');
+  const statSemester=document.getElementById('statSemester');
+  if(gpaFloat)gpaFloat.textContent=gpa;
+  if(statGpa)statGpa.textContent=gpa;
+  if(statSemester)statSemester.textContent=sem;
+  // Update semester mentions in about paragraph
+  document.querySelectorAll('.dyn-semester').forEach(el=>el.textContent=sem);
+  showNotification('Stats saved','success');
 }
 
 function saveMediaLinks(){
@@ -2446,8 +2485,11 @@ const aboutObserver=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting&&!e.target.dataset.counted){
       e.target.dataset.counted='1';
-      animCounter(document.getElementById('statGpa'),3.92,1500);
-      animCounter(document.getElementById('statStudents'),70,1200);
+      const gpa=parseFloat(pData.gpa||'3.92');
+      animCounter(document.getElementById('statGpa'),gpa,1500);
+      // Semester — just set text, no counter
+      const semEl=document.getElementById('statSemester');
+      if(semEl)semEl.textContent=pData.semester||'4';
     }
   });
 },{threshold:.3});
@@ -2522,7 +2564,7 @@ document.getElementById('contactForm')?.addEventListener('submit',function(e){
   const msg=this.querySelector('textarea').value.trim();
   if(!name||!email||!msg){showNotification(t('notify-empty'),'error');return;}
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showNotification(t('notify-invalid-email'),'error');return;}
-  fetch('https://formspree.io/f/mzdajwaw',{method:'POST',body:JSON.stringify({name,email,msg}),headers:{'Content-Type':'application/json'}})
+  fetch('https://formspree.io/f/mzdajwaw',{method:'POST',body:JSON.stringify({name,email,subject,message:msg,_replyto:email,_to:'daffaahmadpangreksa@gmail.com'}),headers:{'Content-Type':'application/json'}})
     .then(r=>{if(r.ok){showNotification(t('notify-success'),'success');this.reset();}else showNotification(t('notify-error'),'error');})
     .catch(()=>showNotification(t('notify-fail'),'error'));
 });
@@ -2567,6 +2609,15 @@ self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>
    ============================================================ */
 document.addEventListener('DOMContentLoaded',()=>{
   applyLanguage();
+  // Apply dynamic stats from pData
+  const gpaFloat=document.getElementById('gpaFloat');
+  const statGpa=document.getElementById('statGpa');
+  const statSemester=document.getElementById('statSemester');
+  if(gpaFloat)gpaFloat.textContent=pData.gpa||'3.92';
+  if(statGpa)statGpa.textContent=pData.gpa||'3.92';
+  if(statSemester)statSemester.textContent=pData.semester||'4';
+  // Update semester in about paragraph
+  document.querySelectorAll('.dyn-semester').forEach(el=>el.textContent=pData.semester||'4');
   renderSkillsGrid();
   renderExperienceTimeline();
   renderTestimonials();
