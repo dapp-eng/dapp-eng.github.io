@@ -132,6 +132,12 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
 .admin-badge{display:none;background:var(--rose);color:#fff;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:1px;}
 .admin-active .admin-badge{display:inline-block;}
 
+/* ── Mobile-only admin trigger via footer heart ── */
+#footerHeartAdmin{cursor:default;pointer-events:none;}
+@media(max-width:768px){
+  #footerHeartAdmin{cursor:pointer;pointer-events:auto;}
+}
+
 /* ============================================================
    PARTICLES CANVAS
    ============================================================ */
@@ -1544,7 +1550,7 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
           <a href="#projects" class="btn btn-primary">
             <i class="fas fa-folder-open"></i> <span data-i18n="hero-btn-projects">View Projects</span>
           </a>
-          <a href="https://dapp-eng.github.io/assets/CV_-_Daffa_Ahmad_Pangreksa.pdf" class="btn btn-outline" target="_blank" download="resume.pdf">
+          <a href="assets/resume.pdf" class="btn btn-outline" target="_blank" download="resume.pdf">
             <i class="fas fa-download"></i> <span data-i18n="hero-btn-cv">Download CV</span>
           </a>
         </div>
@@ -2062,7 +2068,7 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
 <footer class="footer">
   <div class="container">
     <div class="footer-content">
-      <p class="mono">&copy; 2026 Daffa Ahmad Pangreksa. Built with <span style="color:var(--indigo)"><i class="fas fa-heart" style="font-size:12px;"></i></span></p>
+      <p class="mono">&copy; 2026 Daffa Ahmad Pangreksa. Built with <span style="color:var(--indigo)"><i class="fas fa-heart" style="font-size:12px;" id="footerHeartAdmin" onclick="showAdminLogin()" title=""></i></span></p>
       <div class="footer-links">
         <a href="#home" data-i18n="nav-home">Home</a>
         <a href="#about" data-i18n="nav-about">About</a>
