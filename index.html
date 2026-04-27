@@ -75,8 +75,8 @@
    BASE
    ============================================================ */
 *{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:'Space Grotesk',sans-serif;color:var(--txt);background:var(--bg);line-height:1.6;cursor:none;overflow-x:hidden;}
+html{scroll-behavior:smooth;overflow-x:hidden;max-width:100vw;}
+body{font-family:'Space Grotesk',sans-serif;color:var(--txt);background:var(--bg);line-height:1.6;cursor:none;overflow-x:hidden;max-width:100vw;}
 body.admin-active{border:2px solid var(--rose);}
 a{text-decoration:none;color:inherit;}
 .mono{font-family:'JetBrains Mono',monospace;}
@@ -101,7 +101,7 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;}
 /* ============================================================
    CUSTOM CURSOR
    ============================================================ */
-#cursor-ring{position:fixed;width:38px;height:38px;border:1.5px solid var(--indigo);border-radius:50%;pointer-events:none;z-index:999999;transform:translate(-50%,-50%);transition:transform .12s ease,width .2s,height .2s,border-color .2s;mix-blend-mode:normal;}
+#cursor-ring{position:fixed;width:38px;height:38px;border:1.5px solid var(--indigo);border-radius:50%;pointer-events:none;z-index:999999;transform:translate(-50%,-50%);transition:width .15s,height .15s,border-color .15s;mix-blend-mode:normal;}
 #cursor-dot{position:fixed;width:6px;height:6px;background:var(--indigo);border-radius:50%;pointer-events:none;z-index:999999;transform:translate(-50%,-50%);transition:transform .05s;}
 body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #cursor-dot{display:block;}
 .cursor-hover #cursor-ring{width:52px;height:52px;border-color:var(--violet);background:rgba(99,102,241,.08);}
@@ -218,7 +218,7 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
 .about-text p{font-size:15px;margin-bottom:18px;line-height:1.8;color:var(--muted);}
 .about-text strong{color:var(--txt);font-weight:600;}
 .about-text em{color:var(--indigo);font-style:normal;font-weight:500;}
-.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px;text-align:center;}
+.about-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:32px;text-align:center;}
 .stat{text-align:center;padding:24px 16px;background:var(--bg3);border-radius:14px;border:1px solid var(--border);transition:var(--transition);display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .stat:hover{border-color:var(--indigo);transform:translateY(-4px);box-shadow:0 12px 30px rgba(99,102,241,.12);}
 .stat h3{font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:var(--indigo);margin-bottom:8px;line-height:1.1;}
@@ -383,16 +383,16 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
    ============================================================ */
 .achievements{padding:100px 0;background:var(--bg);}
 .certs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:24px;}
-.cert-card{perspective:1200px;cursor:pointer;height:210px;}
-.cert-card-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,0,.2,1);}
+.cert-card{perspective:1200px;cursor:pointer;height:210px;background:transparent;}
+.cert-card-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;-webkit-transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,0,.2,1);background:transparent;}
 .cert-card:hover .cert-card-inner{transform:rotateY(180deg);}
-.cert-front,.cert-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--radius);padding:20px;box-sizing:border-box;will-change:transform;}
+.cert-front,.cert-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--radius);padding:20px;box-sizing:border-box;will-change:transform;-webkit-transform:translateZ(0);}
 .cert-card-inner{-webkit-transform-style:preserve-3d;}
-.cert-front{background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;}
+.cert-front{background:var(--bg2);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;-webkit-transform:rotateY(0deg);transform:rotateY(0deg);}
 .cert-front i{font-size:34px;}
 .cert-front h4{font-size:15px;font-weight:700;color:var(--txt);line-height:1.4;}
 .cert-front p{font-size:12.5px;color:var(--muted);}
-.cert-back{background:linear-gradient(135deg,var(--indigo),var(--violet));border:none;transform:rotateY(180deg);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;}
+.cert-back{background:linear-gradient(135deg,var(--indigo),var(--violet));border:none;-webkit-transform:rotateY(180deg);transform:rotateY(180deg);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;}
 .cert-back h4{font-size:13px;font-weight:700;color:#fff;line-height:1.4;}
 .cert-back p{font-size:11px;color:rgba(255,255,255,.88);line-height:1.6;}
 .cert-back i{font-size:24px;color:rgba(255,255,255,.9);}
@@ -446,33 +446,82 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
 .footer-links a:hover{color:var(--indigo);}
 
 /* ============================================================
-   FLOATING THEME SWITCHER — moon/sun icon style (bottom-right)
+   FLOATING FABs — games + PWA install (bottom-right, tight stack)
    ============================================================ */
-.floating-theme-pill{position:fixed;bottom:28px;right:28px;z-index:998;display:flex;flex-direction:column;align-items:center;gap:10px;transition:opacity .3s ease;}
+.floating-theme-pill{position:fixed;bottom:20px;right:16px;z-index:998;display:flex;flex-direction:column;align-items:center;gap:5px;transition:opacity .3s ease;}
 .floating-theme-pill.hidden{opacity:0;pointer-events:none;}
-/* Main toggle button */
-.ftp-main-btn{width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;background:linear-gradient(135deg,var(--indigo),var(--violet));box-shadow:0 4px 20px rgba(99,102,241,.45);transition:all .25s ease;position:relative;}
-.ftp-main-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(99,102,241,.6);}
-.ftp-main-btn i{transition:transform .3s ease;}
-.ftp-main-btn:hover i{transform:rotate(20deg);}
-@keyframes ftp-spin-close{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
-.ftp-main-btn.spinning i{animation:ftp-spin-close .5s cubic-bezier(.4,0,.2,1) forwards;}
-/* Panel — always flex, toggled via opacity+scale for smooth animation */
-/* Always dark-glass regardless of active theme so buttons are always readable */
-.ftp-panel{
-  display:flex;flex-direction:column;gap:6px;
-  background:rgba(13,18,30,.96);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:10px;
-  box-shadow:0 16px 48px rgba(0,0,0,.5);
-  min-width:196px;
-  opacity:0;pointer-events:none;
-  transform:scale(.92) translateY(10px);
-  transform-origin:bottom center;
-  transition:opacity .22s ease,transform .25s cubic-bezier(.4,0,.2,1);
+
+/* ============================================================
+   NAVBAR THEME SWITCHER
+   ============================================================ */
+.nav-theme-wrap{position:relative;}
+/* nav-theme-btn: see new definition below */
+.nav-theme-swatch-DISABLED{
+  width:11px;height:11px;border-radius:50%;flex-shrink:0;
+  border:1.5px solid rgba(255,255,255,.18);
+  transition:background .3s;
 }
-.ftp-panel.open{opacity:1;pointer-events:auto;transform:scale(1) translateY(0);}
-/* Theme option buttons — card style with icon + name */
+.nav-theme-panel{
+  position:absolute;top:calc(100% + 10px);right:0;
+  background:rgba(13,18,30,.97);
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:8px;
+  min-width:188px;
+  opacity:0;pointer-events:none;
+  transform:scale(.93) translateY(-6px);
+  transform-origin:top right;
+  transition:opacity .2s ease,transform .22s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  z-index:2000;
+}
+.nav-theme-panel.open{opacity:1;pointer-events:auto;transform:scale(1) translateY(0);}
+.nav-theme-opt{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 11px;border-radius:9px;cursor:pointer;
+  transition:all .18s ease;border:1.5px solid transparent;
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;
+  background:transparent;color:#94a3b8;width:100%;text-align:left;
+}
+.nav-theme-opt:hover{background:rgba(255,255,255,.05);color:#e2e8f0;}
+.nav-theme-opt.active{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.12);color:#e2e8f0;}
+.nav-theme-ico{
+  width:26px;height:26px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;flex-shrink:0;
+}
+.nav-theme-grad{
+  width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-left:auto;
+  border:1.5px solid rgba(255,255,255,.15);
+  opacity:.7;transition:opacity .2s;
+}
+.nav-theme-opt.active .nav-theme-grad{opacity:1;}
+.nav-theme-opt.active .nav-theme-ico i{filter:drop-shadow(0 0 4px currentColor);}
+/* per-theme icon colors — always rendered on dark panel */
+.nto-dark .nav-theme-ico{background:rgba(99,102,241,.2);color:#6366f1;}
+.nto-dark .nav-theme-grad{background:linear-gradient(135deg,#6366f1,#8b5cf6);}
+.nto-light .nav-theme-ico{background:rgba(241,245,249,.25);color:#4f46e5;}
+.nto-light .nav-theme-grad{background:linear-gradient(135deg,#f1f5f9,#e2e8f0);}
+.nto-cyber .nav-theme-ico{background:rgba(0,255,65,.12);color:#00ff41;}
+.nto-cyber .nav-theme-grad{background:linear-gradient(135deg,#00ff41,#00cc33);}
+.nto-forest .nav-theme-ico{background:rgba(34,197,94,.15);color:#22c55e;}
+.nto-forest .nav-theme-grad{background:linear-gradient(135deg,#22c55e,#84cc16);}
+.nto-magical .nav-theme-ico{background:rgba(217,70,239,.15);color:#d946ef;}
+.nto-magical .nav-theme-grad{background:linear-gradient(135deg,#d946ef,#8b5cf6);}
+
+/* ── Theme & language button alignment ── */
+.nav-theme-btn,#langToggle{
+  height:34px;
+  box-sizing:border-box;
+}
+
+/* Theme swatch colors for the nav button */
+.theme-swatch-dark{background:linear-gradient(135deg,#6366f1,#8b5cf6);}
+.theme-swatch-light{background:linear-gradient(135deg,#e2e8f0,#94a3b8);}
+.theme-swatch-cyberpunk{background:linear-gradient(135deg,#00ff41,#00cc33);}
+.theme-swatch-forest{background:linear-gradient(135deg,#22c55e,#84cc16);}
+.theme-swatch-magical{background:linear-gradient(135deg,#d946ef,#8b5cf6);}
+
+/* Theme option buttons — kept for backward compat but hidden */
 .ftp-btn{
   width:100%;height:44px;
   border-radius:10px;border:1.5px solid transparent;
@@ -612,10 +661,25 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
   .photo-frame{width:260px;height:320px;}
   .hero-title{font-size:44px;}
   .about-content{grid-template-columns:1fr;}
-  .about-stats{grid-template-columns:repeat(3,1fr);}
   .contact-content{grid-template-columns:1fr;}
   .testimonials-track .testimonial-card{min-width:100%;}
   .other-projects-header{flex-direction:column;align-items:flex-start;gap:16px;}
+  /* ── Mobile hero: center all content ── */
+  .hero-content{text-align:center;}
+  .hero-badge{align-self:center;}
+  .hero-buttons{justify-content:center;}
+  .hero-subtitle{justify-content:center;flex-wrap:wrap;}
+  .social-links{justify-content:center;}
+  .hero-description{margin-left:auto;margin-right:auto;}
+  .ai-bio-btn{margin:8px auto 0;display:flex;justify-content:center;}
+  /* ── Hide R2 badge on mobile (doesn't fit cleanly) ── */
+  .float-stat-2{display:none!important;}
+  /* ── Clip badge negative offsets so they don't cause horizontal overflow ── */
+  .badge-top-right{right:0px;top:-10px;}
+  .badge-bottom-left{left:0px;}
+  .float-stat{right:0px;}
+  /* ── Scroll indicator: stay well clear of other elements ── */
+  .scroll-down{bottom:16px;}
 }
 @media(max-width:768px){
   .section-title{font-size:32px;}
@@ -639,6 +703,22 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
 [data-theme="cyberpunk"] .section-title{text-shadow:0 0 20px var(--indigo);}
 [data-theme="cyberpunk"] .btn-primary{box-shadow:0 0 20px rgba(0,255,65,.4);}
 [data-theme="cyberpunk"] .hero-title{text-shadow:0 0 30px rgba(0,255,65,.3);}
+
+/* Mobile-only scroll indicator (inside hero-content flow) */
+.scroll-down-mobile{display:none;}
+@media(max-width:900px){
+  .scroll-down{display:none!important;}
+  .scroll-down-mobile{
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    color:var(--muted);font-size:11px;font-family:'JetBrains Mono',monospace;
+    letter-spacing:1px;text-transform:uppercase;margin-top:20px;
+  }
+  .scroll-down-mobile .scroll-line{
+    width:1.5px;height:40px;
+    background:linear-gradient(to bottom,var(--indigo),transparent);
+    animation:scroll-anim 2s ease-in-out infinite;
+  }
+}
 
 /* ============================================================
    TYPING CURSOR
@@ -811,6 +891,357 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
 .testi-callout-text h5{font-size:14px;font-weight:700;color:var(--txt);margin-bottom:4px;}
 .testi-callout-text p{font-size:13px;color:var(--muted);line-height:1.6;}
 
+/* ============================================================
+   GAMES — Floating Button
+   ============================================================ */
+.fab-games{
+  width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  background:linear-gradient(135deg,#f59e0b,#ef4444);
+  box-shadow:0 4px 20px rgba(245,158,11,.45);
+  transition:all .25s ease;color:#fff;
+}
+.fab-games:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(245,158,11,.6);}
+.fab-games .game-ping{
+  position:absolute;top:-2px;right:-2px;width:14px;height:14px;
+  background:#ef4444;border-radius:50%;border:2px solid var(--bg);
+  animation:pulse-ping 2s infinite;
+}
+@keyframes pulse-ping{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.3);opacity:.7;}}
+
+/* ============================================================
+   GAMES — Hub Modal
+   ============================================================ */
+.games-overlay{
+  position:fixed;inset:0;z-index:10000;display:none;
+  align-items:center;justify-content:center;
+  background:rgba(0,0,0,.85);backdrop-filter:blur(16px);
+}
+.games-overlay.open{display:flex;}
+.games-hub{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:24px;width:min(860px,95vw);max-height:92vh;
+  overflow-y:auto;position:relative;
+  box-shadow:0 32px 80px rgba(0,0,0,.6);
+}
+.games-hub-header{
+  padding:28px 32px 24px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.games-hub-title{display:flex;align-items:center;gap:14px;}
+.games-hub-title h2{font-size:22px;font-weight:800;color:var(--txt);letter-spacing:-.5px;}
+.games-hub-title p{font-size:13px;color:var(--muted);margin-top:2px;}
+.games-hub-icon{
+  width:52px;height:52px;border-radius:16px;
+  background:linear-gradient(135deg,#f59e0b,#ef4444);
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;flex-shrink:0;
+}
+.games-close-btn{
+  background:var(--bg3);border:1px solid var(--border);color:var(--muted);
+  width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;transition:var(--transition);
+}
+.games-close-btn:hover{background:var(--rose);border-color:var(--rose);color:#fff;}
+.games-cards-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+  padding:24px 32px;
+}
+@media(max-width:900px){.games-cards-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.games-cards-grid{grid-template-columns:1fr;}}
+.game-card{
+  background:var(--bg3);border:1.5px solid var(--border);border-radius:18px;
+  padding:24px;cursor:pointer;transition:all .25s ease;
+  display:flex;flex-direction:column;gap:12px;
+  position:relative;overflow:hidden;
+}
+.game-card::before{
+  content:'';position:absolute;inset:0;border-radius:18px;
+  background:linear-gradient(135deg,transparent,rgba(99,102,241,.04));
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.game-card:hover{transform:translateY(-6px);border-color:var(--indigo);}
+.game-card:hover::before{opacity:1;}
+.game-card:hover .game-card-play{opacity:1;transform:translateY(0);}
+.game-card-emoji{font-size:36px;line-height:1;}
+.game-card-name{font-size:16px;font-weight:700;color:var(--txt);}
+.game-card-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+.game-card-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.game-card-tag{
+  background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.2);
+  color:var(--indigo);padding:3px 10px;border-radius:20px;
+  font-size:10px;font-weight:600;font-family:'JetBrains Mono',monospace;
+}
+.game-card-play{
+  margin-top:6px;padding:10px 0;background:linear-gradient(135deg,var(--indigo),var(--violet));
+  border-radius:10px;color:#fff;font-weight:700;font-size:13px;text-align:center;
+  opacity:0;transform:translateY(4px);transition:all .25s ease;
+}
+.game-card:hover .game-card-play{opacity:1;transform:translateY(0);}
+
+/* ============================================================
+   GAMES — Individual Game Screens
+   ============================================================ */
+.game-screen{
+  position:fixed;inset:0;z-index:10001;display:none;
+  flex-direction:column;background:var(--bg);
+}
+.game-screen.open{display:flex;}
+.game-topbar{
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:14px 24px;display:flex;align-items:center;gap:16px;
+  flex-shrink:0;
+}
+.game-topbar-title{font-size:16px;font-weight:700;color:var(--txt);display:flex;align-items:center;gap:10px;}
+.game-topbar-title span{font-size:18px;}
+.game-back-btn{
+  background:var(--bg3);border:1px solid var(--border);color:var(--muted);
+  padding:7px 16px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:600;
+  font-family:'JetBrains Mono',monospace;transition:var(--transition);display:flex;align-items:center;gap:6px;
+}
+.game-back-btn:hover{border-color:var(--indigo);color:var(--indigo);}
+.game-stats-bar{
+  display:flex;gap:24px;margin-left:auto;align-items:center;
+}
+.game-stat-pill{
+  background:var(--bg3);border:1px solid var(--border);
+  padding:6px 16px;border-radius:20px;
+  font-size:12px;font-weight:700;font-family:'JetBrains Mono',monospace;
+  color:var(--txt);display:flex;align-items:center;gap:6px;
+}
+.game-stat-pill .pill-label{color:var(--muted);font-weight:400;}
+.game-body{flex:1;display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden;}
+
+/* SNAKE SPECIFIC */
+#snakeCanvas{
+  border:2px solid var(--border);border-radius:12px;
+  background:#0b1120;max-width:100%;max-height:100%;
+  image-rendering:pixelated;
+}
+.snake-overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(8px);
+  border-radius:12px;
+}
+.snake-overlay h3{font-size:28px;font-weight:800;color:var(--txt);margin-bottom:8px;}
+.snake-overlay p{font-size:14px;color:var(--muted);margin-bottom:24px;text-align:center;max-width:300px;}
+.snake-wrapper{position:relative;display:inline-block;}
+.snake-legend{
+  display:flex;gap:16px;flex-wrap:wrap;justify-content:center;
+  margin-top:12px;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;
+}
+.legend-item{display:flex;align-items:center;gap:5px;}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+
+/* R-SQUARED SPECIFIC */
+.r2-game-layout{
+  display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;max-width:640px;overflow-y:auto;
+}
+#r2Canvas{border:2px solid var(--border);border-radius:12px;background:var(--bg2);}
+.r2-guess-area{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px;}
+.r2-guess-label{font-size:13px;color:var(--muted);margin-bottom:10px;font-family:'JetBrains Mono',monospace;}
+.r2-slider-row{display:flex;align-items:center;gap:14px;}
+.r2-slider{
+  flex:1;-webkit-appearance:none;height:6px;border-radius:3px;
+  background:linear-gradient(90deg,var(--indigo) var(--v,50%),var(--bg3) var(--v,50%));
+  outline:none;cursor:pointer;
+}
+.r2-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:20px;height:20px;border-radius:50%;
+  background:var(--indigo);cursor:pointer;border:3px solid var(--bg2);
+  box-shadow:0 2px 8px rgba(99,102,241,.4);
+}
+.r2-val-display{
+  font-size:24px;font-weight:800;color:var(--indigo);
+  font-family:'JetBrains Mono',monospace;min-width:64px;text-align:center;
+}
+.r2-submit-btn{
+  padding:12px 32px;background:linear-gradient(135deg,var(--indigo),var(--violet));
+  border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;
+  cursor:pointer;transition:var(--transition);width:100%;margin-top:10px;
+  font-family:'Space Grotesk',sans-serif;
+}
+.r2-submit-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(99,102,241,.4);}
+.r2-result-reveal{
+  width:100%;background:var(--bg3);border:1px solid var(--border);
+  border-radius:14px;padding:18px 20px;display:none;
+  align-items:center;gap:20px;
+}
+.r2-result-reveal.show{display:flex;}
+.r2-result-left{flex:1;min-width:0;text-align:left;}
+.r2-result-reveal .actual-label{
+  font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;
+}
+.r2-result-reveal .actual-val{
+  font-size:34px;font-weight:800;font-family:'JetBrains Mono',monospace;line-height:1.1;
+}
+.r2-result-reveal .delta{font-size:12px;color:var(--muted);margin-top:6px;font-family:'JetBrains Mono',monospace;}
+.r2-result-reveal .pts{font-size:13px;color:var(--emerald);font-weight:700;margin-top:5px;}
+.r2-next-btn{
+  flex-shrink:0;padding:13px 20px;
+  background:linear-gradient(135deg,var(--indigo),var(--violet));
+  border:none;border-radius:12px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;
+  transition:var(--transition);font-family:'Space Grotesk',sans-serif;
+  display:flex;flex-direction:row;align-items:center;gap:8px;white-space:nowrap;
+  box-shadow:0 4px 14px rgba(99,102,241,.3);
+}
+.r2-next-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(99,102,241,.45);}
+.r2-next-btn .next-label{font-size:13px;font-weight:700;}
+.r2-next-btn .next-arrow{font-size:11px;opacity:.85;}
+.r2-round-indicator{
+  display:flex;gap:8px;justify-content:center;
+}
+.r2-round-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--bg3);border:1.5px solid var(--border);transition:.3s;
+}
+.r2-round-dot.done{background:var(--emerald);border-color:var(--emerald);}
+.r2-round-dot.active{background:var(--indigo);border-color:var(--indigo);}
+
+/* TYPING GAME SPECIFIC */
+.typing-game-layout{
+  display:flex;flex-direction:column;gap:20px;width:100%;max-width:760px;
+}
+.typing-prompt-area{
+  background:var(--bg2);border:2px solid var(--border);border-radius:14px;
+  padding:24px 28px;font-size:18px;line-height:1.9;font-family:'JetBrains Mono',monospace;
+  min-height:100px;position:relative;
+}
+.typing-char{transition:background .1s;}
+.typing-char.correct{color:var(--emerald);}
+.typing-char.wrong{color:var(--rose);background:rgba(244,63,94,.12);border-radius:2px;}
+.typing-char.current{
+  color:var(--txt);border-bottom:2px solid var(--indigo);
+  animation:caret-blink .8s steps(1) infinite;
+}
+@keyframes caret-blink{0%,100%{border-color:var(--indigo);}50%{border-color:transparent;}}
+.typing-char.pending{color:var(--muted);}
+.typing-input-row{display:flex;gap:12px;align-items:center;}
+.typing-input{
+  flex:1;background:var(--bg3);border:2px solid var(--border);color:var(--txt);
+  padding:14px 18px;border-radius:10px;font-size:15px;font-family:'JetBrains Mono',monospace;
+  outline:none;transition:var(--transition);caret-color:var(--indigo);
+}
+.typing-input:focus{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(99,102,241,.15);}
+.typing-input::placeholder{color:var(--muted);}
+.typing-meta-row{display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+.typing-meta-pill{
+  background:var(--bg3);border:1px solid var(--border);border-radius:20px;
+  padding:6px 16px;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--txt);
+  display:flex;align-items:center;gap:6px;
+}
+.typing-meta-pill .lbl{color:var(--muted);}
+.typing-progress-bar{
+  height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;flex:1;min-width:80px;
+}
+.typing-progress-fill{
+  height:100%;background:linear-gradient(90deg,var(--indigo),var(--violet));
+  border-radius:2px;transition:width .3s ease;
+}
+.typing-timer-ring{
+  width:52px;height:52px;flex-shrink:0;position:relative;
+}
+.typing-timer-ring svg{transform:rotate(-90deg);}
+.typing-timer-ring .ring-bg{stroke:var(--bg3);fill:none;stroke-width:4;}
+.typing-timer-ring .ring-fill{stroke:var(--indigo);fill:none;stroke-width:4;stroke-linecap:round;transition:stroke-dashoffset .9s linear;}
+.typing-timer-text{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--txt);
+}
+.typing-difficulty-row{display:flex;gap:8px;flex-wrap:wrap;}
+.typing-diff-btn{
+  background:var(--bg3);border:1.5px solid var(--border);color:var(--muted);
+  padding:6px 18px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;
+  font-family:'JetBrains Mono',monospace;transition:var(--transition);
+  display:inline-flex;align-items:center;gap:7px;
+}
+.typing-diff-btn:hover{color:var(--txt);border-color:rgba(99,102,241,.35);}
+.typing-diff-btn.active{
+  background:rgba(99,102,241,.12);border-color:var(--indigo);color:var(--indigo);
+}
+.diff-dot{
+  width:7px;height:7px;border-radius:50%;flex-shrink:0;
+}
+/* TYPING RESULT OVERLAY — covers full game-body */
+#typingResultScreen{
+  position:absolute;inset:0;z-index:10;
+  background:rgba(0,0,0,.88);backdrop-filter:blur(12px);
+  display:none;align-items:center;justify-content:center;flex-direction:column;
+  padding:32px;text-align:center;
+}
+#typingResultScreen.show{display:flex;}
+/* Game over screen — for snake (inside prompt wrapper) */
+.game-result-screen{
+  position:absolute;inset:0;
+  display:none;align-items:center;justify-content:center;flex-direction:column;
+  border-radius:14px;padding:32px;text-align:center;z-index:10;
+}
+.result-title{font-size:26px;font-weight:800;color:var(--txt);margin-bottom:6px;}
+.result-subtitle{font-size:14px;color:var(--muted);margin-bottom:28px;}
+.result-stats-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:100%;max-width:420px;margin-bottom:28px;
+}
+.result-stat-box{
+  background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px 8px;
+}
+.result-stat-box .r-num{
+  display:block;font-size:26px;font-weight:800;color:var(--indigo);
+  font-family:'JetBrains Mono',monospace;line-height:1.2;
+}
+.result-stat-box .r-lbl{display:block;font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.5px;}
+.result-play-again{
+  padding:12px 32px;background:linear-gradient(135deg,var(--indigo),var(--violet));
+  border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;
+  cursor:pointer;transition:var(--transition);font-family:'Space Grotesk',sans-serif;
+}
+.result-play-again:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(99,102,241,.4);}
+.r2-final-screen{
+  position:absolute;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);
+  display:none;align-items:center;justify-content:center;flex-direction:column;
+  border-radius:14px;padding:32px;text-align:center;z-index:10;
+}
+.r2-final-screen.show{display:flex;}
+
+
+/* ============================================================
+   THEME BUTTON — mini color strip (proportional to lang btn)
+   ============================================================ */
+.nav-theme-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--bg3);border:1.5px solid var(--border);
+  padding:6px 14px;border-radius:100px;
+  font-size:12px;font-weight:600;cursor:pointer;
+  transition:var(--transition);font-family:'JetBrains Mono',monospace;
+  color:var(--indigo);white-space:nowrap;
+}
+.nav-theme-btn:hover{border-color:var(--indigo);background:rgba(99,102,241,.08);}
+/* Mini 3-square strip for theme button */
+.nav-theme-strip{display:flex;gap:2px;align-items:center;flex-shrink:0;}
+.nav-theme-strip span{width:10px;height:11px;border-radius:2px;transition:background .3s;border:1px solid rgba(255,255,255,.12);}
+/* Palette strips per theme option in dropdown */
+.nto-palette{display:flex;gap:2px;margin-left:auto;flex-shrink:0;}
+.nto-palette span{width:12px;height:20px;border-radius:3px;border:1px solid rgba(255,255,255,.1);}
+
+/* ============================================================
+   PROJECT SEARCH — icon wrapper
+   ============================================================ */
+.project-search-wrap{
+  position:relative;display:inline-flex;align-items:center;
+  flex:1;max-width:340px;
+}
+.project-search-icon{
+  position:absolute;left:12px;
+  font-size:13px;color:var(--muted);pointer-events:none;
+  transition:color .2s;z-index:1;
+}
+.project-search-wrap:focus-within .project-search-icon{color:var(--indigo);}
+.project-search{
+  flex:1;max-width:100%;width:100%;
+  padding:10px 16px 10px 36px !important;
+}
 </style>
 </head>
 <body>
@@ -820,6 +1251,8 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
 {
   "gpa": "3.92",
   "semester": "4",
+  "achievement": "Top 6",
+  "achievement_label": "DISCO 2025",
   "bio_en": "S1 Data Science student at UNESA with GPA 3.92/4.00. Experienced in machine learning, NLP, and Graph Neural Networks through competitions, research, and academic projects. Currently an AI Researcher at the Big Data Analysis Lab, FMIPA UNESA.",
   "bio_id": "Mahasiswa S1 Data Science UNESA dengan IPK 3.92/4.00. Berpengalaman di bidang machine learning, NLP, dan Graph Neural Networks melalui kompetisi, penelitian, dan proyek akademik. Saat ini berperan sebagai AI Researcher di Laboratorium Big Data Analysis FMIPA UNESA.",
   "testimonials": [],
@@ -879,7 +1312,7 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
         <button class="btn btn-small" onclick="exportHTML()" style="background:var(--emerald);color:#fff;">
           <i class="fas fa-download"></i> Export HTML
         </button>
-        <button class="admin-close" onclick="closeAdminPanel()">✕</button>
+        <button class="admin-close" onclick="closeAdminPanel()"><i class="fas fa-times"></i></button>
       </div>
     </div>
     <div class="admin-body">
@@ -906,6 +1339,14 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
         <div class="admin-field">
           <label>Current Semester (e.g. 4)</label>
           <input class="admin-input" id="adminSemester" type="text" placeholder="4" style="max-width:120px;">
+        </div>
+        <div class="admin-field">
+          <label>Top Achievement (e.g. Top 6, Rank 1)</label>
+          <input class="admin-input" id="adminAchievement" type="text" placeholder="Top 6" style="max-width:160px;">
+        </div>
+        <div class="admin-field">
+          <label>Achievement Label (e.g. DISCO 2025)</label>
+          <input class="admin-input" id="adminAchievementLabel" type="text" placeholder="DISCO 2025" style="max-width:200px;">
         </div>
         <button class="btn btn-primary btn-small" onclick="saveStats()">Save Stats</button>
       </div>
@@ -956,7 +1397,7 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
   <div class="media-modal-inner">
     <div class="media-modal-header">
       <h3 id="mediaModalTitle">Project Media</h3>
-      <button class="media-modal-close" onclick="closeMediaModal()">✕</button>
+      <button class="media-modal-close" onclick="closeMediaModal()"><i class="fas fa-times"></i></button>
     </div>
     <div class="media-modal-body">
       <div class="media-tabs" id="mediaTabs"></div>
@@ -994,6 +1435,44 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
     </ul>
     <div class="nav-controls">
       <span class="admin-badge">ADMIN</span>
+      <!-- Theme Switcher Pill -->
+      <div class="nav-theme-wrap" id="navThemeWrap">
+        <button class="nav-theme-btn" id="navThemeBtn" onclick="toggleNavTheme()" title="Change Theme">
+          <i class="fas fa-swatchbook" style="font-size:11px;"></i>
+          <span class="nav-theme-strip" id="navThemeStrip">
+            <span style="background:#0b1120"></span>
+            <span style="background:#6366f1"></span>
+            <span style="background:#8b5cf6"></span>
+          </span>
+        </button>
+        <div class="nav-theme-panel" id="navThemePanel">
+          <button class="nav-theme-opt nto-dark active" id="nto-dark" onclick="setTheme('dark')">
+            <span class="nav-theme-ico"><i class="fas fa-moon"></i></span>
+            <span>Dark</span>
+            <span class="nto-palette"><span style="background:#0b1120"></span><span style="background:#6366f1"></span><span style="background:#8b5cf6"></span></span>
+          </button>
+          <button class="nav-theme-opt nto-light" id="nto-light" onclick="setTheme('light')">
+            <span class="nav-theme-ico"><i class="fas fa-sun"></i></span>
+            <span>Light</span>
+            <span class="nto-palette"><span style="background:#f1f5f9"></span><span style="background:#4f46e5"></span><span style="background:#7c3aed"></span></span>
+          </button>
+          <button class="nav-theme-opt nto-cyber" id="nto-cyber" onclick="setTheme('cyberpunk')">
+            <span class="nav-theme-ico"><i class="fas fa-bolt"></i></span>
+            <span>Cyberpunk</span>
+            <span class="nto-palette"><span style="background:#000000"></span><span style="background:#00ff41"></span><span style="background:#00ffff"></span></span>
+          </button>
+          <button class="nav-theme-opt nto-forest" id="nto-forest" onclick="setTheme('forest')">
+            <span class="nav-theme-ico"><i class="fas fa-leaf"></i></span>
+            <span>Forest</span>
+            <span class="nto-palette"><span style="background:#052e16"></span><span style="background:#22c55e"></span><span style="background:#84cc16"></span></span>
+          </button>
+          <button class="nav-theme-opt nto-magical" id="nto-magical" onclick="setTheme('magical')">
+            <span class="nav-theme-ico"><i class="fas fa-star"></i></span>
+            <span>Magical</span>
+            <span class="nto-palette"><span style="background:#120820"></span><span style="background:#d946ef"></span><span style="background:#a855f7"></span></span>
+          </button>
+        </div>
+      </div>
       <button id="langToggle">
         <i class="fas fa-globe lang-globe"></i>
         <span id="langLabel">ID</span>
@@ -1046,6 +1525,11 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
           <i class="fas fa-sync-alt" id="aiIcon"></i>
           <span data-i18n="ai-bio-btn">Regenerate bio with AI</span>
         </button>
+        <!-- Mobile-only inline scroll indicator (below AI button) -->
+        <div class="scroll-down-mobile">
+          <div class="scroll-line"></div>
+          <span>Scroll</span>
+        </div>
       </div>
       <div class="hero-visual">
         <div class="photo-frame">
@@ -1070,9 +1554,10 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
 
 <!-- ABOUT -->
 <section id="about" class="about">
+  <canvas id="about-particles" class="sec-particle-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.55;"></canvas>
   <div class="container">
     <div class="section-header">
-      <span class="section-label" data-i18n="about-label">01 · About</span>
+      <span class="section-label" data-i18n="about-label">01 About</span>
       <h2 class="section-title" data-i18n="about-title">About Me</h2>
     </div>
     <div class="about-content">
@@ -1095,6 +1580,10 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
           <div class="stat">
             <h3 id="statSemester">4</h3>
             <p data-i18n="stat-semester">Semester</p>
+          </div>
+          <div class="stat">
+            <h3 id="statAchievement">Top 6</h3>
+            <p id="statAchievementLabel">DISCO 2025</p>
           </div>
         </div>
         <!-- GitHub Stats Card -->
@@ -1140,7 +1629,7 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
   <div class="skills-orb skills-orb-3"></div>
   <div class="container">
     <div class="section-header">
-      <span class="section-label" data-i18n="skills-label">02 · Skills</span>
+      <span class="section-label" data-i18n="skills-label">02 Skills</span>
       <h2 class="section-title">Tech Stack</h2>
     </div>
     <div class="skills-view-toggle">
@@ -1157,14 +1646,18 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
 </section>
 
 <!-- PROJECTS -->
-<section id="projects" class="projects">
+<section id="projects" class="projects" style="position:relative;overflow:hidden;">
+  <canvas id="projects-particles" class="sec-particle-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.65;"></canvas>
   <div class="container">
     <div class="section-header">
-      <span class="section-label" data-i18n="projects-label">03 · Projects</span>
+      <span class="section-label" data-i18n="projects-label">03 Projects</span>
       <h2 class="section-title" data-i18n="projects-title">Latest Projects</h2>
     </div>
     <div class="project-search-bar">
-      <input type="text" class="project-search" id="projectSearch" placeholder="Search projects..." oninput="filterProjects()">
+      <div class="project-search-wrap">
+        <i class="fas fa-magnifying-glass project-search-icon"></i>
+        <input type="text" class="project-search" id="projectSearch" placeholder="Search projects..." data-i18n-ph="search-placeholder" oninput="filterProjects()">
+      </div>
     </div>
     <div class="project-filter">
       <button class="filter-btn active" data-filter="all" data-i18n="filter-all" onclick="filterProjects()">All</button>
@@ -1315,7 +1808,7 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
   <div class="container">
     <div class="other-projects-header">
       <div>
-        <span class="section-label">03.5 · GitHub</span>
+        <span class="section-label">03.5 GitHub</span>
         <h2 class="section-title">Other Projects</h2>
         <p class="other-projects-sub" data-i18n-html="other-sub">See more on my <strong>GitHub Repository</strong>. (Loaded automatically from GitHub API)</p>
       </div>
@@ -1337,11 +1830,12 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
 
 <!-- EXPERIENCE -->
 <section id="experience" class="experience">
+  <canvas id="exp-particles" class="sec-particle-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.48;"></canvas>
   <div class="exp-deco exp-deco-1"></div>
   <div class="exp-deco exp-deco-2"></div>
   <div class="container">
     <div class="section-header">
-      <span class="section-label" data-i18n="exp-label">04 · Experience</span>
+      <span class="section-label" data-i18n="exp-label">04 Experience</span>
       <h2 class="section-title" data-i18n="exp-title">Experience</h2>
     </div>
     <div class="timeline" id="experienceTimeline">
@@ -1352,10 +1846,11 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
 </section>
 
 <!-- ACHIEVEMENTS & CERTIFICATIONS -->
-<section id="achievements" class="achievements">
+<section id="achievements" class="achievements" style="position:relative;overflow:hidden;">
+  <canvas id="ach-particles" class="sec-particle-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.52;"></canvas>
   <div class="container">
     <div class="section-header">
-      <span class="section-label" data-i18n="ach-label">05 · Achievements</span>
+      <span class="section-label" data-i18n="ach-label">05 Achievements</span>
       <h2 class="section-title" data-i18n="ach-title">Achievements &amp; Certs</h2>
     </div>
     <div class="certs-grid">
@@ -1463,7 +1958,7 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
 <section class="testimonials" id="testimonials">
   <div class="container">
     <div class="section-header">
-      <span class="section-label" data-i18n="testi-label">06 · Testimonials</span>
+      <span class="section-label" data-i18n="testi-label">06 Testimonials</span>
       <h2 class="section-title" data-i18n="testi-title">What People Say</h2>
     </div>
     <div class="testimonials-wrapper">
@@ -1503,11 +1998,12 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
 
 <!-- CONTACT -->
 <section id="contact" class="contact">
+  <canvas id="contact-particles" class="sec-particle-canvas" style="position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.45;"></canvas>
   <div class="contact-orb contact-orb-1"></div>
   <div class="contact-orb contact-orb-2"></div>
   <div class="container">
     <div class="section-header">
-      <span class="section-label" data-i18n="contact-label">07 · Contact</span>
+      <span class="section-label" data-i18n="contact-label">07 Contact</span>
       <h2 class="section-title" data-i18n="contact-title">Let's Collaborate</h2>
     </div>
     <p class="section-subtitle" data-i18n="contact-subtitle">Open to discussions about data science projects, research, and collaboration opportunities.</p>
@@ -1533,7 +2029,7 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
 <footer class="footer">
   <div class="container">
     <div class="footer-content">
-      <p class="mono">&copy; 2026 Daffa Ahmad Pangreksa. Built with <span style="color:var(--indigo)">♥</span></p>
+      <p class="mono">&copy; 2026 Daffa Ahmad Pangreksa. Built with <span style="color:var(--indigo)"><i class="fas fa-heart" style="font-size:12px;"></i></span></p>
       <div class="footer-links">
         <a href="#home" data-i18n="nav-home">Home</a>
         <a href="#about" data-i18n="nav-about">About</a>
@@ -1544,40 +2040,315 @@ body:not([data-cursor="hidden"]) #cursor-ring,body:not([data-cursor="hidden"]) #
   </div>
 </footer>
 
-<!-- Floating Theme Pill -->
-<!-- Floating Theme Switcher (moon icon style) -->
+<!-- Floating FABs (bottom-right) -->
 <div class="floating-theme-pill" id="floatingThemePill">
-  <div class="ftp-panel" id="ftpPanel">
-    <button class="ftp-btn ftp-btn-dark active" id="ftpDark" onclick="setTheme('dark')" title="Dark">
-      <span class="ftp-btn-ico"><i class="fas fa-moon"></i></span>
-      <span class="ftp-btn-lbl">Dark</span>
-      <span class="ftp-btn-active-dot"></span>
-    </button>
-    <button class="ftp-btn ftp-btn-light" id="ftpLight" onclick="setTheme('light')" title="Light">
-      <span class="ftp-btn-ico"><i class="fas fa-sun"></i></span>
-      <span class="ftp-btn-lbl">Light</span>
-      <span class="ftp-btn-active-dot"></span>
-    </button>
-    <button class="ftp-btn ftp-btn-cyber" id="ftpCyber" onclick="setTheme('cyberpunk')" title="Cyberpunk">
-      <span class="ftp-btn-ico"><i class="fas fa-bolt"></i></span>
-      <span class="ftp-btn-lbl">Cyberpunk</span>
-      <span class="ftp-btn-active-dot"></span>
-    </button>
-    <button class="ftp-btn ftp-btn-forest" id="ftpForest" onclick="setTheme('forest')" title="Forest">
-      <span class="ftp-btn-ico"><i class="fas fa-tree"></i></span>
-      <span class="ftp-btn-lbl">Forest</span>
-      <span class="ftp-btn-active-dot"></span>
-    </button>
-    <button class="ftp-btn ftp-btn-magical" id="ftpMagical" onclick="setTheme('magical')" title="Magical">
-      <span class="ftp-btn-ico"><i class="fas fa-star"></i></span>
-      <span class="ftp-btn-lbl">Magical</span>
-      <span class="ftp-btn-active-dot"></span>
-    </button>
-  </div>
-  <button class="ftp-main-btn" id="ftpMainBtn" onclick="toggleThemePanel()" title="Change Theme">
-    <i class="fas fa-moon" id="ftpIcon"></i>
-  </button>
   <button class="fab-install" id="pwaInstallBtn" title="Install App" onclick="installPWA()"><i class="fas fa-download"></i></button>
+  <button class="fab-games" id="fabGamesBtn" title="Play Mini Games" onclick="openGamesHub()" style="position:relative;">
+    <i class="fas fa-gamepad"></i>
+    <span class="game-ping"></span>
+  </button>
+</div>
+
+<!-- ============================================================
+     GAMES HUB MODAL
+     ============================================================ -->
+<div class="games-overlay" id="gamesOverlay">
+  <div class="games-hub">
+    <div class="games-hub-header">
+      <div class="games-hub-title">
+        <div class="games-hub-icon" style="background:linear-gradient(135deg,#f59e0b,#ef4444);">
+          <i class="fas fa-gamepad" style="font-size:22px;color:#fff;"></i>
+        </div>
+        <div>
+          <h2 data-i18n="games-hub-title">Data Science Mini Games</h2>
+          <p style="font-size:13px;color:var(--muted);margin-top:2px;" data-i18n="games-hub-sub">Take a break. Play nerdy.</p>
+        </div>
+      </div>
+      <button class="games-close-btn" onclick="closeGamesHub()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="games-cards-grid">
+      <!-- Snake -->
+      <div class="game-card" onclick="openGame('snake')">
+        <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(52,211,153,.15),rgba(56,189,248,.1));border:1px solid rgba(52,211,153,.25);display:flex;align-items:center;justify-content:center;">
+          <i class="fas fa-terminal" style="font-size:18px;color:#34d399;"></i>
+        </div>
+        <div class="game-card-name" data-i18n="game-snake-name">Data Snake</div>
+        <div class="game-card-desc" data-i18n="game-snake-desc">Classic snake reimagined as a neural network collecting training data. Avoid outliers and NaN values to keep accuracy climbing.</div>
+        <div class="game-card-tags">
+          <span class="game-card-tag" data-i18n="game-tag-arcade">Arcade</span>
+          <span class="game-card-tag" data-i18n="game-tag-canvas">Canvas</span>
+        </div>
+        <div class="game-card-play"><i class="fas fa-play" style="font-size:11px;margin-right:6px;"></i><span data-i18n="game-play-now">Play Now</span></div>
+      </div>
+      <!-- Guess R2 -->
+      <div class="game-card" onclick="openGame('r2')">
+        <div style="width:44px;height:44px;border-radius:12px;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+          <svg width="40" height="40" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="9" cy="33" r="2.4" fill="#6366f1" opacity=".85"/>
+            <circle cx="15" cy="25" r="2.4" fill="#6366f1" opacity=".85"/>
+            <circle cx="20" cy="19" r="2.4" fill="#8b5cf6" opacity=".85"/>
+            <circle cx="27" cy="14" r="2.4" fill="#6366f1" opacity=".85"/>
+            <circle cx="34" cy="8" r="2.4" fill="#8b5cf6" opacity=".85"/>
+            <line x1="7" y1="36" x2="37" y2="5" stroke="#a78bfa" stroke-width="1.5" opacity=".6" stroke-linecap="round"/>
+            <text x="3" y="43" font-size="7.5" fill="#6366f1" font-family="JetBrains Mono,monospace" font-weight="700" opacity=".9">R²</text>
+          </svg>
+        </div>
+        <div class="game-card-name" data-i18n="game-r2-name">Guess the R squared</div>
+        <div class="game-card-desc" data-i18n="game-r2-desc">Study scatter plots and estimate the coefficient of determination. How well calibrated is your statistical eye?</div>
+        <div class="game-card-tags">
+          <span class="game-card-tag" data-i18n="game-tag-stats">Statistics</span>
+          <span class="game-card-tag" data-i18n="game-tag-rounds">6 Rounds</span>
+        </div>
+        <div class="game-card-play"><i class="fas fa-play" style="font-size:11px;margin-right:6px;"></i><span data-i18n="game-play-now">Play Now</span></div>
+      </div>
+      <!-- Typing -->
+      <div class="game-card" onclick="openGame('typing')">
+        <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(244,63,94,.12),rgba(139,92,246,.1));border:1px solid rgba(244,63,94,.2);display:flex;align-items:center;justify-content:center;">
+          <i class="fas fa-keyboard" style="font-size:18px;color:#f43f5e;"></i>
+        </div>
+        <div class="game-card-name" data-i18n="game-typing-name">ML Type Sprint</div>
+        <div class="game-card-desc" data-i18n="game-typing-desc">Race to type ML and data science terms as fast as possible. Measure your WPM on jargon that would break autocorrect.</div>
+        <div class="game-card-tags">
+          <span class="game-card-tag" data-i18n="game-tag-timer">60s Timer</span>
+          <span class="game-card-tag" data-i18n="game-tag-wpm">WPM</span>
+        </div>
+        <div class="game-card-play"><i class="fas fa-play" style="font-size:11px;margin-right:6px;"></i><span data-i18n="game-play-now">Play Now</span></div>
+      </div>
+      <!-- Data Runner -->
+      <div class="game-card" onclick="openGame('runner')">
+        <div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,rgba(56,189,248,.12),rgba(99,102,241,.1));border:1px solid rgba(56,189,248,.25);display:flex;align-items:center;justify-content:center;">
+          <i class="fas fa-running" style="font-size:18px;color:#38bdf8;"></i>
+        </div>
+        <div class="game-card-name">Data Runner</div>
+        <div class="game-card-desc">Dodge NaN gaps and outlier spikes as your data point sprints across the feature axis. How far can your model go without crashing?</div>
+        <div class="game-card-tags">
+          <span class="game-card-tag">Runner</span>
+          <span class="game-card-tag">Infinite</span>
+        </div>
+        <div class="game-card-play"><i class="fas fa-play" style="font-size:11px;margin-right:6px;"></i><span data-i18n="game-play-now">Play Now</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     GAME SCREEN: DATA SNAKE
+     ============================================================ -->
+<div class="game-screen" id="gameSnake">
+  <div class="game-topbar">
+    <button class="game-back-btn" onclick="closeGame('snake')"><i class="fas fa-arrow-left"></i> <span data-i18n="game-back">Back</span></button>
+    <div class="game-topbar-title"><i class="fas fa-terminal" style="color:#34d399;font-size:15px;"></i> Data Snake</div>
+    <div class="game-stats-bar">
+      <div class="game-stat-pill">
+        <span class="pill-label" data-i18n="game-snake-accuracy">Accuracy</span>
+        <span id="snakeScore">0%</span>
+      </div>
+      <div class="game-stat-pill">
+        <span class="pill-label" data-i18n="game-snake-epoch">Epoch</span>
+        <span id="snakeLevel">1</span>
+      </div>
+      <div class="game-stat-pill">
+        <span class="pill-label" data-i18n="game-snake-best">Best</span>
+        <span id="snakeBest">0%</span>
+      </div>
+    </div>
+  </div>
+  <div class="game-body" style="flex-direction:column;gap:14px;">
+    <div class="snake-wrapper" id="snakeWrapper">
+      <canvas id="snakeCanvas" width="480" height="480"></canvas>
+      <div class="snake-overlay" id="snakeOverlay">
+        <h3 data-i18n="game-snake-name">Data Snake</h3>
+        <p data-i18n-html="game-snake-overlay">Collect <span style="color:#34d399">data points</span> to increase model accuracy.<br>Avoid <span style="color:#f43f5e">outliers</span> and <span style="color:#f59e0b">NaN values</span>!</p>
+        <button class="r2-submit-btn" style="max-width:200px;" onclick="startSnake()"><i class="fas fa-play" style="font-size:11px;margin-right:6px;"></i><span data-i18n="game-snake-start">Start Training</span></button>
+      </div>
+    </div>
+    <div class="snake-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div>Training data (+10)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#38bdf8"></div>Test data (+15)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div>Feature (+25, speed++)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f43f5e"></div>Outlier (<i class="fas fa-times" style="color:#f43f5e;font-size:9px;"></i> fatal)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>NaN (stun 1s)</div>
+    </div>
+    <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center;">
+      Arrow Keys or WASD to move · P to pause
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     GAME SCREEN: GUESS THE R²
+     ============================================================ -->
+<div class="game-screen" id="gameR2">
+  <div class="game-topbar">
+    <button class="game-back-btn" onclick="closeGame('r2')"><i class="fas fa-arrow-left"></i> <span data-i18n="game-back">Back</span></button>
+    <div class="game-topbar-title"><svg width="16" height="16" viewBox="0 0 44 44" style="flex-shrink:0;"><circle cx="9" cy="33" r="3" fill="#6366f1"/><circle cx="20" cy="19" r="3" fill="#8b5cf6"/><circle cx="34" cy="8" r="3" fill="#6366f1"/><line x1="7" y1="36" x2="37" y2="5" stroke="#a78bfa" stroke-width="3" stroke-linecap="round"/></svg> <span data-i18n="game-r2-title">Guess the R Squared</span></div>
+    <div class="game-stats-bar">
+      <div class="game-stat-pill">
+        <span class="pill-label" data-i18n="game-score">Score</span>
+        <span id="r2Score">0</span>
+      </div>
+      <div class="game-stat-pill">
+        <span class="pill-label" data-i18n="game-round">Round</span>
+        <span id="r2RoundNum">1</span> / 6
+      </div>
+    </div>
+  </div>
+  <div class="game-body" style="position:relative;">
+    <div class="r2-game-layout">
+      <div class="r2-round-indicator" id="r2RoundDots"></div>
+      <canvas id="r2Canvas" width="560" height="340"></canvas>
+      <div class="r2-guess-area">
+        <div class="r2-guess-label" data-i18n="game-r2-guess-label">Your estimate of R² (coefficient of determination):</div>
+        <div class="r2-slider-row">
+          <input type="range" class="r2-slider" id="r2Slider" min="0" max="100" value="50" oninput="updateR2Slider(this)">
+          <div class="r2-val-display" id="r2ValDisplay">0.50</div>
+        </div>
+        <button class="r2-submit-btn" id="r2GuessBtn" onclick="submitR2Guess()" data-i18n="game-r2-submit">Submit Guess</button>
+        <div class="r2-result-reveal" id="r2ResultReveal">
+          <div class="r2-result-left">
+            <div class="actual-label" data-i18n="game-r2-actual">Actual R²:</div>
+            <div class="actual-val" id="r2ActualVal"></div>
+            <div class="delta" id="r2Delta"></div>
+            <div class="pts" id="r2Pts"></div>
+          </div>
+          <button class="r2-next-btn" id="r2NextBtn" onclick="r2NextRound()">
+            <span class="next-label" data-i18n="game-r2-next">Next Round</span>
+            <span class="next-arrow"><i class="fas fa-chevron-right"></i></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Final result overlay — covers the full game-body -->
+    <div class="r2-final-screen" id="r2FinalScreen">
+      <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,rgba(99,102,241,.25),rgba(139,92,246,.18));border:1px solid rgba(99,102,241,.35);display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+        <i class="fas fa-chart-line" style="font-size:24px;color:#6366f1;"></i>
+      </div>
+      <div class="result-title" data-i18n="game-over">Game Over</div>
+      <div class="result-subtitle" id="r2FinalSubtitle"></div>
+      <div class="result-stats-grid" style="margin-top:8px;">
+        <div class="result-stat-box"><span class="r-num" id="r2FinalScore"></span><span class="r-lbl" data-i18n="game-total-pts">Total Points</span></div>
+        <div class="result-stat-box"><span class="r-num" id="r2FinalAvgErr"></span><span class="r-lbl" data-i18n="game-avg-err">Avg Error</span></div>
+        <div class="result-stat-box"><span class="r-num" id="r2FinalGrade"></span><span class="r-lbl" data-i18n="game-grade">Grade</span></div>
+      </div>
+      <button class="result-play-again" onclick="resetR2Game()" data-i18n="game-play-again">Play Again</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     GAME SCREEN: DATA RUNNER
+     ============================================================ -->
+<div class="game-screen" id="gameRunner">
+  <div class="game-topbar">
+    <button class="game-back-btn" onclick="closeGame('runner')"><i class="fas fa-arrow-left"></i> <span data-i18n="game-back">Back</span></button>
+    <div class="game-topbar-title"><i class="fas fa-running" style="color:#38bdf8;font-size:15px;"></i> Data Runner</div>
+    <div class="game-stats-bar">
+      <div class="game-stat-pill"><span class="pill-label">Score</span><span id="runnerScore">0</span></div>
+      <div class="game-stat-pill"><span class="pill-label">Best</span><span id="runnerBest">0</span></div>
+    </div>
+  </div>
+  <div class="game-body" style="position:relative;flex-direction:column;gap:14px;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;max-width:720px;">
+      <canvas id="runnerCanvas" width="700" height="200" style="border:2px solid var(--border);border-radius:12px;background:#0b1120;max-width:100%;display:block;"></canvas>
+      <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center;">
+        Press <kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 7px;font-size:10px;">Space</kbd> or <kbd style="background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:2px 7px;font-size:10px;">Up Arrow</kbd> to jump · Double-jump available · Tap canvas on mobile
+      </div>
+    </div>
+    <!-- Runner result overlay -->
+    <div id="runnerResultScreen" style="position:absolute;inset:0;z-index:10;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;flex-direction:column;padding:32px;text-align:center;">
+      <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,rgba(56,189,248,.18),rgba(99,102,241,.12));border:1px solid rgba(56,189,248,.3);display:flex;align-items:center;justify-content:center;margin-bottom:18px;flex-shrink:0;">
+        <i class="fas fa-running" style="font-size:24px;color:#38bdf8;"></i>
+      </div>
+      <div class="result-title" id="runnerResultTitle">Model Crashed!</div>
+      <div class="result-subtitle" id="runnerResultSub" style="margin-bottom:24px;"></div>
+      <div class="result-stats-grid" style="max-width:340px;margin-bottom:24px;">
+        <div class="result-stat-box"><span class="r-num" id="runnerFinalScore"></span><span class="r-lbl">SCORE</span></div>
+        <div class="result-stat-box"><span class="r-num" id="runnerFinalBest"></span><span class="r-lbl">BEST</span></div>
+        <div class="result-stat-box"><span class="r-num" id="runnerFinalSpeed"></span><span class="r-lbl">SPEED LVL</span></div>
+      </div>
+      <button class="result-play-again" onclick="startRunnerGame()">Run Again</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     GAME SCREEN: ML TYPE SPRINT
+     ============================================================ -->
+<div class="game-screen" id="gameTyping">
+  <div class="game-topbar">
+    <button class="game-back-btn" onclick="closeGame('typing')"><i class="fas fa-arrow-left"></i> <span data-i18n="game-back">Back</span></button>
+    <div class="game-topbar-title"><i class="fas fa-keyboard" style="color:#f43f5e;font-size:15px;"></i> ML Type Sprint</div>
+    <div class="game-stats-bar">
+      <div class="game-stat-pill">
+        <span class="pill-label">WPM</span>
+        <span id="typingWPM">0</span>
+      </div>
+      <div class="game-stat-pill">
+        <span class="pill-label">Accuracy</span>
+        <span id="typingAcc">100%</span>
+      </div>
+    </div>
+  </div>
+  <div class="game-body" style="position:relative;">
+    <div class="typing-game-layout">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div class="typing-difficulty-row">
+          <button class="typing-diff-btn active" data-diff="easy" onclick="setTypingDiff('easy')">
+            <span class="diff-dot" style="background:#34d399;"></span>Easy
+          </button>
+          <button class="typing-diff-btn" data-diff="medium" onclick="setTypingDiff('medium')">
+            <span class="diff-dot" style="background:#f59e0b;"></span>Medium
+          </button>
+          <button class="typing-diff-btn" data-diff="hard" onclick="setTypingDiff('hard')">
+            <span class="diff-dot" style="background:#f43f5e;"></span>Hard
+          </button>
+        </div>
+        <div class="typing-timer-ring" id="typingTimerRing">
+          <svg width="52" height="52" viewBox="0 0 52 52">
+            <circle class="ring-bg" cx="26" cy="26" r="22"/>
+            <circle class="ring-fill" id="typingTimerCircle" cx="26" cy="26" r="22"
+              stroke-dasharray="138.2" stroke-dashoffset="0"/>
+          </svg>
+          <div class="typing-timer-text" id="typingTimerText">60</div>
+        </div>
+      </div>
+      <div class="typing-prompt-area" id="typingPromptArea" style="position:relative;">
+        <div id="typingCharsDisplay"></div>
+      </div>
+      <div class="typing-meta-row">
+        <div class="typing-meta-pill"><span class="lbl" data-i18n="game-progress">Progress:</span></div>
+        <div class="typing-progress-bar" style="flex:1;">
+          <div class="typing-progress-fill" id="typingProgressFill" style="width:0%"></div>
+        </div>
+        <div class="typing-meta-pill"><span class="lbl" data-i18n="game-combo">Combo:</span><span id="typingCombo">×1</span></div>
+      </div>
+      <div class="typing-input-row">
+        <input type="text" class="typing-input" id="typingInput"
+          placeholder="Click here and start typing... spaces separate words"
+          oninput="handleTypingInput(event)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        <button style="padding:14px 20px;background:var(--bg3);border:1.5px solid var(--border);border-radius:10px;color:var(--muted);cursor:pointer;font-size:14px;transition:var(--transition);" onclick="resetTypingGame()" title="Restart">
+          <i class="fas fa-redo"></i>
+        </button>
+      </div>
+      <div style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center;">
+        Timer starts on first keystroke · Press Space to confirm each word
+      </div>
+    </div>
+    <!-- Full game-body result overlay -->
+    <div id="typingResultScreen">
+      <div style="width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,rgba(244,63,94,.18),rgba(139,92,246,.12));border:1px solid rgba(244,63,94,.3);display:flex;align-items:center;justify-content:center;margin-bottom:18px;flex-shrink:0;">
+        <i class="fas fa-keyboard" style="font-size:24px;color:#f43f5e;"></i>
+      </div>
+      <div class="result-title" id="typingResultTitle" data-i18n="game-typing-complete">Sprint Complete!</div>
+      <div class="result-subtitle" id="typingResultSub" style="margin-bottom:24px;"></div>
+      <div class="result-stats-grid">
+        <div class="result-stat-box"><span class="r-num" id="typingFinalWPM"></span><span class="r-lbl" data-i18n="game-wpm">WPM</span></div>
+        <div class="result-stat-box"><span class="r-num" id="typingFinalAcc"></span><span class="r-lbl" data-i18n="game-accuracy">Accuracy</span></div>
+        <div class="result-stat-box"><span class="r-num" id="typingFinalWords"></span><span class="r-lbl" data-i18n="game-words">Words</span></div>
+      </div>
+      <button class="result-play-again" onclick="resetTypingGame()" data-i18n="game-play-again">Play Again</button>
+    </div>
+  </div>
 </div>
 
 <!-- ============================================================
@@ -1615,11 +2386,11 @@ const TRANSLATIONS = {
     'hero-badge':'Open to Opportunities',
     'hero-desc': pData.bio_en || 'S1 Data Science student at UNESA with GPA 3.92. AI Researcher specializing in GNN, ML, and NLP.',
     'hero-btn-projects':'View Projects','hero-btn-cv':'Download CV','ai-bio-btn':'Regenerate bio with AI',
-    'about-label':'01 · About','about-title':'About Me',
+    'about-label':'01 About','about-title':'About Me',
     'about-p1':'A S1 Data Science student at <strong>Universitas Negeri Surabaya (UNESA)</strong> with GPA <strong>3.92/4.00</strong>. Currently an <em>AI Researcher</em> at the Big Data Analysis Laboratory, conducting GNN research using Neo4j and NetworkX.',
     'about-p2':'Known as a <em>detail-oriented</em>, analytical, and communicative individual, producing high-quality data-driven insights. Teaching Assistant for Python &amp; Data Structures, currently in <strong>Semester <span class="dyn-semester">'+( pData.semester||'4')+'</span></strong> of the Data Science program.',
     'stat-gpa':'GPA / 4.00','stat-projects':'Projects','stat-semester':'Semester',
-    'skills-label':'02 · Skills','projects-label':'03 · Projects','projects-title':'Latest Projects',
+    'skills-label':'02 Skills','projects-label':'03 Projects','projects-title':'Latest Projects',
     'filter-all':'All','filter-app':'App','view-project':'View Project',
     'proj-desc-diabetes':'Predicts diabetes risk using Random Forest & XGBoost on NHANES data with AUC=0.895.',
     'proj-desc-mbg':'Fine-tuned IndoBERT sentiment analysis on 8K+ tweets/comments about the MBG program.',
@@ -1628,16 +2399,16 @@ const TRANSLATIONS = {
     'proj-desc-food':'East Java food affordability index revealing 2x purchasing power gap, published on Kaggle.',
     'proj-desc-msme':'XGBRegressor + Optuna achieving R²=0.91 on 13,564 MSME data, DISCO 2025 Top 6.',
     'other-sub':'More projects on my <strong>GitHub Repository</strong>. (Auto-loaded via GitHub API)',
-    'other-btn':'View All','exp-label':'04 · Experience','exp-title':'Experience',
+    'other-btn':'View All','exp-label':'04 Experience','exp-title':'Experience',
     'exp-desc-researcher':'Active GNN research using Neo4j & NetworkX. Developing Jupyter-based experiment pipelines.',
     'exp-desc-ta-dsa':'Mentored 70+ students on algorithms, sorting, recursion, and complexity analysis.',
     'exp-desc-1':'Mentored 70+ students in Python programming across 2 classes with weekly lab sessions.',
     'exp-desc-2':'Built XGBRegressor + Optuna model R²=0.91 on MSME data. Reached Top 6 nationally.',
     'exp-desc-3':'Managed national infographic competition (150+ participants), served as lead moderator.',
     'exp-desc-4':'Logistics for 300+ participant event. Coordinated with 5+ divisions, ~15% cost efficiency.',
-    'ach-label':'05 · Achievements','ach-title':'Achievements & Certs',
-    'testi-label':'06 · Testimonials','testi-title':'What People Say',
-    'contact-label':'07 · Contact','contact-title':"Let's Collaborate",
+    'ach-label':'05 Achievements','ach-title':'Achievements & Certs',
+    'testi-label':'06 Testimonials','testi-title':'What People Say',
+    'contact-label':'07 Contact','contact-title':"Let's Collaborate",
     'contact-subtitle':'Open to data science projects, research, and collaboration opportunities.',
     'contact-loc-label':'Location','contact-location':'Driyorejo, Gresik, East Java',
     'form-name':'Your Name','form-email':'Your Email','form-subject':'Subject',
@@ -1661,6 +2432,28 @@ const TRANSLATIONS = {
     'timeago-today':'Today','timeago-day':'1 day ago',
     'timeago-days':(d)=>`${d} days ago`,'timeago-month':'1 month ago',
     'timeago-months':(m)=>`${m} months ago`,'timeago-years':(y)=>`${y}y ago`,
+    // Games
+    'games-hub-title':'Data Science Mini Games','games-hub-sub':'Take a break. Play nerdy.',
+    'game-snake-name':'Data Snake',
+    'game-snake-desc':'Classic snake reimagined as a neural network collecting training data. Avoid outliers and NaN values to keep accuracy climbing.',
+    'game-r2-name':'Guess the R Squared',
+    'game-r2-desc':'Study scatter plots and estimate the coefficient of determination. How well calibrated is your statistical eye?',
+    'game-typing-name':'ML Type Sprint',
+    'game-typing-desc':'Race to type ML and data science terms as fast as possible. Measure your WPM on jargon that would break autocorrect.',
+    'game-tag-arcade':'Arcade','game-tag-canvas':'Canvas','game-tag-stats':'Statistics',
+    'game-tag-rounds':'6 Rounds','game-tag-timer':'60s Timer','game-tag-wpm':'WPM',
+    'game-play-now':'Play Now','game-back':'Back',
+    'game-snake-accuracy':'Accuracy','game-snake-epoch':'Epoch','game-snake-best':'Best',
+    'game-snake-start':'Start Training',
+    'game-snake-overlay':'Collect <span style="color:#34d399">data points</span> to increase model accuracy.<br>Avoid <span style="color:#f43f5e">outliers</span> and <span style="color:#f59e0b">NaN values</span>!',
+    'game-r2-title':'Guess the R Squared',
+    'game-r2-guess-label':'Your estimate of R² (coefficient of determination):',
+    'game-r2-submit':'Submit Guess','game-r2-actual':'Actual R²:','game-r2-next':'Next Round',
+    'game-score':'Score','game-round':'Round',
+    'game-over':'Game Over','game-total-pts':'Total Points','game-avg-err':'Avg Error','game-grade':'Grade',
+    'game-play-again':'Play Again',
+    'game-progress':'Progress:','game-combo':'Combo:',
+    'search-placeholder':'Search projects...',
   },
   id: {
     'nav-home':'Home','nav-about':'Tentang','nav-skills':'Keahlian','nav-projects':'Project',
@@ -1668,11 +2461,11 @@ const TRANSLATIONS = {
     'hero-badge':'Open to Opportunities',
     'hero-desc': pData.bio_id || 'Mahasiswa S1 Data Science UNESA IPK 3.92. AI Researcher spesialisasi GNN, ML, dan NLP.',
     'hero-btn-projects':'Lihat Project','hero-btn-cv':'Download CV','ai-bio-btn':'Generate ulang bio dengan AI',
-    'about-label':'01 · Tentang','about-title':'Tentang Saya',
+    'about-label':'01 Tentang','about-title':'Tentang Saya',
     'about-p1':'Mahasiswa S1 Data Science di <strong>Universitas Negeri Surabaya (UNESA)</strong> dengan IPK <strong>3.92/4.00</strong>. Saat ini menjadi <em>AI Researcher</em> di Laboratorium Big Data Analysis, meneliti <strong>Graph Neural Networks (GNN)</strong>.',
     'about-p2':'Dikenal sebagai pribadi <em>detail-oriented</em>, analitis, dan komunikatif, selalu menghasilkan wawasan berbasis data berkualitas tinggi. Asisten Dosen Python &amp; Struktur Data, saat ini menempuh <strong>Semester <span class="dyn-semester">'+(pData.semester||'4')+'</span></strong> program Data Science.',
     'stat-gpa':'IPK / 4.00','stat-projects':'Project','stat-semester':'Semester',
-    'skills-label':'02 · Keahlian','projects-label':'03 · Project','projects-title':'Project Terbaru',
+    'skills-label':'02 Keahlian','projects-label':'03 Project','projects-title':'Project Terbaru',
     'filter-all':'Semua','filter-app':'Aplikasi','view-project':'Lihat Project',
     'proj-desc-diabetes':'Prediksi risiko diabetes dengan Random Forest & XGBoost pada data NHANES, AUC=0.895.',
     'proj-desc-mbg':'Analisis sentimen IndoBERT pada 8K+ tweet/komentar tentang program MBG.',
@@ -1681,16 +2474,16 @@ const TRANSLATIONS = {
     'proj-desc-food':'Indeks keterjangkauan pangan Jawa Timur, ungkap gap 2x daya beli, dipublikasikan di Kaggle.',
     'proj-desc-msme':'XGBRegressor + Optuna R²=0.91 pada 13.564 UMKM, Top 6 nasional DISCO 2025.',
     'other-sub':'Lihat project lainnya di <strong>GitHub Repository</strong> saya. (Dimuat otomatis dari GitHub API)',
-    'other-btn':'Lihat Semua','exp-label':'04 · Pengalaman','exp-title':'Pengalaman',
+    'other-btn':'Lihat Semua','exp-label':'04 Pengalaman','exp-title':'Pengalaman',
     'exp-desc-researcher':'Penelitian aktif GNN menggunakan Neo4j & NetworkX. Mengembangkan pipeline eksperimen Jupyter.',
     'exp-desc-ta-dsa':'Membimbing 70+ mahasiswa dalam algoritma, sorting, rekursi, dan analisis kompleksitas.',
     'exp-desc-1':'Membimbing 70+ mahasiswa Python di 2 kelas melalui sesi lab mingguan.',
     'exp-desc-2':'Model XGBRegressor + Optuna R²=0.91 pada data UMKM. Finalis Top 6 nasional.',
     'exp-desc-3':'Mengelola kompetisi infografis nasional (150+ peserta), bertugas sebagai moderator utama.',
     'exp-desc-4':'Logistik untuk acara 300+ peserta. Koordinasi 5+ divisi, efisiensi biaya ~15%.',
-    'ach-label':'05 · Pencapaian','ach-title':'Pencapaian & Sertifikasi',
-    'testi-label':'06 · Testimoni','testi-title':'Kata Mereka',
-    'contact-label':'07 · Kontak','contact-title':'Mari Berkolaborasi',
+    'ach-label':'05 Pencapaian','ach-title':'Pencapaian & Sertifikasi',
+    'testi-label':'06 Testimoni','testi-title':'Kata Mereka',
+    'contact-label':'07 Kontak','contact-title':'Mari Berkolaborasi',
     'contact-subtitle':'Terbuka untuk proyek data science, penelitian, dan peluang kolaborasi.',
     'contact-loc-label':'Lokasi','contact-location':'Driyorejo, Gresik, Jawa Timur',
     'form-name':'Nama Anda','form-email':'Email Anda','form-subject':'Subjek',
@@ -1714,6 +2507,28 @@ const TRANSLATIONS = {
     'timeago-today':'Hari ini','timeago-day':'1 hari lalu',
     'timeago-days':(d)=>`${d} hari lalu`,'timeago-month':'1 bulan lalu',
     'timeago-months':(m)=>`${m} bulan lalu`,'timeago-years':(y)=>`${y} tahun lalu`,
+    // Games
+    'games-hub-title':'Mini Game Data Science','games-hub-sub':'Istirahat sejenak. Main yang nerd.',
+    'game-snake-name':'Data Snake',
+    'game-snake-desc':'Snake klasik yang dirombak menjadi jaringan saraf yang mengumpulkan data latih. Hindari outlier dan nilai NaN!',
+    'game-r2-name':'Tebak R Squared',
+    'game-r2-desc':'Pelajari scatter plot dan taksir koefisien determinasi. Seberapa tajam intuisi statistikmu?',
+    'game-typing-name':'ML Type Sprint',
+    'game-typing-desc':'Berlomba mengetik istilah ML dan data science secepat mungkin. Ukur WPM-mu dengan jargon yang bikin autocorrect menyerah.',
+    'game-tag-arcade':'Arcade','game-tag-canvas':'Canvas','game-tag-stats':'Statistik',
+    'game-tag-rounds':'6 Ronde','game-tag-timer':'Timer 60d','game-tag-wpm':'WPM',
+    'game-play-now':'Main Sekarang','game-back':'Kembali',
+    'game-snake-accuracy':'Akurasi','game-snake-epoch':'Epoch','game-snake-best':'Terbaik',
+    'game-snake-start':'Mulai Training',
+    'game-snake-overlay':'Kumpulkan <span style="color:#34d399">data latih</span> untuk meningkatkan akurasi model.<br>Hindari <span style="color:#f43f5e">outlier</span> dan <span style="color:#f59e0b">nilai NaN</span>!',
+    'game-r2-title':'Tebak R Squared',
+    'game-r2-guess-label':'Estimasimu untuk R² (koefisien determinasi):',
+    'game-r2-submit':'Kirim Tebakan','game-r2-actual':'R² Sebenarnya:','game-r2-next':'Ronde Berikutnya',
+    'game-score':'Skor','game-round':'Ronde',
+    'game-over':'Permainan Selesai','game-total-pts':'Total Poin','game-avg-err':'Rata-rata Error','game-grade':'Grade',
+    'game-play-again':'Main Lagi',
+    'game-progress':'Progress:','game-combo':'Kombo:',
+    'search-placeholder':'Cari project...',
   }
 };
 
@@ -1734,6 +2549,10 @@ function applyLanguage(){
   // Update hero bio
   const saved=localStorage.getItem('portfolio_override');
   if(saved){const d=JSON.parse(saved);const bioEl=document.getElementById('heroBioText');if(bioEl&&d[currentLang==='en'?'bio_en':'bio_id'])bioEl.textContent=d[currentLang==='en'?'bio_en':'bio_id'];}
+  // Re-translate GitHub timeago strings
+  document.querySelectorAll('.other-repo-updated[data-date]').forEach(el=>{
+    el.textContent=timeAgo(el.getAttribute('data-date'));
+  });
 }
 document.getElementById('langToggle').addEventListener('click',()=>{
   currentLang=currentLang==='en'?'id':'en';
@@ -1747,27 +2566,34 @@ document.getElementById('langToggle').addEventListener('click',()=>{
 function setTheme(theme){
   document.documentElement.setAttribute('data-theme',theme);
   localStorage.setItem('theme',theme);
-  // Sync floating pill active state
-  const map={dark:'ftpDark',light:'ftpLight',cyberpunk:'ftpCyber',forest:'ftpForest',magical:'ftpMagical'};
-  document.querySelectorAll('.ftp-btn').forEach(b=>b.classList.remove('active'));
-  const activeBtn=document.getElementById(map[theme]);
-  if(activeBtn)activeBtn.classList.add('active');
-  // Update main button icon based on theme
-  const iconMap={dark:'fa-moon',light:'fa-sun',cyberpunk:'fa-bolt',forest:'fa-tree',magical:'fa-star'};
-  const ftpIcon=document.getElementById('ftpIcon');
-  if(ftpIcon){ftpIcon.className='fas '+(iconMap[theme]||'fa-moon');}
-  // Auto-close panel with spin animation
-  const panel=document.getElementById('ftpPanel');
-  const mainBtn=document.getElementById('ftpMainBtn');
-  if(panel)panel.classList.remove('open');
-  if(mainBtn){
-    mainBtn.classList.remove('spinning');
-    void mainBtn.offsetWidth; // force reflow to restart animation
-    mainBtn.classList.add('spinning');
-    const iconEl=mainBtn.querySelector('i');
-    const target=iconEl||mainBtn;
-    target.addEventListener('animationend',()=>mainBtn.classList.remove('spinning'),{once:true});
+  // Sync navbar theme dropdown active state
+  document.querySelectorAll('.nav-theme-opt').forEach(b=>b.classList.remove('active'));
+  const themeMap={dark:'nto-dark',light:'nto-light',cyberpunk:'nto-cyber',forest:'nto-forest',magical:'nto-magical'};
+  const activeOpt=document.querySelector('.'+themeMap[theme]);
+  if(activeOpt)activeOpt.classList.add('active');
+  // Update navbar theme strip colors
+  const strip=document.getElementById('navThemeStrip');
+  if(strip){
+    const stripColors={
+      dark:['#0b1120','#6366f1','#8b5cf6'],
+      light:['#f1f5f9','#4f46e5','#7c3aed'],
+      cyberpunk:['#000000','#00ff41','#00ffff'],
+      forest:['#052e16','#22c55e','#84cc16'],
+      magical:['#120820','#d946ef','#a855f7'],
+    };
+    const cols=stripColors[theme]||stripColors.dark;
+    const sqs=strip.querySelectorAll('span');
+    sqs.forEach((sq,i)=>{sq.style.background=cols[i]||cols[0];});
   }
+  // Update theme button icon to reflect current theme
+  const themeIconMap={dark:'fa-moon',light:'fa-sun',cyberpunk:'fa-bolt',forest:'fa-leaf',magical:'fa-star'};
+  const btnIcon=document.querySelector('#navThemeBtn > i');
+  if(btnIcon){
+    btnIcon.className='fas '+( themeIconMap[theme]||'fa-swatchbook');
+  }
+  // Close panel
+  const panel=document.getElementById('navThemePanel');
+  if(panel)panel.classList.remove('open');
   // Update radar chart colors if visible
   if(radarChart)updateRadarColors();
   if(window.update3DColors)window.update3DColors();
@@ -1786,7 +2612,7 @@ const ring=document.getElementById('cursor-ring');
 const dot=document.getElementById('cursor-dot');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-(function animCursor(){rx+=(mx-rx)*.22;ry+=(my-ry)*.22;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animCursor);})();
+(function animCursor(){rx+=(mx-rx)*.68;ry+=(my-ry)*.68;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animCursor);})();
 document.querySelectorAll('a,button,.skill-card,.project-card,.cert-card,.testi-btn').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
   el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
@@ -1945,6 +2771,8 @@ function populateAdminPanel(){
   // Stats
   document.getElementById('adminGpa').value=pData.gpa||'3.92';
   document.getElementById('adminSemester').value=pData.semester||'4';
+  if(document.getElementById('adminAchievement'))document.getElementById('adminAchievement').value=pData.achievement||'Top 6';
+  if(document.getElementById('adminAchievementLabel'))document.getElementById('adminAchievementLabel').value=pData.achievement_label||'DISCO 2025';
   // Project Media
   const projects=[
     {pid:'diabetes',name:'Diabetes Risk Prediction'},
@@ -2119,16 +2947,24 @@ function saveBio(){
 function saveStats(){
   const gpa=document.getElementById('adminGpa').value.trim()||'3.92';
   const sem=document.getElementById('adminSemester').value.trim()||'4';
+  const ach=document.getElementById('adminAchievement')?.value.trim()||'Top 6';
+  const achLabel=document.getElementById('adminAchievementLabel')?.value.trim()||'DISCO 2025';
   pData.gpa=gpa;
   pData.semester=sem;
+  pData.achievement=ach;
+  pData.achievement_label=achLabel;
   saveOverride();
   // Apply immediately
   const gpaFloat=document.getElementById('gpaFloat');
   const statGpa=document.getElementById('statGpa');
   const statSemester=document.getElementById('statSemester');
+  const statAch=document.getElementById('statAchievement');
+  const statAchLabel=document.getElementById('statAchievementLabel');
   if(gpaFloat)gpaFloat.textContent=gpa;
   if(statGpa)statGpa.textContent=gpa;
   if(statSemester)statSemester.textContent=sem;
+  if(statAch)statAch.textContent=ach;
+  if(statAchLabel)statAchLabel.textContent=achLabel;
   // Update semester mentions in about paragraph
   document.querySelectorAll('.dyn-semester').forEach(el=>el.textContent=sem);
   showNotification('Stats saved','success');
@@ -2452,7 +3288,7 @@ async function fetchOtherProjects(){
       <div class="other-repo-meta">
         ${r.language?`<span class="other-repo-lang" style="--lang-color:${getLangColor(r.language)}"><span class="lang-dot"></span>${r.language}</span>`:''}
         ${r.stargazers_count>0?`<span class="other-repo-stat"><i class="fas fa-star"></i> ${r.stargazers_count}</span>`:''}
-        <span class="other-repo-updated">${timeAgo(r.pushed_at)}</span>
+        <span class="other-repo-updated" data-date="${r.pushed_at}">${timeAgo(r.pushed_at)}</span>
       </div></a>`).join('');
     if(countEl)countEl.textContent=t('gh-count',rich.length);
     grid.querySelectorAll('.other-repo-card').forEach((el,i)=>{
@@ -2616,6 +3452,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   if(gpaFloat)gpaFloat.textContent=pData.gpa||'3.92';
   if(statGpa)statGpa.textContent=pData.gpa||'3.92';
   if(statSemester)statSemester.textContent=pData.semester||'4';
+  // Update achievement stat
+  const statAch=document.getElementById('statAchievement');
+  const statAchLabel=document.getElementById('statAchievementLabel');
+  if(statAch)statAch.textContent=pData.achievement||'Top 6';
+  if(statAchLabel)statAchLabel.textContent=pData.achievement_label||'DISCO 2025';
   // Update semester in about paragraph
   document.querySelectorAll('.dyn-semester').forEach(el=>el.textContent=pData.semester||'4');
   renderSkillsGrid();
@@ -2686,18 +3527,22 @@ function initSkillsSectionParticles(){
 }
 
 /* ============================================================
-   TOGGLE THEME PANEL
+   TOGGLE NAVBAR THEME PANEL
    ============================================================ */
-function toggleThemePanel(){
-  const panel=document.getElementById('ftpPanel');
+function toggleNavTheme(){
+  const panel=document.getElementById('navThemePanel');
   if(panel)panel.classList.toggle('open');
 }
 
 document.addEventListener('click',function(e){
+  const wrap=document.getElementById('navThemeWrap');
+  if(wrap&&!wrap.contains(e.target)){
+    const panel=document.getElementById('navThemePanel');
+    if(panel)panel.classList.remove('open');
+  }
   const pill=document.getElementById('floatingThemePill');
   if(pill&&!pill.contains(e.target)){
-    const panel=document.getElementById('ftpPanel');
-    if(panel)panel.classList.remove('open');
+    // no-op — old pill close logic removed
   }
 });
 
@@ -2782,6 +3627,901 @@ document.addEventListener('click',function(e){
   });
 })();
 
+/* ============================================================
+   GAMES — Hub Controls
+   ============================================================ */
+function openGamesHub(){
+  document.getElementById('gamesOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeGamesHub(){
+  document.getElementById('gamesOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function openGame(id){
+  closeGamesHub();
+  const screens={snake:'gameSnake',r2:'gameR2',typing:'gameTyping',runner:'gameRunner'};
+  const el=document.getElementById(screens[id]);
+  if(el){el.classList.add('open');document.body.style.overflow='hidden';}
+  if(id==='snake')initSnakeGame();
+  if(id==='r2')initR2Game();
+  if(id==='typing')initTypingGame();
+  if(id==='runner')initRunnerGame();
+}
+function closeGame(id){
+  const screens={snake:'gameSnake',r2:'gameR2',typing:'gameTyping',runner:'gameRunner'};
+  const el=document.getElementById(screens[id]);
+  if(el)el.classList.remove('open');
+  document.body.style.overflow='';
+  if(id==='snake')cleanupSnake();
+  if(id==='typing')cleanupTyping();
+  if(id==='runner')cleanupRunner();
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    closeGamesHub();
+    ['snake','r2','typing','runner'].forEach(g=>closeGame(g));
+  }
+});
+
+/* ============================================================
+   GAME 1: DATA SNAKE
+   ============================================================ */
+(function(){
+  const CELL=24,COLS=20,ROWS=20;
+  let snake,dir,nextDir,food,items,score,level,best,gameLoop,paused,stunned,stunTimer;
+
+  const FOOD_TYPES=[
+    {type:'train',color:'#34d399',pts:10,label:'Training Data'},
+    {type:'test',color:'#38bdf8',pts:15,label:'Test Data'},
+    {type:'feature',color:'#8b5cf6',pts:25,label:'Feature',speedUp:true},
+    {type:'outlier',color:'#f43f5e',pts:0,fatal:true,label:'Outlier'},
+    {type:'nan',color:'#f59e0b',pts:0,stun:true,label:'NaN'},
+  ];
+
+  function getThemeColor(){
+    const t=document.documentElement.getAttribute('data-theme')||'dark';
+    const m={dark:'#6366f1',light:'#4f46e5',cyberpunk:'#00ff41',forest:'#22c55e',magical:'#d946ef'};
+    return m[t]||'#6366f1';
+  }
+
+  window.initSnakeGame=function(){
+    const canvas=document.getElementById('snakeCanvas');
+    canvas.width=COLS*CELL;canvas.height=ROWS*CELL;
+    document.getElementById('snakeOverlay').style.display='flex';
+    score=0;level=1;
+    best=parseInt(localStorage.getItem('snakeBest')||'0');
+    document.getElementById('snakeBest').textContent=best+'%';
+    document.getElementById('snakeScore').textContent='0%';
+    document.getElementById('snakeLevel').textContent='1';
+  };
+
+  window.startSnake=function(){
+    document.getElementById('snakeOverlay').style.display='none';
+    snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];
+    dir={x:1,y:0};nextDir={x:1,y:0};
+    items=[];score=0;level=1;paused=false;stunned=false;stunTimer=0;
+    spawnFood();
+    document.removeEventListener('keydown',snakeKeyHandler);
+    document.addEventListener('keydown',snakeKeyHandler);
+    if(gameLoop)clearInterval(gameLoop);
+    gameLoop=setInterval(snakeTick,140);
+  };
+
+  window.cleanupSnake=function(){
+    if(gameLoop)clearInterval(gameLoop);
+    document.removeEventListener('keydown',snakeKeyHandler);
+  };
+
+  function snakeKeyHandler(e){
+    if(!document.getElementById('gameSnake').classList.contains('open'))return;
+    const map={ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1},ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0},
+      w:{x:0,y:-1},s:{x:0,y:1},a:{x:-1,y:0},d:{x:1,y:0},W:{x:0,y:-1},S:{x:0,y:1},A:{x:-1,y:0},D:{x:1,y:0}};
+    const nd=map[e.key];
+    if(nd){
+      // prevent 180 reversal
+      if(nd.x!==0&&nd.x===-dir.x)return;
+      if(nd.y!==0&&nd.y===-dir.y)return;
+      nextDir=nd;
+      e.preventDefault();
+    }
+    if(e.key==='p'||e.key==='P'){paused=!paused;}
+  }
+
+  function spawnFood(){
+    // Clear & place multiple items
+    items=[];
+    const occupied=new Set(snake.map(s=>s.x+','+s.y));
+    function rndCell(){let x,y;do{x=Math.floor(Math.random()*COLS);y=Math.floor(Math.random()*ROWS);}while(occupied.has(x+','+y));return{x,y};}
+    // Main food (always train/test/feature)
+    const types=[0,1,2];
+    types.forEach(ti=>{
+      const c=rndCell();items.push({...c,...FOOD_TYPES[ti]});occupied.add(c.x+','+c.y);
+    });
+    // Hazards based on level
+    const numHazards=Math.min(level,4);
+    for(let i=0;i<numHazards;i++){
+      const hi=Math.random()<0.5?3:4;
+      const c=rndCell();items.push({...c,...FOOD_TYPES[hi]});occupied.add(c.x+','+c.y);
+    }
+  }
+
+  function snakeTick(){
+    if(paused)return;
+    if(stunned){stunTimer--;if(stunTimer<=0)stunned=false;return;}
+    dir=nextDir;
+    const head={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+    // Wall collision
+    if(head.x<0||head.x>=COLS||head.y<0||head.y>=ROWS)return gameOver();
+    // Self collision
+    if(snake.some(s=>s.x===head.x&&s.y===head.y))return gameOver();
+    // Item collision
+    const itemIdx=items.findIndex(it=>it.x===head.x&&it.y===head.y);
+    let grew=false;
+    if(itemIdx>=0){
+      const it=items[itemIdx];
+      if(it.fatal)return gameOver();
+      if(it.stun){stunned=true;stunTimer=7;}
+      else{
+        score+=it.pts;
+        if(it.speedUp){
+          level++;clearInterval(gameLoop);
+          const spd=Math.max(60,140-level*12);
+          gameLoop=setInterval(snakeTick,spd);
+          document.getElementById('snakeLevel').textContent=level;
+        }
+        grew=true;
+        const pct=Math.min(score,100);
+        document.getElementById('snakeScore').textContent=pct+'%';
+        if(pct>best){best=pct;localStorage.setItem('snakeBest',best);document.getElementById('snakeBest').textContent=best+'%';}
+      }
+      items.splice(itemIdx,1);
+      spawnFood();
+    }
+    snake.unshift(head);
+    if(!grew)snake.pop();
+    drawSnake();
+  }
+
+  function gameOver(){
+    clearInterval(gameLoop);
+    document.removeEventListener('keydown',snakeKeyHandler);
+    // Show overlay with result
+    const ov=document.getElementById('snakeOverlay');
+    ov.innerHTML=`<h3 style="color:#f43f5e">Training Failed</h3>
+      <p>Model accuracy: <strong style="color:#34d399">${Math.min(score,100)}%</strong><br>
+      Epoch reached: <strong style="color:#8b5cf6">${level}</strong><br>Best: <strong style="color:#38bdf8">${best}%</strong></p>
+      <button class="r2-submit-btn" style="max-width:200px;" onclick="startSnake()"><i class="fas fa-redo" style="font-size:11px;margin-right:6px;"></i>Retrain Model</button>`;
+    ov.style.display='flex';
+  }
+
+  function drawSnake(){
+    const canvas=document.getElementById('snakeCanvas');
+    if(!canvas)return;
+    const ctx=canvas.getContext('2d');
+    const W=canvas.width,H=canvas.height;
+    // Background
+    ctx.fillStyle='#0b1120';ctx.fillRect(0,0,W,H);
+    // Grid
+    ctx.strokeStyle='rgba(99,102,241,0.06)';ctx.lineWidth=1;
+    for(let x=0;x<=COLS;x++){ctx.beginPath();ctx.moveTo(x*CELL,0);ctx.lineTo(x*CELL,H);ctx.stroke();}
+    for(let y=0;y<=ROWS;y++){ctx.beginPath();ctx.moveTo(0,y*CELL);ctx.lineTo(W,y*CELL);ctx.stroke();}
+    // Items
+    items.forEach(it=>{
+      ctx.shadowBlur=10;ctx.shadowColor=it.color;
+      ctx.fillStyle=it.color+'33';
+      ctx.beginPath();ctx.roundRect(it.x*CELL+2,it.y*CELL+2,CELL-4,CELL-4,4);ctx.fill();
+      ctx.fillStyle=it.color;ctx.shadowBlur=16;
+      ctx.beginPath();ctx.roundRect(it.x*CELL+5,it.y*CELL+5,CELL-10,CELL-10,3);ctx.fill();
+      ctx.shadowBlur=0;
+      // Label
+      ctx.fillStyle='rgba(255,255,255,0.6)';ctx.font='7px JetBrains Mono,monospace';ctx.textAlign='center';
+      if(it.type==='outlier')ctx.fillText('!',it.x*CELL+CELL/2,it.y*CELL+CELL/2+3);
+      if(it.type==='nan')ctx.fillText('?',it.x*CELL+CELL/2,it.y*CELL+CELL/2+3);
+    });
+    // Snake body
+    const sc=getThemeColor();
+    snake.forEach((seg,i)=>{
+      const alpha=1-(i/snake.length)*0.5;
+      ctx.shadowBlur=i===0?20:6;ctx.shadowColor=sc;
+      ctx.fillStyle=i===0?sc:(sc+'aa');
+      ctx.globalAlpha=alpha;
+      ctx.beginPath();ctx.roundRect(seg.x*CELL+2,seg.y*CELL+2,CELL-4,CELL-4,i===0?5:3);ctx.fill();
+      ctx.globalAlpha=1;ctx.shadowBlur=0;
+    });
+    // Snake eyes (head)
+    if(snake.length>0){
+      const h=snake[0];
+      ctx.fillStyle='#fff';
+      const ex=dir.x===0?[h.x*CELL+7,h.x*CELL+15]:dir.y>0?[h.x*CELL+7,h.x*CELL+15]:[h.x*CELL+7,h.x*CELL+15];
+      const ey=dir.y===0?[h.y*CELL+8,h.y*CELL+8]:dir.x>0?[h.y*CELL+8,h.y*CELL+8]:[h.y*CELL+8,h.y*CELL+8];
+      ctx.beginPath();ctx.arc(h.x*CELL+(dir.x>0?16:dir.x<0?6:8),h.y*CELL+(dir.y>0?16:dir.y<0?6:8),2.5,0,Math.PI*2);ctx.fill();
+      ctx.beginPath();ctx.arc(h.x*CELL+(dir.x>0?16:dir.x<0?6:15),h.y*CELL+(dir.y>0?16:dir.y<0?6:15),2.5,0,Math.PI*2);ctx.fill();
+    }
+    // HUD: stun indicator
+    if(stunned){
+      ctx.fillStyle='rgba(245,158,11,0.15)';ctx.fillRect(0,0,W,H);
+      ctx.fillStyle='#f59e0b';ctx.font='bold 14px Space Grotesk,sans-serif';ctx.textAlign='center';
+      ctx.fillText('[ ! ] NaN ENCOUNTERED — STUNNED',W/2,H/2-10);
+    }
+    // Score overlay
+    ctx.fillStyle='rgba(99,102,241,0.8)';ctx.font='bold 11px JetBrains Mono,monospace';ctx.textAlign='left';
+    ctx.fillText('Accuracy: '+Math.min(score,100)+'%',8,18);
+    ctx.textAlign='right';
+    ctx.fillText('Epoch: '+level,W-8,18);
+  }
+})();
+
+/* ============================================================
+   GAME 2: GUESS THE R²
+   ============================================================ */
+(function(){
+  const ROUNDS=6;
+  let round,totalScore,roundScores,currentR2,guessed,allErrors;
+
+  function generateScatter(ctx,w,h,r2Target){
+    // Generate correlated scatter based on r2Target
+    const n=50;
+    const noise=Math.sqrt(1-r2Target);
+    const pts=[];
+    ctx.clearRect(0,0,w,h);
+    // Background
+    const isDark=!document.documentElement.getAttribute('data-theme')||document.documentElement.getAttribute('data-theme')!=='light';
+    ctx.fillStyle=isDark?'#111827':'#f8fafc';ctx.fillRect(0,0,w,h);
+    // Axes
+    const pad=48,pw=w-2*pad,ph=h-2*pad;
+    ctx.strokeStyle=isDark?'rgba(148,163,184,0.25)':'rgba(71,85,105,0.25)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(pad,pad);ctx.lineTo(pad,h-pad);ctx.lineTo(w-pad,h-pad);ctx.stroke();
+    // Grid lines
+    for(let i=1;i<=4;i++){
+      const x=pad+pw*i/4,y=pad+ph*i/4;
+      ctx.beginPath();ctx.moveTo(x,pad);ctx.lineTo(x,h-pad);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w-pad,y);ctx.stroke();
+    }
+    // Axis labels
+    ctx.fillStyle=isDark?'#94a3b8':'#64748b';ctx.font='11px JetBrains Mono,monospace';ctx.textAlign='center';
+    ['0','0.25','0.5','0.75','1'].forEach((v,i)=>{
+      ctx.fillText(v,pad+pw*i/4,h-pad+16);
+    });
+    ctx.textAlign='right';
+    ['1','0.75','0.5','0.25','0'].forEach((v,i)=>{
+      ctx.fillText(v,pad-6,pad+ph*i/4+4);
+    });
+    // Points
+    for(let i=0;i<n;i++){
+      const x=Math.random();
+      const yPerfect=0.2+x*0.6;
+      const y=yPerfect+noise*(Math.random()-.5)*0.8;
+      const px=pad+x*pw,py=h-pad-y*ph;
+      pts.push({x:px,y:py});
+    }
+    // Gradient fill for points
+    pts.forEach(p=>{
+      const grad=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,6);
+      grad.addColorStop(0,'rgba(99,102,241,0.9)');
+      grad.addColorStop(1,'rgba(139,92,246,0.15)');
+      ctx.shadowBlur=4;ctx.shadowColor='rgba(99,102,241,0.4)';
+      ctx.beginPath();ctx.arc(p.x,p.y,4.5,0,Math.PI*2);
+      ctx.fillStyle=grad;ctx.fill();
+    });
+    ctx.shadowBlur=0;
+    // Regression line preview (shown with low opacity)
+    ctx.strokeStyle='rgba(244,63,94,0.3)';ctx.lineWidth=2;ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(pad,h-pad-0.2*ph);ctx.lineTo(w-pad,h-pad-0.8*ph);ctx.stroke();
+    ctx.setLineDash([]);
+    // Title
+    ctx.fillStyle=isDark?'#e2e8f0':'#1e293b';ctx.font='bold 12px Space Grotesk,sans-serif';ctx.textAlign='center';
+    ctx.fillText('What is the R² of this scatter plot?',w/2,24);
+  }
+
+  window.initR2Game=function(){
+    round=1;totalScore=0;roundScores=[];allErrors=[];guessed=false;
+    document.getElementById('r2Score').textContent='0';
+    document.getElementById('r2RoundNum').textContent='1';
+    // Build round dots
+    const dots=document.getElementById('r2RoundDots');
+    dots.innerHTML='';
+    for(let i=0;i<ROUNDS;i++){
+      const d=document.createElement('div');
+      d.className='r2-round-dot'+(i===0?' active':'');
+      dots.appendChild(d);
+    }
+    document.getElementById('r2FinalScreen').classList.remove('show');
+    document.getElementById('r2ResultReveal').classList.remove('show');
+    document.getElementById('r2ResultReveal').style.display='none';
+    document.getElementById('r2GuessBtn').style.display='block';
+    updateR2Slider(document.getElementById('r2Slider'));
+    loadR2Round();
+  };
+
+  function loadR2Round(){
+    guessed=false;
+    document.getElementById('r2ResultReveal').classList.remove('show');
+    document.getElementById('r2ResultReveal').style.display='none';
+    document.getElementById('r2GuessBtn').style.display='block';
+    document.getElementById('r2Slider').value=50;
+    updateR2Slider(document.getElementById('r2Slider'));
+    // Randomize R² between 0.05 and 0.98
+    currentR2=Math.round((Math.random()*0.93+0.05)*100)/100;
+    const canvas=document.getElementById('r2Canvas');
+    if(!canvas)return;
+    generateScatter(canvas.getContext('2d'),canvas.width,canvas.height,currentR2);
+  }
+
+  window.updateR2Slider=function(el){
+    const v=el.value;
+    const pct=v+'%';
+    el.style.setProperty('--v',pct);
+    document.getElementById('r2ValDisplay').textContent=(v/100).toFixed(2);
+  };
+
+  window.submitR2Guess=function(){
+    if(guessed)return;
+    guessed=true;
+    const guess=parseInt(document.getElementById('r2Slider').value)/100;
+    const err=Math.abs(guess-currentR2);
+    allErrors.push(err);
+    // Score: 100 pts for perfect, scaled
+    const pts=Math.max(0,Math.round(100*(1-err*2)));
+    totalScore+=pts;roundScores.push(pts);
+    document.getElementById('r2Score').textContent=totalScore;
+    // Show result
+    const rv=document.getElementById('r2ResultReveal');
+    rv.style.display='flex';
+    setTimeout(()=>rv.classList.add('show'),10);
+    const color=err<0.05?'#34d399':err<0.12?'#f59e0b':'#f43f5e';
+    document.getElementById('r2ActualVal').textContent=currentR2.toFixed(2);
+    document.getElementById('r2ActualVal').style.color=color;
+    document.getElementById('r2Delta').textContent='Your guess: '+guess.toFixed(2)+' | Error: ±'+err.toFixed(3);
+    document.getElementById('r2Pts').innerHTML='+'+pts+' points <span style="font-size:11px;color:var(--muted);">'+(err<0.05?'[Perfect]':err<0.1?'[Great]':err<0.2?'[Close]':'[Off]')+'</span>';
+    document.getElementById('r2NextBtn').textContent=round<ROUNDS?'Next Round →':'See Results';
+    document.getElementById('r2GuessBtn').style.display='none';
+    // Update dots
+    const dts=document.querySelectorAll('.r2-round-dot');
+    dts[round-1].classList.remove('active');dts[round-1].classList.add('done');
+    if(round<ROUNDS&&dts[round])dts[round].classList.add('active');
+    document.getElementById('r2RoundNum').textContent=round;
+  };
+
+  window.r2NextRound=function(){
+    if(round>=ROUNDS){showR2Final();return;}
+    round++;
+    document.getElementById('r2RoundNum').textContent=round;
+    loadR2Round();
+  };
+
+  function showR2Final(){
+    document.getElementById('r2ResultReveal').style.display='none';
+    const fs=document.getElementById('r2FinalScreen');fs.classList.add('show');
+    const avgErr=(allErrors.reduce((a,b)=>a+b,0)/allErrors.length).toFixed(3);
+    const grade=totalScore>=500?'A+':totalScore>=400?'A':totalScore>=300?'B':totalScore>=200?'C':'D';
+    const subtitles={A:'Statistician eye — well calibrated!','A+':'Are you a professor? Impressive!',B:'Pretty solid statistical sense.',C:'Keep practicing, getting there..',D:'Time to revisit linear regression.'};
+    document.getElementById('r2FinalScore').textContent=totalScore;
+    document.getElementById('r2FinalAvgErr').textContent='±'+avgErr;
+    document.getElementById('r2FinalGrade').textContent=grade;
+    document.getElementById('r2FinalSubtitle').textContent=subtitles[grade]||'';
+  }
+
+  window.resetR2Game=function(){
+    window.initR2Game();
+  };
+})();
+
+/* ============================================================
+   GAME 3: ML TYPE SPRINT
+   ============================================================ */
+(function(){
+  const WORDLISTS={
+    easy:['pandas','numpy','sklearn','model','train','test','data','label','target','class','score','epoch','batch','loss','relu','fit','predict','plot','array','index','split','merge','clean','impute','scale','encode','bias','layer','node','graph','chain','token','embed','query','table','frame','regex','group','pivot','join','sort'],
+    medium:['gradient','boosting','overfitting','underfitting','dropout','backprop','softmax','sigmoid','precision','recall','f1score','pipeline','crossval','heatmap','scatter','histogram','bootstrap','bayesian','ensemble','tokenize','stemming','lemmatize','confusion','accuracy','variance','covariance','normalization','standardize','clustering','eigenvalue','principal','component','activation','optimizer','hyperparameter','regularization','stratified'],
+    hard:['GradientBoosting','RandomForestRegressor','BackPropagation','CrossValidation','HyperparameterTuning','OverfittingPrevention','IndoBERT','TransformerEncoder','AttentionMechanism','XGBoostClassifier','SupportVectorMachine','FeatureEngineering','DimensionalityReduction','NeuralArchitecture','ElasticNetRegression','GraphNeuralNetwork','BidirectionalLSTM','MultiHeadAttention','StochasticGradientDescent','ExponentialLearningRate','DataAugmentation','WordEmbeddings','SentimentAnalysis','NamedEntityRecognition','LogisticRegressionCV','BatchNormalization','DropoutRegularization','SequentialModel','CategoricalCrossEntropy','LearningRateScheduler']
+  };
+  const DURATIONS={easy:60,medium:60,hard:60};
+
+  let currentDiff='easy';
+  let words=[],wordIdx=0,charIdx=0;
+  let timerActive=false,timeLeft=60,timerInterval=null;
+  let totalChars=0,correctChars=0,wrongChars=0,completedWords=0;
+  let combo=1,lastCorrect=true;
+  let inputHistory=[];
+
+  window.setTypingDiff=function(d){
+    currentDiff=d;
+    document.querySelectorAll('.typing-diff-btn').forEach(b=>{
+      b.classList.toggle('active',b.dataset.diff===d);
+    });
+    resetTypingGame();
+  };
+
+  window.initTypingGame=function(){
+    resetTypingGame();
+  };
+
+  window.cleanupTyping=function(){
+    if(timerInterval)clearInterval(timerInterval);
+  };
+
+  window.resetTypingGame=function(){
+    if(timerInterval)clearInterval(timerInterval);
+    timerActive=false;timeLeft=DURATIONS[currentDiff];
+    wordIdx=0;charIdx=0;totalChars=0;correctChars=0;wrongChars=0;completedWords=0;combo=1;
+    document.getElementById('typingResultScreen').classList.remove('show');
+    document.getElementById('typingWPM').textContent='0';
+    document.getElementById('typingAcc').textContent='100%';
+    document.getElementById('typingCombo').textContent='×1';
+    document.getElementById('typingProgressFill').style.width='0%';
+    document.getElementById('typingInput').value='';
+    document.getElementById('typingInput').disabled=false;
+    document.getElementById('typingInput').focus();
+    updateTimerRing(timeLeft,DURATIONS[currentDiff]);
+    // Build word list
+    const pool=[...WORDLISTS[currentDiff]];
+    words=[];
+    for(let i=0;i<50;i++){words.push(pool[Math.floor(Math.random()*pool.length)]);}
+    renderTypingPrompt();
+  };
+
+  function renderTypingPrompt(){
+    const el=document.getElementById('typingCharsDisplay');
+    // Show sliding window: previous 1 word + current + next N words
+    const startW=Math.max(0,wordIdx-1);
+    const endW=Math.min(words.length,wordIdx+12);
+    let html='';
+    for(let w=startW;w<endW;w++){
+      const word=words[w];
+      if(w<wordIdx){
+        // completed word
+        html+=`<span style="color:var(--emerald);opacity:.5;">${word}</span> `;
+      } else if(w===wordIdx){
+        // current word
+        for(let c=0;c<word.length;c++){
+          let cls='typing-char pending';
+          if(c<charIdx)cls='typing-char correct';
+          if(c===charIdx)cls='typing-char current';
+          // we track wrong chars via input field
+          html+=`<span class="${cls}">${word[c]}</span>`;
+        }
+        html+=' ';
+      } else {
+        html+=`<span style="color:var(--muted);">${word}</span> `;
+      }
+    }
+    el.innerHTML=html;
+  }
+
+  window.handleTypingInput=function(e){
+    const input=document.getElementById('typingInput');
+    const val=input.value;
+    if(!timerActive&&val.length>0){
+      timerActive=true;
+      startTimer();
+    }
+    const word=words[wordIdx];
+    if(!word)return;
+    // Space = confirm word
+    if(val.endsWith(' ')){
+      const typed=val.trim();
+      if(typed===word){completedWords++;correctChars+=word.length;combo=Math.min(combo+1,8);}
+      else{wrongChars+=Math.abs(typed.length-word.length)||1;combo=Math.max(1,combo-1);}
+      totalChars+=word.length;
+      wordIdx++;charIdx=0;
+      input.value='';
+      updateStats();
+      renderTypingPrompt();
+      return;
+    }
+    // Inline char tracking
+    charIdx=val.length;
+    renderTypingPromptWithInput(val);
+    updateStats();
+  };
+
+  function renderTypingPromptWithInput(typed){
+    const el=document.getElementById('typingCharsDisplay');
+    const startW=Math.max(0,wordIdx-1);
+    const endW=Math.min(words.length,wordIdx+12);
+    let html='';
+    for(let w=startW;w<endW;w++){
+      const word=words[w];
+      if(w<wordIdx){
+        html+=`<span style="color:var(--emerald);opacity:.5;">${word}</span> `;
+      } else if(w===wordIdx){
+        for(let c=0;c<word.length;c++){
+          let cls;
+          if(c<typed.length){
+            cls=typed[c]===word[c]?'typing-char correct':'typing-char wrong';
+          } else if(c===typed.length){
+            cls='typing-char current';
+          } else {
+            cls='typing-char pending';
+          }
+          html+=`<span class="${cls}">${word[c]}</span>`;
+        }
+        // Extra chars typed beyond word length
+        if(typed.length>word.length){
+          for(let c=word.length;c<typed.length;c++){
+            html+=`<span class="typing-char wrong">${typed[c]}</span>`;
+          }
+        }
+        html+=' ';
+      } else {
+        html+=`<span style="color:var(--muted);">${word}</span> `;
+      }
+    }
+    el.innerHTML=html;
+  }
+
+  function updateStats(){
+    const elapsed=DURATIONS[currentDiff]-timeLeft;
+    const wpm=elapsed>0?Math.round((completedWords/(elapsed/60))):0;
+    const acc=totalChars>0?Math.round((correctChars/totalChars)*100):100;
+    document.getElementById('typingWPM').textContent=wpm;
+    document.getElementById('typingAcc').textContent=acc+'%';
+    document.getElementById('typingCombo').textContent='×'+combo;
+    const prog=Math.min(100,(wordIdx/words.length)*100);
+    document.getElementById('typingProgressFill').style.width=prog+'%';
+  }
+
+  function startTimer(){
+    timerInterval=setInterval(()=>{
+      timeLeft--;
+      updateTimerRing(timeLeft,DURATIONS[currentDiff]);
+      document.getElementById('typingTimerText').textContent=timeLeft;
+      if(timeLeft<=0){
+        clearInterval(timerInterval);
+        endTypingGame();
+      }
+    },1000);
+  }
+
+  function updateTimerRing(left,total){
+    const circle=document.getElementById('typingTimerCircle');
+    const r=22,circ=2*Math.PI*r;
+    const progress=left/total;
+    circle.style.strokeDashoffset=circ*(1-progress);
+    const color=progress>0.5?'var(--indigo)':progress>0.25?'#f59e0b':'#f43f5e';
+    circle.style.stroke=color;
+    document.getElementById('typingTimerText').textContent=left;
+  }
+
+  function endTypingGame(){
+    document.getElementById('typingInput').disabled=true;
+    const elapsed=DURATIONS[currentDiff];
+    const wpm=Math.round((completedWords/(elapsed/60)));
+    const acc=totalChars>0?Math.round((correctChars/totalChars)*100):100;
+    document.getElementById('typingFinalWPM').textContent=wpm;
+    document.getElementById('typingFinalAcc').textContent=acc+'%';
+    document.getElementById('typingFinalWords').textContent=completedWords;
+    const title=wpm>80?'Blazing Fast!':wpm>50?'Nice Speed!':wpm>30?'Good Start!':'Keep Practicing!';
+    document.getElementById('typingResultTitle').textContent=title;
+    document.getElementById('typingResultSub').textContent=`${wpm} WPM · ${acc}% accuracy on ML jargon`;
+    document.getElementById('typingResultScreen').classList.add('show');
+  }
+})();
+
+
+
+
+/* ============================================================
+   GAME 4: DATA RUNNER (DS-Themed Dino Runner)
+   ============================================================ */
+(function(){
+  const CANVAS_W=700, CANVAS_H=200;
+  const GROUND_Y=160; // ground line y
+  const PLAYER_SIZE=18;
+  const PLAYER_X=90;
+  const GRAVITY=1.05;
+  const JUMP_FORCE=-13.5;
+
+  let raf, score, best, speed, frameCount, obstacles, player, gameState;
+  let jumpCount; // for double jump
+
+  const OBSTACLE_TYPES=[
+    {w:18,h:40,color:'#f43f5e',label:'NaN',danger:true},
+    {w:28,h:24,color:'#f43f5e',label:'NaN',danger:true},
+    {w:18,h:60,color:'#f59e0b',label:'OUT',danger:true},
+    {w:36,h:18,color:'#f43f5e',label:'Bug',danger:true},
+    {w:18,h:50,color:'#a78bfa',label:'OUT',danger:true},
+  ];
+
+  function getCanvas(){return document.getElementById('runnerCanvas');}
+
+  window.initRunnerGame=function(){
+    best=parseInt(localStorage.getItem('runnerBest')||'0');
+    document.getElementById('runnerBest').textContent=best;
+    document.getElementById('runnerScore').textContent='0';
+    document.getElementById('runnerResultScreen').style.display='none';
+    drawStartScreen();
+    const canvas=getCanvas();
+    canvas.onclick=handleJump;
+    document.addEventListener('keydown',runnerKeyHandler);
+  };
+
+  window.startRunnerGame=function(){
+    document.getElementById('runnerResultScreen').style.display='none';
+    score=0;speed=4;frameCount=0;obstacles=[];jumpCount=0;
+    player={x:PLAYER_X,y:GROUND_Y-PLAYER_SIZE,vy:0,onGround:true};
+    gameState='running';
+    if(raf)cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(runnerLoop);
+  };
+
+  window.cleanupRunner=function(){
+    if(raf)cancelAnimationFrame(raf);
+    document.removeEventListener('keydown',runnerKeyHandler);
+    const canvas=getCanvas();
+    if(canvas)canvas.onclick=null;
+    gameState='idle';
+  };
+
+  function runnerKeyHandler(e){
+    if(!document.getElementById('gameRunner').classList.contains('open'))return;
+    if(e.code==='Space'||e.code==='ArrowUp'){e.preventDefault();handleJump();}
+  }
+
+  function handleJump(){
+    if(gameState==='start'||gameState===undefined){startRunnerGame();return;}
+    if(gameState==='dead'){startRunnerGame();return;}
+    if(gameState!=='running')return;
+    if(player.onGround){
+      player.vy=JUMP_FORCE;player.onGround=false;jumpCount=1;
+    } else if(jumpCount<2){
+      player.vy=JUMP_FORCE*0.85;jumpCount=2;
+    }
+  }
+
+  function spawnObstacle(){
+    const t=OBSTACLE_TYPES[Math.floor(Math.random()*OBSTACLE_TYPES.length)];
+    obstacles.push({
+      x:CANVAS_W+20,
+      y:GROUND_Y-t.h,
+      w:t.w,h:t.h,
+      color:t.color,label:t.label
+    });
+  }
+
+  function runnerLoop(){
+    if(gameState!=='running'){return;}
+    frameCount++;
+    // Increase speed gradually
+    if(frameCount%400===0)speed=Math.min(speed+0.5,14);
+    score+=Math.round(speed*0.3);
+    document.getElementById('runnerScore').textContent=score;
+    if(score>best){best=score;localStorage.setItem('runnerBest',best);document.getElementById('runnerBest').textContent=best;}
+
+    // Spawn obstacles
+    const minGap=Math.max(220,380-speed*15);
+    const lastObs=obstacles[obstacles.length-1];
+    if(!lastObs||lastObs.x<CANVAS_W-minGap-(Math.random()*100)){
+      if(frameCount>60)spawnObstacle();
+    }
+
+    // Physics
+    player.vy+=GRAVITY;
+    player.y+=player.vy;
+    if(player.y>=GROUND_Y-PLAYER_SIZE){
+      player.y=GROUND_Y-PLAYER_SIZE;
+      player.vy=0;player.onGround=true;jumpCount=0;
+    }
+
+    // Move obstacles
+    obstacles.forEach(o=>o.x-=speed);
+    obstacles=obstacles.filter(o=>o.x>-60);
+
+    // Collision
+    const px=player.x,py=player.y,ps=PLAYER_SIZE;
+    for(const o of obstacles){
+      if(px+ps-4>o.x+2&&px+4<o.x+o.w-2&&py+ps-4>o.y+2&&py+4<o.y+o.h-2){
+        gameOver();return;
+      }
+    }
+
+    drawRunner();
+    raf=requestAnimationFrame(runnerLoop);
+  }
+
+  function drawRunner(){
+    const canvas=getCanvas();if(!canvas)return;
+    const ctx=canvas.getContext('2d');
+    const W=CANVAS_W,H=CANVAS_H;
+    ctx.clearRect(0,0,W,H);
+
+    // Background
+    ctx.fillStyle='#0b1120';ctx.fillRect(0,0,W,H);
+
+    // Grid lines
+    ctx.strokeStyle='rgba(99,102,241,0.07)';ctx.lineWidth=1;
+    for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+    // Ground line (axis)
+    ctx.strokeStyle='rgba(99,102,241,0.45)';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(0,GROUND_Y);ctx.lineTo(W,GROUND_Y);ctx.stroke();
+    // Axis label
+    ctx.fillStyle='rgba(99,102,241,0.35)';ctx.font='9px JetBrains Mono,monospace';ctx.textAlign='left';
+    ctx.fillText('x₁ feature axis',6,GROUND_Y-6);
+
+    // Scrolling tick marks on ground
+    const tick=(frameCount*speed)%40;
+    ctx.strokeStyle='rgba(99,102,241,0.25)';ctx.lineWidth=1;
+    for(let x=(40-tick)%40;x<W;x+=40){
+      ctx.beginPath();ctx.moveTo(x,GROUND_Y);ctx.lineTo(x,GROUND_Y+5);ctx.stroke();
+    }
+
+    // Obstacles
+    obstacles.forEach(o=>{
+      ctx.shadowBlur=12;ctx.shadowColor=o.color;
+      ctx.fillStyle=o.color+'28';
+      ctx.beginPath();ctx.roundRect(o.x,o.y,o.w,o.h,3);ctx.fill();
+      ctx.fillStyle=o.color;
+      ctx.beginPath();ctx.roundRect(o.x+2,o.y+2,o.w-4,o.h-4,2);ctx.fill();
+      ctx.shadowBlur=0;
+      ctx.fillStyle='rgba(255,255,255,0.75)';ctx.font='bold 8px JetBrains Mono,monospace';ctx.textAlign='center';
+      ctx.fillText(o.label,o.x+o.w/2,o.y+o.h/2+3);
+    });
+
+    // Player (data point circle)
+    const themeColors={dark:'#6366f1',light:'#4f46e5',cyberpunk:'#00ff41',forest:'#22c55e',magical:'#d946ef'};
+    const th=document.documentElement.getAttribute('data-theme')||'dark';
+    const pc=themeColors[th]||'#6366f1';
+    const cx=player.x+PLAYER_SIZE/2,cy=player.y+PLAYER_SIZE/2;
+    // Shadow / glow
+    ctx.shadowBlur=player.onGround?10:20;ctx.shadowColor=pc;
+    ctx.fillStyle=pc+'33';
+    ctx.beginPath();ctx.arc(cx,cy,PLAYER_SIZE/2+3,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=pc;
+    ctx.beginPath();ctx.arc(cx,cy,PLAYER_SIZE/2,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#fff';ctx.font='bold 7px JetBrains Mono,monospace';ctx.textAlign='center';
+    ctx.fillText('X',cx,cy+3);
+    ctx.shadowBlur=0;
+
+    // Score HUD
+    ctx.fillStyle='rgba(99,102,241,0.8)';ctx.font='bold 11px JetBrains Mono,monospace';ctx.textAlign='left';
+    ctx.fillText('Score: '+score,8,18);
+    ctx.textAlign='right';
+    ctx.fillText('Speed: x'+(speed/4).toFixed(1),W-8,18);
+    // Double jump indicator
+    if(!player.onGround&&jumpCount<2){
+      ctx.fillStyle='rgba(56,189,248,0.6)';ctx.font='9px JetBrains Mono,monospace';ctx.textAlign='center';
+      ctx.fillText('[double jump ready]',W/2,H-12);
+    }
+  }
+
+  function drawStartScreen(){
+    const canvas=getCanvas();if(!canvas)return;
+    const ctx=canvas.getContext('2d');
+    const W=CANVAS_W,H=CANVAS_H;
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#0b1120';ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='rgba(99,102,241,0.07)';ctx.lineWidth=1;
+    for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    ctx.strokeStyle='rgba(99,102,241,0.45)';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(0,GROUND_Y);ctx.lineTo(W,GROUND_Y);ctx.stroke();
+    // Player idle
+    ctx.shadowBlur=14;ctx.shadowColor='#6366f1';
+    ctx.fillStyle='#6366f133';ctx.beginPath();ctx.arc(PLAYER_X+9,GROUND_Y-PLAYER_SIZE/2,14,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#6366f1';ctx.beginPath();ctx.arc(PLAYER_X+9,GROUND_Y-PLAYER_SIZE/2,9,0,Math.PI*2);ctx.fill();
+    ctx.shadowBlur=0;
+    ctx.fillStyle='#e2e8f0';ctx.font='bold 16px Space Grotesk,sans-serif';ctx.textAlign='center';
+    ctx.fillText('Data Runner',W/2,H/2-16);
+    ctx.fillStyle='#94a3b8';ctx.font='11px JetBrains Mono,monospace';
+    ctx.fillText('Press Space / Up / Tap to start',W/2,H/2+6);
+    gameState='start';
+  }
+
+  function gameOver(){
+    gameState='dead';
+    if(raf)cancelAnimationFrame(raf);
+    const rs=document.getElementById('runnerResultTitle');
+    const rsub=document.getElementById('runnerResultSub');
+    const speedLvl=Math.round((speed/4)*10)/10;
+    if(rs)rs.textContent=score>best-1&&best>0?'New Record!':'Model Crashed!';
+    if(rsub)rsub.textContent=score>300?'Excellent generalization!':score>100?'Decent run, keep training.':'More training data needed.';
+    if(document.getElementById('runnerFinalScore'))document.getElementById('runnerFinalScore').textContent=score;
+    if(document.getElementById('runnerFinalBest'))document.getElementById('runnerFinalBest').textContent=best;
+    if(document.getElementById('runnerFinalSpeed'))document.getElementById('runnerFinalSpeed').textContent='x'+speedLvl;
+    const screen=document.getElementById('runnerResultScreen');
+    if(screen)screen.style.display='flex';
+  }
+})();
+
+
+
+window.addEventListener('load', function initSectionParticles(){
+  function makeParticleSystem(canvasId, opts){
+    const canvas=document.getElementById(canvasId);
+    if(!canvas)return;
+    const ctx=canvas.getContext('2d');
+    let particles=[];
+    function resize(){
+      canvas.width=canvas.parentElement.offsetWidth||800;
+      canvas.height=canvas.parentElement.offsetHeight||400;
+    }
+    resize();
+    const ro=new ResizeObserver(()=>{resize();particles=[];spawn();});
+    ro.observe(canvas.parentElement);
+    function spawn(){
+      particles=[];
+      const n=opts.count||20;
+      for(let i=0;i<n;i++){
+        particles.push({
+          x:Math.random()*canvas.width, y:Math.random()*canvas.height,
+          r:(opts.minR||1.2)+Math.random()*((opts.maxR||2.5)-(opts.minR||1.2)),
+          vx:(Math.random()-.5)*(opts.speed||.22),
+          vy:(Math.random()-.5)*(opts.speed||.22),
+          op:Math.random()*.45+.12,
+          label:(opts.words&&Math.random()>.65)?opts.words[Math.floor(Math.random()*opts.words.length)]:null,
+          phase:Math.random()*Math.PI*2,
+          shape:(opts.shapes)?opts.shapes[Math.floor(Math.random()*opts.shapes.length)]:'circle'
+        });
+      }
+    }
+    spawn();
+    function getColor(){
+      const th=document.documentElement.getAttribute('data-theme')||'dark';
+      const map={dark:'99,102,241',light:'79,70,229',cyberpunk:'0,255,65',forest:'34,197,94',magical:'217,70,239'};
+      return map[th]||map.dark;
+    }
+    function drawStar(cx,cy,r){
+      for(let k=0;k<10;k++){
+        const a=((Math.PI*2)/10)*k-Math.PI/2;
+        const rad=k%2===0?r:r*.45;
+        k===0?ctx.moveTo(cx+Math.cos(a)*rad,cy+Math.sin(a)*rad)
+             :ctx.lineTo(cx+Math.cos(a)*rad,cy+Math.sin(a)*rad);
+      }
+      ctx.closePath();
+    }
+    function draw(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      const c=getColor();
+      const t=Date.now()/1000;
+      particles.forEach((p,i)=>{
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<-10)p.x=canvas.width+5; if(p.x>canvas.width+10)p.x=-5;
+        if(p.y<-10)p.y=canvas.height+5; if(p.y>canvas.height+10)p.y=-5;
+        const op=Math.max(0,p.op+Math.sin(t+p.phase)*.025);
+        ctx.beginPath();
+        if(p.shape==='star'){drawStar(p.x,p.y,p.r);}
+        else if(p.shape==='diamond'){
+          ctx.moveTo(p.x,p.y-p.r*1.3);ctx.lineTo(p.x+p.r,p.y);
+          ctx.lineTo(p.x,p.y+p.r*1.3);ctx.lineTo(p.x-p.r,p.y);ctx.closePath();
+        } else {ctx.arc(p.x,p.y,p.r,0,Math.PI*2);}
+        ctx.fillStyle=`rgba(${c},${op})`;ctx.fill();
+        if(p.label){
+          ctx.font='8.5px JetBrains Mono,monospace';
+          ctx.fillStyle=`rgba(${c},${op*.8})`;
+          ctx.fillText(p.label,p.x+p.r+2,p.y+3);
+        }
+        if(opts.connect){
+          for(let j=i+1;j<particles.length;j++){
+            const q=particles[j],dx=p.x-q.x,dy=p.y-q.y,dist=Math.hypot(dx,dy);
+            if(dist<(opts.connectDist||75)){
+              ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);
+              ctx.strokeStyle=`rgba(${c},${.07*(1-dist/(opts.connectDist||75))})`;
+              ctx.lineWidth=.5;ctx.stroke();
+            }
+          }
+        }
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  // About: data nodes (GNN, GPA, ML labels)
+  makeParticleSystem('about-particles',{count:20,minR:1.4,maxR:2.8,speed:.2,connect:true,connectDist:85,words:['GNN','Neo4j','GPA','NLP','ML','R²','UNESA']});
+  // Projects: code-style dots
+  makeParticleSystem('projects-particles',{count:22,minR:1.4,maxR:2.6,speed:.2,connect:false,words:['XGB','BERT','MLP','DSP']});
+  // Experience: diamond stream
+  makeParticleSystem('exp-particles',{count:15,minR:1.4,maxR:2.4,speed:.16,shapes:['circle','diamond'],connect:true,connectDist:65});
+  // Achievements: stars
+  makeParticleSystem('ach-particles',{count:18,minR:1.5,maxR:2.6,speed:.18,shapes:['star','circle'],connect:false});
+  // Contact: gentle dots
+  makeParticleSystem('contact-particles',{count:14,minR:1.2,maxR:2,speed:.14,connect:true,connectDist:72});
+  // Testimonials: tiny circles
+  makeParticleSystem('testi-particles',{count:12,minR:1,maxR:1.8,speed:.13,connect:false});
+});
+
 </script>
 </body>
-</html>
