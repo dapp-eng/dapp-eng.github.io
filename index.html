@@ -4221,10 +4221,19 @@ let testiAutoInterval = setInterval(()=>{if((pData.testimonials||[]).length>1)ne
 async function loadPublicTestimonials(){
   try{
     const data = await fbGet(FB_APPROVED);
-    if(!data || data._error || typeof data!=='object') return;
+    const adminArr=(pData.testimonials||[]).filter(t=>t.source==='admin'||!t.source);
+    // If Firebase is empty/null (all deleted), clear public entries and re-render
+    if(!data || data._error || typeof data!=='object'){
+      pData.testimonials=adminArr;
+      renderTestimonials();
+      return;
+    }
     const arr = Object.entries(data).map(([id,v])=>({...v, _fbId: id}));
-    if(!arr.length) return;
-    const adminArr=(pData.testimonials||[]).filter(t=>t.source==='admin');
+    if(!arr.length){
+      pData.testimonials=adminArr;
+      renderTestimonials();
+      return;
+    }
     const existingKeys=new Set(adminArr.map(t=>t.name+t.text));
     const pub=arr.filter(t=>!existingKeys.has(t.name+t.text));
     pData.testimonials=[...adminArr,...pub];
