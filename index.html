@@ -4503,10 +4503,7 @@ window.addEventListener('scroll',()=>{
   const sy=window.pageYOffset;
   if(nav)nav.style.boxShadow=sy>50?'0 4px 20px rgba(0,0,0,.2)':'none';
 
-  if(pill){
-    if(sy>200){pill.classList.add('hidden');}
-    else{pill.classList.remove('hidden');}
-  }
+  if(pill){pill.classList.remove('hidden');}
   lastScrollY=sy;
   let cur='';
   document.querySelectorAll('section').forEach(s=>{if(window.pageYOffset>=s.offsetTop-120)cur=s.getAttribute('id');});
